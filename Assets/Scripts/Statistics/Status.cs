@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Game
 {
+    [RequireComponent(typeof(Entity))]
     [Serializable]
     public class Status : BritoBehavior, IHasOnTick
     {
@@ -39,13 +40,17 @@ namespace Game
         public CappedResource HP;
         public SignedResource Money;
 
+        public FloatAttribute CooldownReduction => throw new NotImplementedException();
+
         #endregion
 
         private Stat[] _stat_array;
+        //Marker to make sure there are no lingering ticks.
         private bool freedTasks;
 
         internal SortedSet<StatusBuff> appliedBuffs;
         internal SortedSet<AdvancedStatusBuff> appliedAdvancedBuffs;
+        internal Entity owner;
 
         #region Initializers 
         public void Initialize()
@@ -166,6 +171,7 @@ namespace Game
 
         public void ApplyOnHitAffects(Status target, float amount)
         {
+            //Eventually want to transition to event system.
             foreach (var item in inventory.items)
             {
                 if (item.OnHitAffects != null)
@@ -179,14 +185,12 @@ namespace Game
 
         public void ApplyGetHitAffects(Status source, int amount)
         {
-            foreach (var item in inventory.items)
-            { 
-				if (item?.OnGetHitAffects != null) item.OnGetHit(this, source, amount);
-   		 }
-			foreach (var buff in appliedAdvancedBuffs)
-			{ 
-				if (buff?.OnGetHitAffects != null) buff.OnGetHit(this, source, amount);
-			}
+            foreach (var item in inventory.items) 
+                if (item?.OnGetHitAffects != null) item.OnGetHit(this, source, amount);
+
+            foreach (var buff in appliedAdvancedBuffs) 
+                if (buff?.OnGetHitAffects != null) buff.OnGetHit(this, source, amount);
+
         }
 
         public void ApplyOnKillAffects(Status victim)
@@ -244,14 +248,14 @@ namespace Game
 
         void DoVitalCheck(Stat stat, int change, Status affecter)
         {
-            if (stat.GetValue() <= 0) Health.Death(this, affecter);
+            if (stat.GetValue() <= 0) EntityUtil.Death(this, affecter);
         }
 
         public void InvokeOnKill(Status killer) => onKilled?.Invoke(killer);
         public void InvokeOnDealDamage(Status target, int amount) => onDealDamage?.Invoke(target, amount);
         public void InvokeOnTakeDamage(Status source, int amount) => onTakeDamage?.Invoke(source, amount);
         //Temporary solution
-        public HPModData AutoAttackData(Status other) => HPModData.AutoAttack(this, other);
+        public HealthModificationData AutoAttackData(Status other) => HealthModificationData.AutoAttack(this, other);
         #endregion
     }
 }

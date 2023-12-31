@@ -42,9 +42,9 @@ namespace Game.Buff
             {
                 var tickDamage = damageToDealWithDeltaTime * stackCount; 
                 if (tickDamage < 0)
-                    Health.Damage(target, source, (int)MathF.Round(tickDamage));
+                    EntityUtil.Damage(target, source, (int)MathF.Round(tickDamage));
                 else if(tickDamage > 0)
-                    Health.Heal(target, (int)MathF.Round(tickDamage));
+                    EntityUtil.Heal(target, (int)MathF.Round(tickDamage));
             }
             else target.ApplyResourceAffect(source, affect, damageToDealWithDeltaTime * stackCount);
         }

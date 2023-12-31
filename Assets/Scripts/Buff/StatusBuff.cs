@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Buff
 {
-    public class StatusBuff : IComparable<StatusBuff>
+    public class StatusBuff : ScriptableObject, IComparable<StatusBuff>
     {
         public Status source, target;
 
@@ -12,8 +12,7 @@ namespace Game.Buff
         /// {targetAttribute} = AttributeAffect.affectedStatName. 
         /// {affectValue} = Affect.GetAmount()
         /// Use {stat_name} to obtain 
-        /// </summary>
-        [SerializeField] public string name;
+        /// </summary> 
         [SerializeField] protected string descriptionFormula;
         public string Description { private set; get; }
         [SerializeField] public bool isPermanent;

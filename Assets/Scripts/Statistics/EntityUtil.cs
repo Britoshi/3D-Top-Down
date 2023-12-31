@@ -2,9 +2,9 @@
 
 namespace Game
 {
-    public class Health
+    public class EntityUtil
     {
-        public static void Modify(Status self, HPModData metadata)
+        public static void Modify(Status self, HealthModificationData metadata)
         { 
             float amount = metadata.modifyValue; 
             if (amount < 0) Damage(self, metadata);
@@ -13,15 +13,15 @@ namespace Game
 
         public static void AutoAttack(Status source, Status target)
         {
-            var metadata = HPModData.AutoAttack(source, target);
+            var metadata = HealthModificationData.AutoAttack(source, target);
             Damage(target, metadata); 
         }
 
-        static int CalculateDamage(HPModData data)
+        static int CalculateDamage(HealthModificationData data)
         {
             float damage = Mathf.Abs(data.modifyValue);
 
-            if (data.isAutoAttack)
+            if (data.type == DamageType.AUTO_ATTACK)
                 damage -= damage - damage * (100f / (100f + data.target.Armor));
             else if (data.affect.type != HealthAffectType.True)
                 damage -= damage - damage * (100f / (100f + data.target[data.affect.type]));
@@ -44,7 +44,7 @@ namespace Game
             Damage(victim, damage); 
         }
 
-        public static void Damage(Status victim, HPModData damageData)
+        public static void Damage(Status victim, HealthModificationData damageData)
         {  
             if (victim.dead) return;
 
@@ -54,21 +54,21 @@ namespace Game
 
             victim.HP.Subtract(damage);
 
-            if (damageData.isAutoAttack) 
+            if (damageData.type == DamageType.ABILITY) 
                 attacker?.ApplyOnHitAffects(victim, damage);  
-            else if (damageData.isOnHit)
+            else if (damageData.type == DamageType.ON_HIT)
             {
 
             } 
             victim?.ApplyGetHitAffects(attacker, damage); 
 
-            if (damageData.isSpell) Debug.Log("Lmao Spell aint supported yet"); 
+            if (damageData.type == DamageType.ABILITY) Debug.Log("Lmao Spell aint supported yet"); 
 
             victim.onTakeDamage?.Invoke(attacker, damage);
             if (!VitalCheck(victim)) Death(victim, attacker);
         }
 
-        public static void Heal(Status owner, HPModData metadata)
+        public static void Heal(Status owner, HealthModificationData metadata)
         {
             if (owner.dead) return;
             Status healer = metadata.source;

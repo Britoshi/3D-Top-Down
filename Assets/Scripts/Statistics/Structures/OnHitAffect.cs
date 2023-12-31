@@ -49,7 +49,7 @@ namespace Game
                 if (resourceAffect != null) 
                 {
                     if (resourceAffect is HealthAffect) 
-                        Health.Modify(targetEntity, HPModData.OnHit(owner, targetEntity, resourceAffect as HealthAffect));  
+                        EntityUtil.Modify(targetEntity, HealthModificationData.OnHit(owner, targetEntity, resourceAffect as HealthAffect));  
                     else targetEntity.ApplyResourceAffect(owner, resourceAffect);
                 }
             }

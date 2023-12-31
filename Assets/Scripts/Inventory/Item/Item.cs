@@ -1,18 +1,23 @@
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game
 {
     [Serializable]
-    public class Item : IAdvancedTriggers
-    {
-
-        public string name;
+    [CreateAssetMenu(fileName = "new item", menuName = "Scriptable Objects/new item")]
+    public class Item : ScriptableObject, IAdvancedTriggers
+    { 
         public string description;
 
+        [SerializeField]
         public AttributeAffect[] attributeModifiers;
+
+        [field: SerializeField]
         public OnHitAffect[] OnHitAffects { get; set; }
+        [field: SerializeField]
         public OnHitAffect[] OnGetHitAffects { get; set; }
+        [field: SerializeField]
         public OnHitAffect[] OnKillAffects { get; set; }
 
         public Item(string name, string description, AttributeAffect[] mods, OnHitAffect[] onHit, OnHitAffect[] onGetHit, OnHitAffect[] onKill)
