@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Game.Abilities
+namespace Game
 {
     public class Cooldown
     {
@@ -27,8 +27,8 @@ namespace Game.Abilities
 
         public bool CanCast() => _time <= 0;
 
-        public void ApplyCooldown(bool reducedByStats = true) =>
-            _time = reducedByStats ? _cooldownTime * (1 - PlayerEntity.Instance.Stats.CooldownReduction) : _cooldownTime; 
+        public void ApplyCooldown(float? cooldownReductionPercent = null) =>
+            _time = cooldownReductionPercent != null ? _cooldownTime * (1 - cooldownReductionPercent.Value) : _cooldownTime; 
 
         private Cooldown(float cooldown) =>
             _cooldownTime = cooldown; 

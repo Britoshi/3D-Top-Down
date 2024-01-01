@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\Buff\StackableTickBuff.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\OnHitAffect.cs" />
     <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\States\BaseState.cs" />
     <Compile Include="Assets\Scripts\Utilities\Util.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\OnKill\OnKillAffectHandler.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets\ShootUpAbility.cs" />
@@ -128,9 +129,12 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Ability\PlayerAbilityState.cs" />
     <Compile Include="Assets\Scripts\Tick.cs" />
     <Compile Include="Assets\Scripts\Statistics\StatusBuilder.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\StateFactory.cs" />
     <Compile Include="Assets\Scripts\Buff\AdvancedStotusBuff.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Entity\Ability.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerApexSubState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\States\RootState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallState.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityProcessor.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\AttributeAffects.cs" />

@@ -29,25 +29,25 @@ namespace Game
         public int RawInputDir { set; get; }
         public int RawVerticalInput { set; get; } 
 
-        PlayerBaseState _currentState;
+        protected BaseState _currentState;
 
-        public PlayerStateFactory Factory { private set; get; }
+        public StateFactory Factory { private set; get; }
 
         public Vector2 AdditionalVelocity, AdditionalVelocityAdaptive;
         public float HorizontalVelocity { get; set; }  
 
 
-        public new Rigidbody rigidbody => entity.rigidbody;
+        public Rigidbody rigidbody => entity.rigidbody;
         
         public Animator animator;
         private int _jumpGracePeriod;
 
-        public PlayerBaseState CurrentState { get => _currentState; internal set => _currentState = value; }
+        public BaseState currentState { get => _currentState; internal set => _currentState = value; }
 
         public string CurrentAnimation { get; internal set; }
         public string LastAnimationChangeAttempt { get; internal set; }
 
-        public void SwitchCurrentState(PlayerRootState newState)
+        public void SwitchCurrentState(RootState newState)
         {
             if (_currentState != null)
                 _currentState.ExitState();
@@ -60,15 +60,15 @@ namespace Game
         {
             entity = owner; 
             animator ??= owner.GetComponentInChildren<Animator>();
-            Factory = new PlayerStateFactory(this);
+            Factory = new StateFactory(this);
         }
 
         public void OnStart()
         {
-            SwitchCurrentState(Factory.Grounded()); 
+            //SwitchCurrentState(Factory.Grounded()); 
         }
 
-        private void OnUpdate()
+        public void OnUpdate()
         {
             //UpdateJumpVariables();
             UpdateMovementVariable();
@@ -76,7 +76,7 @@ namespace Game
             UpdateDebugText();
         }
 
-        private void OnFixedUpdate()
+        public void OnFixedUpdate()
         {
 
         }
@@ -102,7 +102,7 @@ namespace Game
             var output = "Current Animation: " + CurrentAnimation + '\n';
             output += "Last Animation Change Attempt: " + LastAnimationChangeAttempt + '\n';
 
-            output += CurrentState.ToString();
+            output += currentState.ToString();
 
             output += $"\n IsMoving: {IsMoving}";
             output += $"\n IsRunning: {IsRunning}";
@@ -113,10 +113,12 @@ namespace Game
 
         public void ResetAnimation()
         {
+            throw new NotImplementedException();
+            /*
             if (IsGrounded)
                 SwitchCurrentState(Factory.Grounded());
             else
-                SwitchCurrentState(Factory.Airborne());
+                SwitchCurrentState(Factory.Airborne());*/
         }
 
     }

@@ -120,7 +120,7 @@ namespace Game.Abilities
             if (!MovementOverride && Owner is PlayerEntity)
             {
                 var stateMachine = (Owner as PlayerEntity).stateMachine;
-                stateMachine.CurrentState.SetSubState(stateMachine.Factory.Idle(stateMachine.CurrentState, true));
+                //stateMachine.currentState.SetSubState(stateMachine.Factory.Idle(stateMachine.currentState, true));
             }
 
             busy = true;
