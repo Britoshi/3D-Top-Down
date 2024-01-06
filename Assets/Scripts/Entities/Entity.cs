@@ -10,18 +10,26 @@ namespace Game
         public Status status;
         public Inventory inventory;
         public StateMachine stateMachine;
-        public new Rigidbody rigidbody;
+        public new Rigidbody rigidbody; 
 
         public void Awake()
-        { 
-            status ??= GetComponent<Status>();
+        {
+            InitializeComponents(); 
             status.owner = this;
         }
 
-
-        public void AutoAttack(Entity other)
+        private void InitializeComponents()
         {
-            EntityUtil.AutoAttack(status, other.status);
+            rigidbody = GetComponent<Rigidbody>(); 
+
+            status = status != null ? status : GetComponent<Status>();
+            status.Initialize(this);
+
+            inventory ??= new();
+            inventory.Initialize(this);
+
+            stateMachine ??= GetComponent<StateMachine>();
+            stateMachine.Initialize(this);
         }
     }
 }

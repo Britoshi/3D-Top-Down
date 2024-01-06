@@ -1,15 +1,26 @@
 
 using Game.Abilities;
 using Game;
+using System.Collections.Generic;
 
-public class StateFactory
+public abstract class StateFactory
 {
-    StateMachine _context;
+    public SortedDictionary<string, BaseState> library;
+
+    protected StateMachine _context;
 
     public StateFactory(StateMachine currentContext)
     {
         _context = currentContext;
+        library = new SortedDictionary<string, BaseState>();
     }
+
+    public abstract RootState Default();
+    public abstract RootState Grounded();
+    public abstract RootState Airborne();
+    public abstract BaseState Idle(BaseState superState);
+    public abstract BaseState Walk(BaseState superState);
+    public abstract BaseState Run(BaseState superState);
 
     /*
     public PlayerBaseState Idle(PlayerBaseState superState, bool standAlone = false) => new PlayerIdleState(_context, this, superState, standAlone);
@@ -27,7 +38,5 @@ public class StateFactory
 
     public PlayerBaseState Crawl(PlayerBaseState superState) => new PlayerCrawlState(_context, this, superState);
     public PlayerBaseState Crouch(PlayerBaseState superState) => new PlayerCrouchState(_context, this, superState);
-
-
     */
 }

@@ -10,7 +10,7 @@ namespace Game
         public static void Log(string message)
         {
             //Debug.Log(message);
-			Console.WriteLine(message);
+			Debug.Log(message);
         }
         public static void print(params object[] messages)
         {

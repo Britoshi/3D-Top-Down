@@ -208,9 +208,9 @@ namespace Game
                     if (float.IsNaN(JumpVelocityLong))
                     {
                         throw new NotImplementedException();
-                        JumpTargetLong = transform.position.y + 1;
-                        DistanceToLongJump = JumpTargetLong - transform.position.y;
-                        JumpVelocityLong = Mathf.Sqrt(JUMP_GRAVITY_CONSTANT * DistanceToLongJump);
+                        //JumpTargetLong = transform.position.y + 1;
+                        //DistanceToLongJump = JumpTargetLong - transform.position.y;
+                        //JumpVelocityLong = Mathf.Sqrt(JUMP_GRAVITY_CONSTANT * DistanceToLongJump);
                     }
                     SetVelocityY(JumpVelocityLong);
                 }

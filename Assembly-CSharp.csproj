@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
     <Compile Include="Assets\Scripts\IHasOnTick.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
+    <Compile Include="Assets\Scripts\Entities\GroundedController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerDescendingSubState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\AttributeModifier.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets\FireBallAbility.cs" />
@@ -93,7 +94,10 @@
     <Compile Include="Assets\Scripts\Abilities\Sets\ShootUpAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerWalkState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerEntity.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\States\Grounded\EntityGroundedState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerIdleState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\PStateMachine.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\EntityMovementSubState.cs" />
     <Compile Include="Assets\Scripts\Buff\TickBuff.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModifiers.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\ResourceAffect.cs" />
@@ -125,11 +129,12 @@
     <Compile Include="Assets\Scripts\AbilityController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceModifier.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\EntityIdleState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\PlayerBaseState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Ability\PlayerAbilityState.cs" />
     <Compile Include="Assets\Scripts\Tick.cs" />
-    <Compile Include="Assets\Scripts\Statistics\StatusBuilder.cs" />
     <Compile Include="Assets\Scripts\StateMachine\StateFactory.cs" />
+    <Compile Include="Assets\Scripts\Statistics\StatusBuilder.cs" />
     <Compile Include="Assets\Scripts\Buff\AdvancedStotusBuff.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\Ability.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\PlayerGroundedState.cs" />

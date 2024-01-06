@@ -17,17 +17,17 @@ namespace Game
             Damage(target, metadata); 
         }
 
-        static int CalculateDamage(HealthModificationData data)
+        static float CalculateDamage(HealthModificationData data)
         {
             float damage = Mathf.Abs(data.modifyValue);
 
-            if (data.type == DamageType.AUTO_ATTACK)
-                damage -= damage - damage * (100f / (100f + data.target.Armor));
-            else if (data.affect.type != HealthAffectType.True)
+            //if (data.type == DamageType.PRIMARY)
+            //    damage -= damage - damage * (100f / (100f + data.target.Armor));
+            if (data.affect.type != HealthAffectType.TRUE)
                 damage -= damage - damage * (100f / (100f + data.target[data.affect.type]));
 
             if (data.source != null) damage *= data.source.DamageOutputModifier;
-            return (int)damage;
+            return damage;
         }
 
         public static void Damage(Status owner, int damage)
@@ -49,7 +49,7 @@ namespace Game
             if (victim.dead) return;
 
             Status attacker = damageData.source;
-            int damage = CalculateDamage(damageData);
+            float damage = CalculateDamage(damageData);
             attacker?.onDealDamage?.Invoke(victim, damage);
 
             victim.HP.Subtract(damage);

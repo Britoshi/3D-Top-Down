@@ -3,25 +3,33 @@ using Game.Buff;
 namespace Game
 {
 
+    public enum HealthAffectType
+    {
+        TRUE, HEAL,
+        PHYSICAL = 18, MAGICAL,
+    }
+
     public enum StatID
     {
         NONE,
         LEVEL,
         MAX_HP,
-        SPEED, RANGE, DEFENSE, OFFENSE,
+        SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
-        MOVEMENT_SPEED, ATTACK_SPEED,
+        MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED,
         ATTACK_RANGE,
         ATTACK_DAMAGE, ABILITY_POWER,
         FLAT_ARMOR_PENETRATION, FLAT_MAGIC_PENETRATION,
         ARMOR_PENETRATION, MAGIC_PENETRATION,
+
+        //This should never change.
         ARMOR, MAGIC_RESISTANCE,
 
         HP_REGEN, TENACITY,
-        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER,
+        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION,
 
         //From here is just Resources
-        HP, Money,
+        HP, Money, 
     }
 
     public enum AttributeID
@@ -29,9 +37,9 @@ namespace Game
         NONE = 0,
         LEVEL = 1,
         MAX_HP,
-        SPEED, RANGE, DEFENSE, OFFENSE,
+        SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
-        MOVEMENT_SPEED, ATTACK_SPEED,
+        MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED, 
         ATTACK_RANGE,
         ATTACK_DAMAGE, ABILITY_POWER,
         FLAT_ARMOR_PENETRATION, FLAT_MAGIC_PENETRATION,
@@ -39,14 +47,14 @@ namespace Game
         ARMOR, MAGIC_RESISTANCE,
 
         HP_REGEN, TENACITY,
-        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER,
+        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION
     }
 
     public enum ResourceID
     {
         NONE = 0,
-        HP = 23,
-        Money,
+        HP = 26,
+        MONEY,
     }
 
     public delegate void EntityTriggeredFunction(Status other);

@@ -11,9 +11,4 @@ namespace Game
     public enum StatAffectType { Additive, Multiplicative, }
     public enum ResourceAffectType { Additive, Percentage, MaximumPercentage, } 
     
-    public enum HealthAffectType
-    {
-        True, Heal,
-        Physical = 16, Magical,
-    } 
 }

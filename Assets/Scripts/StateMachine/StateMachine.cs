@@ -4,26 +4,19 @@ using UnityEngine;
 
 namespace Game
 {
-    public class StateMachine
-    {  
-        public Entity entity { get; private set; }
+    public abstract class StateMachine : BritoBehavior
+    {
+        public Entity entity;
 
         //public Vector2 Velocity { get; set; }
 
         public bool IsBusy { get; set; }
-        public bool IsGrounded => throw new NotImplementedException();
+        public bool IsGrounded { get => groundedController.IsGrounded(); }
+        public GroundedController groundedController;
+
         public bool IsMoving { get; set; }
         public bool IsRunning { get; set; } 
         public float CurrentSpeed => Mathf.Abs(entity.rigidbody.velocity.magnitude);
-
-
-        //JUMP
-         
-        public bool JumpTrigger { get; internal set; }  
-
-        public bool JumpButton { get; private set; }  
-
-
 
         //Dir
         public int RawInputDir { set; get; }
@@ -31,13 +24,8 @@ namespace Game
 
         protected BaseState _currentState;
 
-        public StateFactory Factory { private set; get; }
-
-        public Vector2 AdditionalVelocity, AdditionalVelocityAdaptive;
-        public float HorizontalVelocity { get; set; }  
-
-
-        public Rigidbody rigidbody => entity.rigidbody;
+        public StateFactory Factory { private set; get; }   
+        public new Rigidbody rigidbody => entity.rigidbody;
         
         public Animator animator;
         private int _jumpGracePeriod;
@@ -49,8 +37,7 @@ namespace Game
 
         public void SwitchCurrentState(RootState newState)
         {
-            if (_currentState != null)
-                _currentState.ExitState();
+            _currentState?.ExitState();
 
             _currentState = newState;
             _currentState.EnterState();
@@ -58,46 +45,38 @@ namespace Game
 
         public void Initialize(Entity owner)
         {
-            entity = owner; 
-            animator ??= owner.GetComponentInChildren<Animator>();
-            Factory = new StateFactory(this);
+            entity = owner;
+            AssignFactory(); 
         }
 
-        public void OnStart()
+        /// <summary>
+        /// Welp, makesure to assign a factory to the use.
+        /// </summary>
+        public abstract void AssignFactory(); 
+        public abstract void OnStart();
+        public void Start()
         {
-            //SwitchCurrentState(Factory.Grounded()); 
+            SwitchCurrentState(Factory.Default());
+            OnStart();
         }
 
-        public void OnUpdate()
-        {
-            //UpdateJumpVariables();
-            UpdateMovementVariable();
-            _currentState.UpdateStates();
-            UpdateDebugText();
+        public abstract void OnUpdate();
+        public void Update()
+        { 
+            _currentState?.UpdateStates();
+            OnUpdate();
         }
 
-        public void OnFixedUpdate()
+        public abstract void OnFixedUpdate();
+        public void FixedUpdate()
         {
-
+            OnFixedUpdate();
         }
 
-
-        private void UpdateMovementVariable()
-        {
-           // IsRunning = Input.GetButton("Sprint");
-            //RawInputDir = (int)Input.GetAxisRaw("Horizontal");
-            //RawVerticalInput = (int)Input.GetAxisRaw("Vertical");
-            IsMoving = RawInputDir != 0;
-        }
-
-        internal void HandleJump()
-        {
-
-        } 
         internal bool CanJump() => _jumpGracePeriod > 0; 
         internal void PurgeJumpGracePeriod() => _jumpGracePeriod = 0;
 
-        void UpdateDebugText()
+        public string UpdateDebugText()
         {
             var output = "Current Animation: " + CurrentAnimation + '\n';
             output += "Last Animation Change Attempt: " + LastAnimationChangeAttempt + '\n';
@@ -105,20 +84,13 @@ namespace Game
             output += currentState.ToString();
 
             output += $"\n IsMoving: {IsMoving}";
-            output += $"\n IsRunning: {IsRunning}";
-
-           // if (debugText)
-           //     debugText.text = output;
+            output += $"\n IsRunning: {IsRunning}"; 
+            return output;
         } 
 
-        public void ResetAnimation()
+        public virtual void ResetAnimation()
         {
-            throw new NotImplementedException();
-            /*
-            if (IsGrounded)
-                SwitchCurrentState(Factory.Grounded());
-            else
-                SwitchCurrentState(Factory.Airborne());*/
+            SwitchCurrentState(Factory.Default());
         }
 
     }

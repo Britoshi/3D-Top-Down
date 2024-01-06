@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game
 {
-    public class Tick
+    public class Tick : BritoBehavior
     {
         public static Tick Instance { private set; get; }
         public event Action OnTick;
@@ -23,9 +24,9 @@ namespace Game
             Instance = this;
             time = 0;
         }
-        public void Update(double delta)
+        public void Update()
         {
-            time += delta;
+            time += Time.deltaTime;
             if (time - lastTickTime > TICK_INTERVAL)
             {
                 // Raise the OnTick event

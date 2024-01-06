@@ -15,36 +15,56 @@ namespace Game
 
         public EntityTriggeredFunction onKilled;
         public EntityTriggeredValueFunction onDealDamage, onTakeDamage;
+
         public Inventory inventory;
         public bool dead;
 
         #region Status Layout  
+        [HideInInspector]
         public IntegerAttribute Level, MaxHP;
         //Root Attributes
+        [HideInInspector]
         public IntegerAttribute Speed, Range, Offense, Defense;
         //Child Attributes
-        public FloatAttribute MovementSpeed;
+        [HideInInspector]
+        public IntegerAttribute Mobility;
+
+        [HideInInspector]
+        public FloatAttribute MovementSpeed, JumpForce;
+        [HideInInspector]
         public FloatAttribute AttackSpeed;
+        [HideInInspector]
         //Offense
         public FloatAttribute AttackRange;
+        [HideInInspector]
         public IntegerAttribute AttackDamage, AbilityPower;
+        [HideInInspector]
         public IntegerAttribute FlatArmorPenetration, FlatMagicPenetration;
+        [HideInInspector]
         public FloatAttribute ArmorPenetration, MagicPenetration;
+        [HideInInspector]
         //Defense
         public IntegerAttribute Armor, MagicResistance;
+        [HideInInspector]
         //None 
         public FloatAttribute HPRegen;
+        [HideInInspector]
         public IntegerAttribute Tenacity;
+        [HideInInspector]
         public FloatAttribute LifeSteal, DamageOutputModifier, HealingModifier;
+        [HideInInspector]
 
         public CappedResource HP;
+        [HideInInspector]
         public SignedResource Money;
+        [HideInInspector]
 
-        public FloatAttribute CooldownReduction => throw new NotImplementedException();
+        public FloatAttribute CooldownReduction;
 
         #endregion
 
         private Stat[] _stat_array;
+
         //Marker to make sure there are no lingering ticks.
         private bool freedTasks;
 
@@ -53,59 +73,68 @@ namespace Game
         internal Entity owner;
 
         #region Initializers 
-        public void Initialize()
+        internal void Initialize(Entity owner)
+        {
+            this.owner = owner;
+            Initialize();
+        }
+
+        private void Initialize()
         {
             dead = false;
             appliedBuffs = new();
             appliedAdvancedBuffs = new();
-			/*
-            var builderArray = builder.Call("initialize_Status");
 
-            Level = new((uint)builderArray[0]);
-            MaxHP = new((uint)builderArray[1]);
-            Speed = new((uint)builderArray[2]);
-            Range = new((uint)builderArray[3]);
-            Offense = new((uint)builderArray[4]);
-            Defense = new((uint)builderArray[5]);
+            builder =
+            builder != null ? builder : ScriptableObject.CreateInstance<StatusBuilder>();
 
-            MovementSpeed = new((float)builderArray[6], parent: Speed);
-            AttackSpeed = new((float)builderArray[7], parent: Speed);
+            Level = new(builder.Level);
+            MaxHP = new(builder.MaxHP);
+            Speed = new(builder.Speed);
+            Range = new(builder.Range);
+            Offense = new(builder.Offense);
+            Defense = new(builder.Defense);
 
-            AttackRange = new((int)builderArray[8], parent: Range);
-            AttackDamage = new((uint)builderArray[9], parent: Offense);
-            AbilityPower = new((uint)builderArray[10], parent: Offense);
+            Mobility = new(builder.Mobility);
+            MovementSpeed = new(builder.MovementSpeed, parent: Mobility);
+            JumpForce = new(builder.JumpForce, parent: Mobility);
 
-            FlatArmorPenetration = new((uint)builderArray[11], parent: Offense);
-            FlatMagicPenetration = new((uint)builderArray[12], parent: Offense);
-            ArmorPenetration = new((float)builderArray[13], parent: Offense);
-            MagicPenetration = new((float)builderArray[14], parent: Offense);
+            AttackSpeed = new(builder.AttackSpeed, parent: Speed);
 
-            Armor = new((uint)builderArray[15], parent: Defense);
-            MagicResistance = new((uint)builderArray[16], parent: Defense);
+            AttackRange = new((int)builder.AttackRange, parent: Range);
+            AttackDamage = new(builder.AttackDamage, parent: Offense);
+            AbilityPower = new(builder.AbilityPower, parent: Offense);
 
-            HPRegen = new((float)builderArray[17]);
-            Tenacity = new((uint)builderArray[18]);
-            LifeSteal = new((float)builderArray[19]);
-            DamageOutputModifier = new((float)builderArray[20]);
-            HealingModifier = new((float)builderArray[21]);
+            FlatArmorPenetration = new(builder.FlatArmorPenetration, parent: Offense);
+            FlatMagicPenetration = new(builder.FlatMagicPenetration, parent: Offense);
+            ArmorPenetration = new(builder.ArmorPenetration, parent: Offense);
+            MagicPenetration = new(builder.MagicPenetration, parent: Offense);
 
-            HP = new((uint)builderArray[22], MaxHP);
-            Money = new((int)builderArray[23]);
+            Armor = new(builder.Armor, parent: Defense);
+            MagicResistance = new(builder.MagicResistance, parent: Defense);
 
-            _stat_array = new Stat[24]
+            HPRegen = new(builder.HPRegen);
+            Tenacity = new(builder.Tenacity);
+            LifeSteal = new(builder.LifeSteal);
+            DamageOutputModifier = new(builder.DamageOutputModifier);
+            HealingModifier = new(builder.HealingModifier);
+
+            HP = new(builder.HP, MaxHP);
+            Money = new(builder.Money);
+
+            CooldownReduction = new(builder.CooldownReduction);
+
+            _stat_array = new Stat[27]
             {
-                                Level, MaxHP, Speed, Range, Offense, Defense, MovementSpeed, AttackSpeed, AttackRange,
-                                AttackDamage, AbilityPower, FlatArmorPenetration,FlatMagicPenetration, ArmorPenetration,
-                                MagicPenetration ,Armor, MagicResistance, HPRegen, Tenacity, LifeSteal, DamageOutputModifier,
-                                HealingModifier, HP, Money,
+                Level, MaxHP, Speed, Range, Offense, Defense, Mobility, MovementSpeed, JumpForce, AttackSpeed, AttackRange,
+                AttackDamage, AbilityPower, FlatArmorPenetration,FlatMagicPenetration, ArmorPenetration,
+                MagicPenetration ,Armor, MagicResistance, HPRegen, Tenacity, LifeSteal, DamageOutputModifier,
+                HealingModifier, CooldownReduction, HP, Money,
             };
 
             onKilled += OnDeathEssential;
 
-            inventory = new();
-   		 Debug.Error("Bro Fix this");         
-			//builder.Call("initialize_inventory", this);
-			*/
+            print(name, "status successfully initialized.");
         }
         #endregion
 
@@ -122,7 +151,7 @@ namespace Game
         #region Node Functions
         void Awake()
         {
-            Initialize();
+
         }
         void Start()
         {
@@ -136,11 +165,10 @@ namespace Game
             {
                 try
                 {
-                    foreach (var buff in appliedBuffs)
-					{ 
-                        buff?.Update();
-					}
+                    foreach (var buff in appliedBuffs) 
+                        buff?.Update(); 
                 }
+                //Stupid foreach.
                 catch (InvalidOperationException)
                 {
 
@@ -173,17 +201,15 @@ namespace Game
         {
             //Eventually want to transition to event system.
             foreach (var item in inventory.items)
-            {
                 if (item.OnHitAffects != null)
                     item.OnHit(this, target, amount);
-            }
-            foreach (var buff in appliedAdvancedBuffs)
-			{ 
-                if (buff?.OnHitAffects != null) buff.OnHit(this, target, amount);
-  	      }
-		}
 
-        public void ApplyGetHitAffects(Status source, int amount)
+            foreach (var buff in appliedAdvancedBuffs)
+                if (buff?.OnHitAffects != null) buff.OnHit(this, target, amount);
+
+        }
+
+        public void ApplyGetHitAffects(Status source, float amount)
         {
             foreach (var item in inventory.items) 
                 if (item?.OnGetHitAffects != null) item.OnGetHit(this, source, amount);
@@ -213,18 +239,7 @@ namespace Game
             }
             Tick.RemoveFunction(OnTick);
             freedTasks = true;
-        }
-
-        public bool AddItem(Item item)
-        {
-            item.Apply(this);
-            return true;
-        }
-
-        public void RemoveItem(Item item)
-        {
-            item.Remove(this);
-        }
+        } 
 		
 		/*
         public void AddNewOnDeathFunction(Node node, string function)

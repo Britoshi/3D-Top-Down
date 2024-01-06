@@ -20,10 +20,10 @@ namespace Game
                 throw new System.NotImplementedException();
                 //if (!(_currentAbility as HoldAbility).PreventAnimationDelegate && _currentAbility.GetAnimationProgress() > .5f)
                 { 
-                    Ctx.ResetAnimation();
-                    return true; 
+                    //Ctx.ResetAnimation();
+                    //return true; 
                 } 
-                return false; 
+                //return false; 
             }
 
             if (_currentAbility.GetAnimationProgress() > 0.988f)

@@ -3,7 +3,7 @@ namespace Game
     [System.Flags]
     public enum DamageType
     {
-        NONE, AUTO_ATTACK, ABILITY, ON_HIT, ITEM
+        NONE, PRIMARY, ABILITY, ON_HIT, ITEM
     }
     /// <summary>
     /// <b>Health Point Modification Metadata.</b>
@@ -29,11 +29,11 @@ namespace Game
         }  
          
         public static HealthModificationData AutoAttack(Status source, Status target) =>
-            new(source, target, null, DamageType.AUTO_ATTACK, (int)source.AttackDamage);
+            new(source, target, null, DamageType.PRIMARY, (int)source.AttackDamage);
         public static HealthModificationData Spell(Status source, Status target, HealthAffect affect) =>
             new(source, target, affect, DamageType.ABILITY);
         public static HealthModificationData SpellAutoAttack(Status source, Status target, HealthAffect affect) =>
-            new(source, target, affect, DamageType.AUTO_ATTACK | DamageType.ABILITY); 
+            new(source, target, affect, DamageType.PRIMARY | DamageType.ABILITY); 
         public static HealthModificationData OnHit(Status source, Status target, HealthAffect affect) =>
             new(source, target, affect, DamageType.ON_HIT);  
     }
