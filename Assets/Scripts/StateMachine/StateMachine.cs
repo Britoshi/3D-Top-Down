@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Game
+namespace Game.StateMachine
 {
     public abstract class StateMachine : BritoBehavior
     {
@@ -24,7 +24,7 @@ namespace Game
 
         protected BaseState _currentState;
 
-        public StateFactory Factory { private set; get; }   
+        public StateFactory Factory { protected set; get; }   
         public new Rigidbody rigidbody => entity.rigidbody;
         
         public Animator animator;
@@ -93,5 +93,10 @@ namespace Game
             SwitchCurrentState(Factory.Default());
         }
 
+        internal void AirborneBehavior()
+        {
+            print("implement this");
+            //throw new NotImplementedException();
+        }
     }
 }

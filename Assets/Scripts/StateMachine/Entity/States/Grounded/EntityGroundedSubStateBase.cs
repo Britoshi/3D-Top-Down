@@ -2,15 +2,15 @@
 using System;
 using UnityEngine;
 
-namespace Game
+namespace Game.StateMachine
 {
-    public abstract class EntityMovementBaseSubState : BaseState
+    public abstract class EntityGroundedSubStateBase : BaseState
     {
         //If this is a purformace issue, remake it.
         //protected float CurrentSpeed => Ctx.CurrentSpeed;
         //protected virtual float MaxSpeed => Ctx.MaximumMovementSpeed;
 
-        protected EntityMovementBaseSubState(StateMachine currentContext, StateFactory entityStateFactory, 
+        protected EntityGroundedSubStateBase(StateMachine currentContext, StateFactory entityStateFactory, 
             BaseState superState) : base(currentContext, entityStateFactory, superState)
         {
 
@@ -27,16 +27,18 @@ namespace Game
         protected override void ChangeAnimation(string name)
         {
             Ctx.LastAnimationChangeAttempt = name + " | Super: " + CurrentSuperState.GetType();
-            if (CurrentSuperState != null)
+            if (CurrentSuperState == null) return;
+
+            //Debug.Log("This is ran from " + GetType());
+            //HMMMMM
+            if (!CurrentSuperState.GetType().IsSubclassOf(typeof(EntityAirborneSubStateBase)))
             {
-                //Debug.Log("This is ran from " + GetType());
-                if (!CurrentSuperState.GetType().IsSubclassOf(typeof(PlayerAirborneSubStateBase)))
-                {
-                    //Debug.Log("Supposedly this ran" + CurrentSuperState.GetType());
-                    base.ChangeAnimation(name);
-                    return;
-                }
+                print("this is interesting.");
+                //Debug.Log("Supposedly this ran" + CurrentSuperState.GetType());
+                base.ChangeAnimation(name);
+                return;
             }
+            
         }
 
         protected void UpdateFacingDirection()

@@ -23,9 +23,9 @@ namespace Game
             _context = currentContext; 
         }
 
-        public PlayerBaseState Idle(PlayerBaseState superState, bool standAlone = false) => new PlayerIdleState(_context, this, superState, standAlone); 
-        public PlayerBaseState Walk(PlayerBaseState superState) => new PlayerWalkState(_context, this, superState);  
-        public PlayerBaseState Run(PlayerBaseState superState) => new PlayerRunState(_context, this, superState);  
+        public PlayerBaseState Idle(PlayerBaseState superState, bool standAlone = false) => new PlayerIdleState(_context, this, superState, standAlone);
+        public PlayerBaseState Walk(PlayerBaseState superState) => null;// new PlayerWalkState(_context, this, superState);  
+        public PlayerBaseState Run(PlayerBaseState superState) => null;// new PlayerRunState(_context, this, superState);  
         public PlayerRootState Jump() => new PlayerJumpState(_context, this);  
         public PlayerRootState Grounded() => new PlayerGroundedState(_context, this);  
         public PlayerRootState Airborne() => new PlayerAirborneState(_context, this);  

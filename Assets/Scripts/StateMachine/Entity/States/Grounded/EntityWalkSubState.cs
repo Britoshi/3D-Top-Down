@@ -1,23 +1,16 @@
-﻿using Game; 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace Game
+﻿namespace Game.StateMachine
 {
-    public class EntityWalkSubState : PlayerMovementBaseSubState
-    { 
-
-        public EntityWalkSubState(PlayerStateMachine currentContext, PlayerStateFactory entityStateFactory, PlayerBaseState superState) :
+    public class EntityWalkSubState : EntityGroundedSubStateBase, IHasAnimation
+    {
+        public virtual string GetAnimationName() => "walk";
+        public EntityWalkSubState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }
         public override void EnterState()
         {
-            ChangeAnimation("Walk"); 
+            //ChangeAnimation("Walk"); 
+            print("if animation dont change, this is the problem. animation not changing on state entering");
         }
         public override bool FixedUpdateState()
         {
@@ -32,12 +25,13 @@ namespace Game
         public override void InitializeSubState() { }
         public override bool CheckSwitchStates() 
         {
+            /*
             if (Ctx.IsHoldingDown)
             {
                 if (Ctx.IsMoving)
                     return SwitchState(Factory.Crawl(CurrentSuperState));
                 return SwitchState(Factory.Crouch(CurrentSuperState));
-            }
+            }*/
             if (!Ctx.IsMoving)
                 return SwitchState(Factory.Idle(CurrentSuperState));
             else if (Ctx.IsMoving && Ctx.IsRunning)

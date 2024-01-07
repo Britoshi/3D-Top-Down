@@ -1,5 +1,5 @@
 
-namespace Game
+namespace Game.StateMachine
 {
     public class EntityGroundedState : RootState
     {

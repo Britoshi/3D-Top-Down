@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game
+namespace Game.StateMachine.Player
 {
 
     public class PStateMachine : StateMachine
     {
         public override void AssignFactory()
         {
-            throw new System.NotImplementedException();
+            Factory = new PStateFactory(this);
         }
 
         public override void OnFixedUpdate()

@@ -1,20 +1,22 @@
-using Game;
-using UnityEngine;
-
-namespace Game
+namespace Game.StateMachine
 {
-    public class EntityIdleState : EntityMovementBaseSubState
+    public class EntityIdleSubState : EntityGroundedSubStateBase, IHasAnimation
     {
-        bool standAlone;
-        public EntityIdleState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState, bool standAlone) :
+        public virtual string GetAnimationName() => standAlone ? null : "Idle";
+
+        /// <summary>
+        /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
+        /// It seems useless right now.
+        /// </summary>
+        readonly bool standAlone;
+        public EntityIdleSubState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState, bool standAlone = false) :
             base(currentContext, entityStateFactory, superState)
         {
             this.standAlone = standAlone;
         }
         public override void EnterState()
         {
-            if (!standAlone)
-                ChangeAnimation("Idle");
+
         }
 
         public override bool UpdateState()
@@ -51,7 +53,8 @@ namespace Game
 
         protected override void HandleMovement()
         {
-            throw new System.Exception();
+            //throw new System.Exception();
+            print("handle movement fix");
             /*
             if (CurrentSpeed >= MaxSpeed * 1.5f)
                 Ctx.HorizontalVelocity += Time.deltaTime * MaxSpeed * Ctx.MovementForceGravity * -Ctx.VelocityDir;

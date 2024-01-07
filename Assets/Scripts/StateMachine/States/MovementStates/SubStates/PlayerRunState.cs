@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Game
 {
-    public class PlayerRunState : PlayerMovementBaseSubState
+    public class EntityRunSubState : PlayerMovementBaseSubState
     {
         //protected override float MaxSpeed => Ctx.MaximumMovementSpeed * Ctx.SprintMovementMultiplier;
-        public PlayerRunState(PlayerStateMachine currentContext, PlayerStateFactory entityStateFactory, PlayerBaseState superState) :
+        public EntityRunSubState(PlayerStateMachine currentContext, PlayerStateFactory entityStateFactory, PlayerBaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }

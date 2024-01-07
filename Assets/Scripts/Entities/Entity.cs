@@ -1,15 +1,14 @@
-using UnityEngine;
+using UnityEngine; 
 
 namespace Game
-{
-
+{  
     [RequireComponent(typeof(Status))]
     public class Entity : BritoBehavior
     {
         public string ID { set; get; }
         public Status status;
         public Inventory inventory;
-        public StateMachine stateMachine;
+        public StateMachine.StateMachine stateMachine;
         public new Rigidbody rigidbody; 
 
         public void Awake()
@@ -28,7 +27,7 @@ namespace Game
             inventory ??= new();
             inventory.Initialize(this);
 
-            stateMachine ??= GetComponent<StateMachine>();
+            stateMachine ??= GetComponent<StateMachine.StateMachine>();
             stateMachine.Initialize(this);
         }
     }

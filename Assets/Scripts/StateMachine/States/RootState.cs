@@ -1,5 +1,5 @@
 
-namespace Game
+namespace Game.StateMachine
 {
     public abstract class RootState : BaseState
     {

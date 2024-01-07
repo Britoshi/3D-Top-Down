@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Game
+namespace Game.StateMachine
 {
-    public abstract class BaseState
+    public abstract class BaseState : BritoObject
     {
         private bool _isRootState = false;
         private StateMachine _ctx;
@@ -23,6 +23,8 @@ namespace Game
 
             _currentSubState = null;
             _currentSuperState = superState;
+
+            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
         }
 
         public abstract void EnterState();

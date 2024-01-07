@@ -6,42 +6,43 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Game
+namespace Game.StateMachine
 {
-    public class EntityWalkSubState : PlayerMovementBaseSubState
-    { 
-
-        public EntityWalkSubState(PlayerStateMachine currentContext, PlayerStateFactory entityStateFactory, PlayerBaseState superState) :
+    public class EntityRunSubState : EntityGroundedSubStateBase, IHasAnimation
+    {
+        public virtual string GetAnimationName() => "run";
+        //protected override float MaxSpeed => Ctx.MaximumMovementSpeed * Ctx.SprintMovementMultiplier;
+        public EntityRunSubState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }
         public override void EnterState()
         {
-            ChangeAnimation("Walk"); 
+            //ChangeAnimation("Run");
+        }
+        public override bool UpdateState()
+        {
+            return base.UpdateState(); 
         }
         public override bool FixedUpdateState()
         {
             return true;
         }
-
-        public override bool UpdateState()
-        {
-            return base.UpdateState(); 
-        }
         public override void ExitState() { }
         public override void InitializeSubState() { }
-        public override bool CheckSwitchStates() 
+        public override bool CheckSwitchStates()
         {
+            /*
             if (Ctx.IsHoldingDown)
             {
                 if (Ctx.IsMoving)
                     return SwitchState(Factory.Crawl(CurrentSuperState));
                 return SwitchState(Factory.Crouch(CurrentSuperState));
-            }
+            }*/
             if (!Ctx.IsMoving)
                 return SwitchState(Factory.Idle(CurrentSuperState));
-            else if (Ctx.IsMoving && Ctx.IsRunning)
-                return SwitchState(Factory.Run(CurrentSuperState));
+            else if (Ctx.IsMoving && !Ctx.IsRunning)
+                return SwitchState(Factory.Walk(CurrentSuperState)); 
             return false;
         } 
     }

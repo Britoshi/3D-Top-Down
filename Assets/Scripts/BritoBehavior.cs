@@ -7,21 +7,8 @@ namespace Game
     public class BritoBehavior : MonoBehaviour
     {
 
-        public static void Log(string message)
-        {
-            //Debug.Log(message);
-			Debug.Log(message);
-        }
-        public static void print(params object[] messages)
-        {
-            string output = "";
-            foreach (object message in messages)
-            {
-                output += message != null ? message.ToString() : "NULL";
-                output += " ";
-            }
-            Log(output);
-        }
+        public static void Log(string message) => BritoObject.Log(message);
+        public static void print(params object[] messages) => BritoObject.print(messages);
     }
 }
 #pragma warning restore IDE1006 // Naming Styles
