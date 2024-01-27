@@ -4,8 +4,8 @@
     {
         public virtual string GetAnimationName() => "Airborne"; 
 
-        public EntityAirborneSubState(StateMachine currentContext, StateFactory playerStateFactory) :
-            base(currentContext, playerStateFactory)
+        public EntityAirborneSubState(StateMachine currentContext, StateFactory playerStateFactory, BaseState superState) :
+            base(currentContext, playerStateFactory, superState)
         {
 
         } 

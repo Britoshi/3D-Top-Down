@@ -34,10 +34,12 @@ namespace Game
         }
         public override bool CheckSwitchStates()
         {
+            /*
             if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHold)
                 return SwitchState(Factory.AirborneDescend());
             else if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHoldFromAscent)
                 return SwitchState(Factory.AirborneApex());
+            return false;*/
             return false;
         }
 

@@ -21,14 +21,14 @@ namespace Game
         public bool IsGrounded => throw new NotImplementedException();
         public bool IsMoving { get; set; }
         public bool IsRunning { get; set; }
-        public int VelocityDir => (int)Mathf.Sign(Player.rb.velocity.x);
-        public float CurrentSpeed => Mathf.Abs(Player.rb.velocity.x);
+        public int VelocityDir;
+        public float CurrentSpeed;
 
 
         public float SprintMovementMultiplier => 1.5f;
         //public float AdditionalMovement => 1f + sprinting * (MovementMultiplier - 1f);
 
-        public float MaximumMovementSpeed => Player.Stats[StatID.MOVEMENT_SPEED].GetValue();
+        public float MaximumMovementSpeed;// Player.Stats[StatID.MOVEMENT_SPEED].GetValue();
         public float MovementSpeedGainSensitivty => 15f;
         public float MovementForceGravity => 25f;
         public float MovementOppositeForceGravity => 30f;
@@ -87,21 +87,21 @@ namespace Game
         [field: SerializeField] public Vector2 WallJumpVelocity { get; set; } 
 
 
-        public Rigidbody rb => Player.rb;
+        public Rigidbody rb;//=> Player.rb;
         public Animator animator;
         internal SpriteRenderer spriteRenderer;
 
         public void SetVelocityX(float value)
         {
-            if (AdditionalVelocity.x != 0)
-                Player.rb.velocity = new Vector2(AdditionalVelocity.x, Player.rb.velocity.y);
-            else
-                Player.rb.velocity = new Vector2(value, Player.rb.velocity.y);
+            //if (AdditionalVelocity.x != 0)
+            //    Player.rb.velocity = new Vector2(AdditionalVelocity.x, Player.rb.velocity.y);
+            //else
+            //    Player.rb.velocity = new Vector2(value, Player.rb.velocity.y);
         }
 
         public void SetVelocityY(float value)
         {
-            Player.rb.velocity = new Vector2(Player.rb.velocity.x, value);
+            //Player.rb.velocity = new Vector2(Player.rb.velocity.x, value);
         }
 
         public PlayerBaseState CurrentState { get => _currentState; internal set => _currentState = value; }
@@ -182,7 +182,7 @@ namespace Game
 
         internal void HandleJump()
         {
-            var yVelocity = Player.rb.velocity.y;
+            var yVelocity = 0;// = Player.rb.velocity.y;
             if (JumpButtonUp)
             {
 

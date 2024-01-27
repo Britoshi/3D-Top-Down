@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game
 {
 	[Serializable]
-	[CreateAssetMenu(fileName = "New Default Status", menuName = "ScriptableObjects/New Default Status")] 
+	[CreateAssetMenu(fileName = "New Default Status", menuName = "Scriptable Objects/New Default Status")] 
 	public class StatusBuilder : ScriptableObject
     { 
         public uint Level = 1, MaxHP = 100;  
@@ -15,7 +15,7 @@ namespace Game
 		public uint Offense;
 		public uint Defense;
 		public uint Mobility;
-        public float MovementSpeed = 5f;
+        public float MovementSpeed = 3.5f;
         public float JumpForce = 2f;
         public float AttackSpeed = .8f; 
 		public float AttackRange = 5f;

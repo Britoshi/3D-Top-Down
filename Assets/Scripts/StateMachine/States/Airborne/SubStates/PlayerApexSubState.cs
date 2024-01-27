@@ -28,12 +28,12 @@
         }
         public override bool CheckSwitchStates()
         { 
-            if (Ctx.Player.rb.velocity.y > 0 &&
-                Ctx.Player.rb.velocity.y > Ctx.AirborneApexThreshHoldFromAscent) 
-                return SwitchState(Factory.AirborneAscend());
+            //if (Ctx.Player.rb.velocity.y > 0 &&
+            //    Ctx.Player.rb.velocity.y > Ctx.AirborneApexThreshHoldFromAscent) 
+            //    return SwitchState(Factory.AirborneAscend());
 
-            else if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHold)
-                return SwitchState(Factory.AirborneDescend()); 
+            //else if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHold)
+            //    return SwitchState(Factory.AirborneDescend()); 
             return false;
         }
 

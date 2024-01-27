@@ -24,6 +24,12 @@ namespace Game.StateMachine
         public abstract BaseState Run(BaseState superState);
         public abstract BaseState Airborne(BaseState superState);
 
+        public abstract RootState Jump();// => new PlayerJumpState(_context, this);
+        public abstract BaseState AirborneAscend();// => new PlayerAscendingSubState(_context, this);
+        public abstract BaseState AirborneApex();// => new PlayerApexSubState(_context, this);
+        public abstract BaseState AirborneDescend();// => new PlayerDescendingSubState(_context, this);
+
+
         /*
         public PlayerBaseState Idle(PlayerBaseState superState, bool standAlone = false) => new PlayerIdleState(_context, this, superState, standAlone);
         public PlayerBaseState Walk(PlayerBaseState superState) => new PlayerWalkState(_context, this, superState);

@@ -16,6 +16,26 @@ namespace Game.StateMachine
         protected BaseState CurrentSuperState => _currentSuperState;
         protected BaseState CurrentSubState => _currentSubState;
 
+        public BaseState GetRootState()
+        { 
+            var curr = this;
+            print("I am potato.", this.GetType());
+            while (curr != null)
+            {
+                print("I am potato.", this.GetType());
+                if(curr.IsRootState)
+                {
+                    return curr;
+                }
+                if (curr.CurrentSuperState == null) 
+                    throw new System.Exception("How are you not root and dont have a super?");
+
+                curr = curr.CurrentSuperState;
+            }
+            
+            throw new System.Exception("There was no rootstate???");
+        }
+
         public BaseState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState = null)
         {
             _ctx = currentContext;
@@ -40,6 +60,15 @@ namespace Game.StateMachine
         }
         public abstract bool CheckSwitchStates();
         public abstract void InitializeSubState();
+
+        /// <summary>
+        /// This should be only used outside state.
+        /// </summary>
+        /// <param name="newState"></param>
+        public void TriggerState(BaseState newState)
+        {
+            SwitchState(newState);
+        }
 
         protected bool SwitchState(BaseState newState)
         {

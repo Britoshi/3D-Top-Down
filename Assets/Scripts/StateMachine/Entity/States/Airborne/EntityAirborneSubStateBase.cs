@@ -8,20 +8,21 @@ namespace Game.StateMachine
 {
     public abstract class EntityAirborneSubStateBase : BaseState
     {
-        protected EntityAirborneSubStateBase(StateMachine currentContext, StateFactory entityStateFactory) : 
-            base(currentContext, entityStateFactory)
+        protected EntityAirborneSubStateBase(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState) : 
+            base(currentContext, entityStateFactory, superState)
         {
             InitializeSubState();
         }
 
         public override void InitializeSubState()
         { 
+            /*
             if (!Ctx.IsMoving && !Ctx.IsRunning)
                 SetSubState(Factory.Idle(this));
             else if (Ctx.IsMoving && !Ctx.IsRunning)
                 SetSubState(Factory.Walk(this));
             else
-                SetSubState(Factory.Run(this));
+                SetSubState(Factory.Run(this));*/
         }
     }
 }

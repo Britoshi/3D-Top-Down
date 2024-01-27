@@ -1,5 +1,6 @@
 using Game;
 using Game.Abilities;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 
@@ -32,14 +33,31 @@ namespace Game.StateMachine.Player
             new GroundedState(context, this); 
 
         public override BaseState Idle(BaseState superState) =>
-            new EntityIdleSubState(context, this, superState);
+            new PIdleSubState(context, this, superState);
 
         public override BaseState Run(BaseState superState) =>
-            new EntityRunSubState(context, this, superState);
+            new PRunSubState(context, this, superState);
 
         public override BaseState Walk(BaseState superState) =>
-            new EntityWalkSubState(context, this, superState);
+            new PWalkSubState(context, this, superState);
         public override BaseState Airborne(BaseState superState) =>
-            new EntityWalkSubState(context, this, superState);
+            new PAirborneSubState(context, this, superState);
+
+        public override RootState Jump() => new PJumpState(context, this);
+
+        public override BaseState AirborneAscend()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override BaseState AirborneApex()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override BaseState AirborneDescend()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

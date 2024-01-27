@@ -19,7 +19,7 @@ namespace Game
         /// This should only be called from OnTick Functions
         /// </summary>
         public static double TrueDeltaTime => Instance.time - Instance.lastTickTime;
-        public void Start()
+        public void Awake()
         {
             Instance = this;
             time = 0;

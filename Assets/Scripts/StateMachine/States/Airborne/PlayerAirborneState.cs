@@ -56,12 +56,12 @@ namespace Game
 
         public override void InitializeSubState()
         { 
-            if(Ctx.Player.rb.velocity.y > 0) 
-                SetSubState(Factory.AirborneAscend());
-            else if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHold)
-                SetSubState(Factory.AirborneDescend());
-            else if (Ctx.Player.rb.velocity.y > Ctx.AirborneApexThreshHold)
-                SetSubState(Factory.AirborneApex()); 
+            //if(Ctx.Player.rb.velocity.y > 0) 
+            //    SetSubState(Factory.AirborneAscend());
+            //else if (Ctx.Player.rb.velocity.y < Ctx.AirborneApexThreshHold)
+            //    SetSubState(Factory.AirborneDescend());
+            //else if (Ctx.Player.rb.velocity.y > Ctx.AirborneApexThreshHold)
+            //    SetSubState(Factory.AirborneApex()); 
         }
 
         public void HandleHorizontalPhysics()

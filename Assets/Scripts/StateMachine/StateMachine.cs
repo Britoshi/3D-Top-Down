@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game.StateMachine
 {
@@ -20,7 +21,11 @@ namespace Game.StateMachine
 
         //Dir
         public int RawInputDir { set; get; }
-        public int RawVerticalInput { set; get; } 
+        public int RawVerticalInput { set; get; }
+        [field: SerializeField]
+        public Transform ForwardDirection { set; get; }
+        [field: SerializeField]
+        public GameObject Model { set; get; }
 
         protected BaseState _currentState;
 
@@ -33,8 +38,7 @@ namespace Game.StateMachine
         public BaseState currentState { get => _currentState; internal set => _currentState = value; }
 
         public string CurrentAnimation { get; internal set; }
-        public string LastAnimationChangeAttempt { get; internal set; }
-
+        public string LastAnimationChangeAttempt { get; internal set; } 
         public void SwitchCurrentState(RootState newState)
         {
             _currentState?.ExitState();
@@ -73,10 +77,18 @@ namespace Game.StateMachine
             OnFixedUpdate();
         }
 
-        internal bool CanJump() => _jumpGracePeriod > 0; 
+        internal virtual bool CanJump()
+        {
+            //if (_jumpGracePeriod > 0) return false;
+            if (!IsGrounded) return false;
+            else if (currentState.GetType().IsSubclassOf(typeof(EntityGroundedSubStateBase))) return false;
+            //if (currentState is not EntityGroundedSubStateBase) return false;
+            else if (currentState is EntityJumpState) return false;
+            return true;
+        }
         internal void PurgeJumpGracePeriod() => _jumpGracePeriod = 0;
 
-        public string UpdateDebugText()
+        public void UpdateDebugText()
         {
             var output = "Current Animation: " + CurrentAnimation + '\n';
             output += "Last Animation Change Attempt: " + LastAnimationChangeAttempt + '\n';
@@ -84,8 +96,8 @@ namespace Game.StateMachine
             output += currentState.ToString();
 
             output += $"\n IsMoving: {IsMoving}";
-            output += $"\n IsRunning: {IsRunning}"; 
-            return output;
+            output += $"\n IsRunning: {IsRunning}";
+            DebugText.Log(output);
         } 
 
         public virtual void ResetAnimation()
@@ -93,10 +105,25 @@ namespace Game.StateMachine
             SwitchCurrentState(Factory.Default());
         }
 
-        internal void AirborneBehavior()
+        internal virtual void AirborneBehavior()
         {
-            print("implement this");
+            
             //throw new NotImplementedException();
+        }
+
+        internal virtual void ApplyJumpForce()
+        {
+            float jumpVelocity = Mathf.Sqrt(2f * Physics.gravity.magnitude * entity.status.JumpForce);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpVelocity, rigidbody.velocity.z);
+        }
+
+        internal virtual void TriggerJump()
+        {
+            if (CanJump())
+            {
+                currentState.GetRootState().TriggerState(Factory.Jump());
+            }
+            print("nay. you may not jump");
         }
     }
 }

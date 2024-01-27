@@ -10,5 +10,13 @@ namespace Game.StateMachine.Player
         {
             context = currentContext;
         }
+
+        public override bool UpdateState()
+        {
+            base.UpdateState();
+            if (CheckSwitchStates()) return false;
+            Ctx.AirborneBehavior();
+            return true;
+        }
     }
 }
