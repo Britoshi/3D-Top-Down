@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
-using static Game.Abilities.AbilityEvent;
+using UnityEngine; 
 
 namespace Game.Abilities
-{
-    public enum CooldownOn
-    {
-        START, END, CUSTOM
-    }
-
+{ 
     public delegate void ApplyTargetEntity(Entity target);
     public delegate void VoidFunction();
+    public delegate void AbilityFunction();
+
     public struct AbilityEvent : IComparable
     {
-        public delegate void AbilityFunction();
         public float time;
         public AbilityFunction abilityEvent;
 

@@ -7,8 +7,9 @@ namespace Game
 	[CreateAssetMenu(fileName = "New Default Status", menuName = "Scriptable Objects/New Default Status")] 
 	public class StatusBuilder : ScriptableObject
     { 
-        public uint Level = 1, MaxHP = 100;  
-		public uint HP = 100; 
+        public uint Level = 1, 
+			MaxHP = 100, MaxMP = 100, MaxSP = 100;  
+		public uint HP = 100, MP = 100, SP = 100; 
 		public int Money; 
 		public uint Speed;
 		public uint Range;

@@ -29,7 +29,8 @@ namespace Game.StateMachine
         public abstract BaseState AirborneApex();// => new PlayerApexSubState(_context, this);
         public abstract BaseState AirborneDescend();// => new PlayerDescendingSubState(_context, this);
 
-
+        public virtual EntityAbilityState Ability(NAbility ability) =>
+            new(ability, _context, this);
         /*
         public PlayerBaseState Idle(PlayerBaseState superState, bool standAlone = false) => new PlayerIdleState(_context, this, superState, standAlone);
         public PlayerBaseState Walk(PlayerBaseState superState) => new PlayerWalkState(_context, this, superState);

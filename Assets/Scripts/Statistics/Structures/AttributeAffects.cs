@@ -13,7 +13,7 @@ namespace Game
     {
         NONE,
         LEVEL,
-        MAX_HP,
+        MAX_HP, MAX_MP, MAX_SP,
         SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
         MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED,
@@ -29,14 +29,14 @@ namespace Game
         LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION,
 
         //From here is just Resources
-        HP, Money, 
+        HP, MP, SP, Money, 
     }
 
     public enum AttributeID
     {
         NONE = 0,
         LEVEL = 1,
-        MAX_HP,
+        MAX_HP, MAX_MP,  MAX_SP,
         SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
         MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED, 
@@ -53,7 +53,9 @@ namespace Game
     public enum ResourceID
     {
         NONE = 0,
-        HP = 26,
+        HP = 28,
+        MP,
+        SP,  
         MONEY,
     }
 

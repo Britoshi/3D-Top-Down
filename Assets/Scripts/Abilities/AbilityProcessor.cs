@@ -1,18 +1,20 @@
 using Game;
-using UnityEngine;
+using UnityEngine; 
 
 public class AbilityProcessor : StateMachineBehaviour
-{   
+{
+    Entity entity;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        AbilityController.ActivateOnStart(animator, stateInfo, layerIndex); 
+        if(entity == null) entity = animator.GetComponent<Entity>();
+        entity.abilityController.AbilityProcessorStart(animator, stateInfo, layerIndex);
     } 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        AbilityController.ActivateOnUpdate(animator, stateInfo, layerIndex);
+    { 
+        entity.abilityController.AbilityProcessorUpdate(animator, stateInfo, layerIndex);
     } 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {     
-        AbilityController.ActivateOnExit(animator, stateInfo, layerIndex); 
+    {
+        entity.abilityController.AbilityProcessorEnd(animator, stateInfo, layerIndex);
     } 
 }

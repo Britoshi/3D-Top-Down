@@ -21,7 +21,7 @@ namespace Game
 
         #region Status Layout  
         [HideInInspector]
-        public IntegerAttribute Level, MaxHP;
+        public IntegerAttribute Level, MaxHP, MaxMP, MaxSP;
         //Root Attributes
         [HideInInspector]
         public IntegerAttribute Speed, Range, Offense, Defense;
@@ -54,7 +54,7 @@ namespace Game
         public FloatAttribute LifeSteal, DamageOutputModifier, HealingModifier;
         [HideInInspector]
 
-        public CappedResource HP;
+        public CappedResource HP, MP, SP;
         [HideInInspector]
         public SignedResource Money;
         [HideInInspector]
@@ -90,6 +90,8 @@ namespace Game
 
             Level = new(builder.Level);
             MaxHP = new(builder.MaxHP);
+            MaxMP = new(builder.MaxMP);
+            MaxSP = new(builder.MaxSP);
             Speed = new(builder.Speed);
             Range = new(builder.Range);
             Offense = new(builder.Offense);
@@ -120,16 +122,18 @@ namespace Game
             HealingModifier = new(builder.HealingModifier);
 
             HP = new(builder.HP, MaxHP);
+            MP = new(builder.MP, MaxMP);
+            SP = new(builder.SP, MaxSP);
             Money = new(builder.Money);
 
             CooldownReduction = new(builder.CooldownReduction);
 
-            _stat_array = new Stat[27]
+            _stat_array = new Stat[31]
             {
-                Level, MaxHP, Speed, Range, Offense, Defense, Mobility, MovementSpeed, JumpForce, AttackSpeed, AttackRange,
+                Level, MaxHP, MaxMP, MaxSP, Speed, Range, Offense, Defense, Mobility, MovementSpeed, JumpForce, AttackSpeed, AttackRange,
                 AttackDamage, AbilityPower, FlatArmorPenetration,FlatMagicPenetration, ArmorPenetration,
                 MagicPenetration ,Armor, MagicResistance, HPRegen, Tenacity, LifeSteal, DamageOutputModifier,
-                HealingModifier, CooldownReduction, HP, Money,
+                HealingModifier, CooldownReduction, HP, MP, SP, Money,
             };
 
             onKilled += OnDeathEssential;

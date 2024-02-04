@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Game
+namespace Game.Abilities
 {
     public class Cooldown
     {

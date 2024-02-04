@@ -1,3 +1,4 @@
+using Game.Abilities;
 using UnityEngine; 
 
 namespace Game
@@ -9,6 +10,7 @@ namespace Game
         public Status status;
         public Inventory inventory;
         public StateMachine.StateMachine stateMachine;
+        public EntityAbilityController abilityController;
         public new Rigidbody rigidbody; 
 
         public void Awake()
@@ -29,6 +31,9 @@ namespace Game
 
             stateMachine ??= GetComponent<StateMachine.StateMachine>();
             stateMachine.Initialize(this);
+
+            abilityController ??= GetComponent<EntityAbilityController>();
+            abilityController.Initialize(this);
         }
     }
 }
