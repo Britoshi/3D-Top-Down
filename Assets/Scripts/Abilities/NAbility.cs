@@ -29,6 +29,7 @@ namespace Game.Abilities
         protected bool MovementOverride;
 
         public bool currentlyCasting;
+
         protected bool busy;
         protected float animationProgress;
 
@@ -80,9 +81,35 @@ namespace Game.Abilities
         } 
 
         void SetStateMachine() =>
-            Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this)); 
+            Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this));
 
-        public void OnCast()
+        #region Animation Functions #Only put animation related function.
+        public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
+        }
+        public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
+        }
+        public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
+        }
+        #endregion
+
+        /// <summary>
+        /// Called before the animation starts.
+        /// </summary>
+        public void OnAbilityCast()
+        {
+            currentlyCasting = true;
+        }
+        public void OnAbilityUpdate()
+        {
+
+        }
+        public void OnAbilityEnd()
         {
 
         }

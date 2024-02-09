@@ -14,7 +14,7 @@ namespace Game.StateMachine
 
         public override void EnterState()
         {
-            ability.OnCast();
+            ability.OnAbilityCast();
             InitializeSubState();
             ChangeAnimation(ability.AnimationName);
         }

@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: 437033476}
   - component: {fileID: 437033474}
   - component: {fileID: 437033475}
+  - component: {fileID: 437033477}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -670,6 +671,10 @@ MonoBehaviour:
   Level:
     inheritBaseValue: 0
   MaxHP:
+    inheritBaseValue: 0
+  MaxMP:
+    inheritBaseValue: 0
+  MaxSP:
     inheritBaseValue: 0
   Speed:
     inheritBaseValue: 0
@@ -716,6 +721,14 @@ MonoBehaviour:
   HealingModifier:
     inheritBaseValue: 0
   HP:
+    _value: 0
+    Maximum:
+      inheritBaseValue: 0
+  MP:
+    _value: 0
+    Maximum:
+      inheritBaseValue: 0
+  SP:
     _value: 0
     Maximum:
       inheritBaseValue: 0
@@ -841,7 +854,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 437033467}
   stateMachine: {fileID: 437033474}
+  abilityController: {fileID: 0}
   rigidbody: {fileID: 437033468}
+--- !u!114 &437033477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437033465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26741dbc91c53d74a953d247ad194e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 437033476}
 --- !u!1 &689912601
 GameObject:
   m_ObjectHideFlags: 0
