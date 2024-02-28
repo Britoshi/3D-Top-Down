@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,13 @@ namespace Game.Abilities
     [RequireComponent(typeof(Entity))]
     public class EntityAbilityController : BritoBehavior
     {
+        public Animator animator;
+
         public Entity entity;
-        public List<NAbility> activeAbilities, passiveAbilities;
+        public List<NAbility> 
+            activeAbilities, 
+            passiveAbilities;
+
         public NAbility currentAbility;
 
         public bool IsUsingAbility => currentAbility != null;
@@ -15,21 +21,31 @@ namespace Game.Abilities
         public void Initialize(Entity self)
         {
             entity = self;
-
+            animator = GetComponent<Animator>();   
 
         }
 
-        public void AbilityProcessorStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public void Update()
+        {
+            currentAbility?.OnAbilityUpdate();
+        }
+
+        public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             currentAbility.OnAnimationStart(animator, stateInfo, layerIndex);
         }
-        public void AbilityProcessorUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             currentAbility.OnAnimationUpdate(animator, stateInfo, layerIndex);
         }
-        public void AbilityProcessorEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             currentAbility.OnAnimationEnd(animator, stateInfo, layerIndex);
+        }
+
+        public void CancelAbility()
+        {
+            throw new NotImplementedException();
         }
     }
 }

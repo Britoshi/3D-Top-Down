@@ -28,13 +28,11 @@ namespace Game.Abilities
 
         protected bool MovementOverride;
 
-        public bool currentlyCasting;
+        private bool currentlyCasting;
+        public bool IsCasting => currentlyCasting;
 
         protected bool busy;
-        protected float animationProgress;
-
-        //private List<TimedEvent> _abilityEvents;
-        // private List<TimedEvent> _liveEvents;
+        protected float animationProgress;  
 
         public bool canCastMidAir;
 
@@ -50,7 +48,7 @@ namespace Game.Abilities
             ApplyCooldownOn = cdOn;
 
             //Cost = cost != null ? cost : AbilityResourceCost.None;
-            this.cooldown = cooldown != null ? cooldown : Cooldown.Create(0);
+            this.cooldown = cooldown ?? Cooldown.Create(0);
 
             currentlyCasting = false;
             MovementOverride = false;
@@ -86,15 +84,17 @@ namespace Game.Abilities
         #region Animation Functions #Only put animation related function.
         public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            animationProgress = 0;
+            if (ApplyCooldownOn == CooldownOn.START) cooldown.ApplyCooldown();
         }
         public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            animationProgress = stateInfo.normalizedTime % 1;
         }
         public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            animationProgress = -1;
+            if (ApplyCooldownOn == CooldownOn.END) cooldown.ApplyCooldown();
         }
         #endregion
 
@@ -105,13 +105,16 @@ namespace Game.Abilities
         {
             currentlyCasting = true;
         }
+
         public void OnAbilityUpdate()
         {
+            cooldown.GlobalUpdate();
 
         }
+
         public void OnAbilityEnd()
         {
-
+            currentlyCasting = false;
         }
     }
     

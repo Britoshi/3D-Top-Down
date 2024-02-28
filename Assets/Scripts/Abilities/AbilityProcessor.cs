@@ -7,14 +7,14 @@ public class AbilityProcessor : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if(entity == null) entity = animator.GetComponent<Entity>();
-        entity.abilityController.AbilityProcessorStart(animator, stateInfo, layerIndex);
+        entity.abilityController.OnAnimationStart(animator, stateInfo, layerIndex);
     } 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     { 
-        entity.abilityController.AbilityProcessorUpdate(animator, stateInfo, layerIndex);
+        entity.abilityController.OnAnimationUpdate(animator, stateInfo, layerIndex);
     } 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        entity.abilityController.AbilityProcessorEnd(animator, stateInfo, layerIndex);
+        entity.abilityController.OnAnimationEnd(animator, stateInfo, layerIndex);
     } 
 }
