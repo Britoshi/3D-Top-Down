@@ -2,8 +2,8 @@ namespace Game.StateMachine
 {
     public class EntityIdleSubState : EntityGroundedSubStateBase, IHasAnimation
     {
-        public virtual string GetAnimationName() => standAlone ? null : "Idle";
-
+        public virtual string GetAnimationName() => standAlone ? null : "Idle"; 
+        public override BasicStateIndex GetBasicStateIndex() => BasicStateIndex.IDLE;
         /// <summary>
         /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
         /// It seems useless right now.

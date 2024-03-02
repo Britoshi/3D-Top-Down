@@ -10,7 +10,7 @@ namespace Game.StateMachine
 {
     public class EntityRunSubState : EntityGroundedSubStateBase, IHasAnimation
     {
-        public virtual string GetAnimationName() => "run";
+        public virtual string GetAnimationName() => "Run";
         //protected override float MaxSpeed => Ctx.MaximumMovementSpeed * Ctx.SprintMovementMultiplier;
         public EntityRunSubState(StateMachine currentContext, StateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)

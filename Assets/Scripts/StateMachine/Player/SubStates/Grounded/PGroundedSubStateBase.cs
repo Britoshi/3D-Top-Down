@@ -38,7 +38,7 @@ namespace Game.StateMachine.Player
             //HMMMMM
             if (!CurrentSuperState.GetType().IsSubclassOf(typeof(EntityAirborneSubStateBase)))
             {
-                print("this is interesting.");
+                //print("this is interesting.");
                 //Debug.Log("Supposedly this ran" + CurrentSuperState.GetType());
                 base.ChangeAnimation(name);
                 return;

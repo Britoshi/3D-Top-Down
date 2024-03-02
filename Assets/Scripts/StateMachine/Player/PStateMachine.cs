@@ -71,32 +71,36 @@ namespace Game.StateMachine.Player
         }
         void RotateTowardsInputDirection()
         {
+            
             //var angle = Quaternion.EulerAngles(inputVector2);
             Quaternion targetRotation = Quaternion.LookRotation(inputVector3);
-            ForwardDirection.rotation = Quaternion.RotateTowards(ForwardDirection.rotation, targetRotation, 360f * Time.deltaTime);
+            ForwardDirection.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime);
             Model.transform.rotation = ForwardDirection.rotation;
         }
 
         float Approach(float from, float to, float rate)
         {
-            if (from == to) return to; 
-            else if (from > to)
-            {
-                if (from - to <= rate) return to;
-                return from - rate;
-            }
-            else
-            {
-                if (to - from <= rate) return to;
-                return from + rate;
-            }
+            if (Mathf.Abs(to - from) <= rate)
+                return to;
+
+            return from + Mathf.Sign(to - from) * rate;
         }
         Vector3 Approach(Vector3 from, Vector3 to, float rate)
         {
-            float x = Approach(from.x, to.x, rate);
-            float y = Approach(from.y, to.y, rate);
-            float z = Approach(from.z, to.z, rate);
-            return new Vector3(x, y, z);
+            float deltaX = to.x - from.x;
+            float deltaY = to.y - from.y;
+            float deltaZ = to.z - from.z;
+
+            float magnitude = Mathf.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            if (magnitude <= rate)
+                return to;
+
+            float factor = rate / magnitude;
+            float newX = from.x + deltaX * factor;
+            float newY = from.y + deltaY * factor;
+            float newZ = from.z + deltaZ * factor;
+
+            return new Vector3(newX, newY, newZ);
         }
 
         [SerializeField]
@@ -115,7 +119,7 @@ namespace Game.StateMachine.Player
         {
             DeRawInput();
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue() * 1.5f;
+            var speed = player.status.MovementSpeed.GetValue() * 1.75f;
             rigidbody.velocity = ForwardDirection.forward * speed;
         }
         internal void HandleWalkMovement()

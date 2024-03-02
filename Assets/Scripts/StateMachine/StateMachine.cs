@@ -32,7 +32,7 @@ namespace Game.StateMachine
         public StateFactory Factory { protected set; get; }   
         public new Rigidbody rigidbody => entity.rigidbody;
         
-        public Animator animator;
+        private Animator animator;
         private int _jumpGracePeriod;
 
         public BaseState currentState { get => _currentState; internal set => _currentState = value; }
@@ -50,7 +50,8 @@ namespace Game.StateMachine
         public void Initialize(Entity owner)
         {
             entity = owner;
-            AssignFactory(); 
+            AssignFactory();
+            animator = entity.animator;
         }
 
         /// <summary>
@@ -125,5 +126,7 @@ namespace Game.StateMachine
             }
             print("nay. you may not jump");
         }
+
+        internal Animator GetAnimator() => animator;
     }
 }

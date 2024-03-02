@@ -2,7 +2,7 @@
 {
     public class PWalkSubState : PGroundedSubStateBase, IHasAnimation
     {
-        public virtual string GetAnimationName() => "walk";
+        public virtual string GetAnimationName() => "Walk";
         public PWalkSubState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {

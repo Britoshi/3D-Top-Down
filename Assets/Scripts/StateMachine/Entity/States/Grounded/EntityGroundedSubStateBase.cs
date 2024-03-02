@@ -10,6 +10,8 @@ namespace Game.StateMachine
         //protected float CurrentSpeed => Ctx.CurrentSpeed;
         //protected virtual float MaxSpeed => Ctx.MaximumMovementSpeed;
 
+        public override BasicStateIndex GetBasicStateIndex() => BasicStateIndex.MOVEMENT;
+
         protected EntityGroundedSubStateBase(StateMachine currentContext, StateFactory entityStateFactory, 
             BaseState superState) : base(currentContext, entityStateFactory, superState)
         {
@@ -30,10 +32,10 @@ namespace Game.StateMachine
             if (CurrentSuperState == null) return;
 
             //Debug.Log("This is ran from " + GetType());
-            //HMMMMM
+            //HMMMMM  this is for airborne?
             if (!CurrentSuperState.GetType().IsSubclassOf(typeof(EntityAirborneSubStateBase)))
             {
-                print("this is interesting.");
+                //print("this is interesting.");
                 //Debug.Log("Supposedly this ran" + CurrentSuperState.GetType());
                 base.ChangeAnimation(name);
                 return;

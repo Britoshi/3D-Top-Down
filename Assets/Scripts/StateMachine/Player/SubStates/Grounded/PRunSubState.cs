@@ -10,7 +10,7 @@ namespace Game.StateMachine.Player
 {
     public class PRunSubState : PGroundedSubStateBase, IHasAnimation
     {
-        public virtual string GetAnimationName() => "run";
+        public virtual string GetAnimationName() => "Run";
 
         public PRunSubState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)

@@ -11,7 +11,8 @@ namespace Game
         public Inventory inventory;
         public StateMachine.StateMachine stateMachine;
         public EntityAbilityController abilityController;
-        public new Rigidbody rigidbody; 
+        public new Rigidbody rigidbody;
+        public Animator animator;
 
         public void Awake()
         {

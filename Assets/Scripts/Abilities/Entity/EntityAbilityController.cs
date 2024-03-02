@@ -7,7 +7,7 @@ namespace Game.Abilities
     [RequireComponent(typeof(Entity))]
     public class EntityAbilityController : BritoBehavior
     {
-        public Animator animator;
+        private Animator animator;
 
         public Entity entity;
         public List<NAbility> 
@@ -21,7 +21,7 @@ namespace Game.Abilities
         public void Initialize(Entity self)
         {
             entity = self;
-            animator = GetComponent<Animator>();   
+            animator = self.animator;
 
         }
 

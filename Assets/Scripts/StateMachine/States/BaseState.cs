@@ -2,6 +2,11 @@ using UnityEngine;
 
 namespace Game.StateMachine
 {
+    public enum BasicStateIndex
+    {
+        NONE, IDLE, MOVEMENT
+    }
+
     public abstract class BaseState : BritoObject
     {
         private bool _isRootState = false;
@@ -9,6 +14,8 @@ namespace Game.StateMachine
         private StateFactory _factory;
         private BaseState _currentSuperState;
         private BaseState _currentSubState;
+
+        public virtual BasicStateIndex GetBasicStateIndex() => BasicStateIndex.NONE;
 
         protected bool IsRootState { set { _isRootState = value; } get => _isRootState; }
         protected StateMachine Ctx { get { return _ctx; } }
@@ -45,6 +52,7 @@ namespace Game.StateMachine
             _currentSuperState = superState;
 
             if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
+            if (GetBasicStateIndex() != BasicStateIndex.NONE) Ctx.GetAnimator().SetInteger("basicState", (int)GetBasicStateIndex());
         }
 
         public abstract void EnterState();
@@ -139,7 +147,7 @@ namespace Game.StateMachine
 
         protected virtual void ChangeAnimation(string name)
         {
-            Ctx.animator.Play(name);
+            Ctx.GetAnimator().Play(name);
             Ctx.CurrentAnimation = name;
         }
 
