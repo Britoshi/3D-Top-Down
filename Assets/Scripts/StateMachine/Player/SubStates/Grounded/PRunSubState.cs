@@ -11,7 +11,6 @@ namespace Game.StateMachine.Player
     public class PRunSubState : PGroundedSubStateBase, IHasAnimation
     {
         public virtual string GetAnimationName() => "Run";
-
         public PRunSubState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
@@ -41,7 +40,7 @@ namespace Game.StateMachine.Player
             }*/
             if (!Ctx.IsMoving)
                 return SwitchState(Factory.Idle(CurrentSuperState));
-            else if (Ctx.IsMoving && !Ctx.IsRunning)
+            else if (!Ctx.IsRunning)
                 return SwitchState(Factory.Walk(CurrentSuperState)); 
             return false;
         }

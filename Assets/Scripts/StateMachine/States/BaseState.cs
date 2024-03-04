@@ -2,9 +2,11 @@ using UnityEngine;
 
 namespace Game.StateMachine
 {
-    public enum BasicStateIndex
+    public enum AnimationParameter
     {
-        NONE, IDLE, MOVEMENT
+        NONE, IDLE, MOVEMENT,
+        WALK = 10,
+        RUN = 11,
     }
 
     public abstract class BaseState : BritoObject
@@ -15,13 +17,16 @@ namespace Game.StateMachine
         private BaseState _currentSuperState;
         private BaseState _currentSubState;
 
-        public virtual BasicStateIndex GetBasicStateIndex() => BasicStateIndex.NONE;
+        public virtual AnimationParameter GetAnimationParameter() => AnimationParameter.NONE;
 
         protected bool IsRootState { set { _isRootState = value; } get => _isRootState; }
         protected StateMachine Ctx { get { return _ctx; } }
         protected StateFactory Factory { get { return _factory; } }
         protected BaseState CurrentSuperState => _currentSuperState;
         protected BaseState CurrentSubState => _currentSubState;
+
+        protected bool _isRootMotion;
+        public bool GetIsRootMotion() => _isRootMotion;
 
         public BaseState GetRootState()
         { 
@@ -48,11 +53,17 @@ namespace Game.StateMachine
             _ctx = currentContext;
             _factory = entityStateFactory;
 
+            _isRootMotion = false;
             _currentSubState = null;
-            _currentSuperState = superState;
+            _currentSuperState = superState; 
 
-            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
-            if (GetBasicStateIndex() != BasicStateIndex.NONE) Ctx.GetAnimator().SetInteger("basicState", (int)GetBasicStateIndex());
+            if (GetAnimationParameter() != AnimationParameter.NONE) Ctx.GetAnimator().SetInteger("basicState", (int)GetAnimationParameter());
+
+            if (GetAnimationParameter() != AnimationParameter.IDLE)
+            {
+                if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
+            }
+                
         }
 
         public abstract void EnterState();
@@ -147,19 +158,10 @@ namespace Game.StateMachine
 
         protected virtual void ChangeAnimation(string name)
         {
-            Ctx.GetAnimator().Play(name);
+            //_ctx.GetAnimator().applyRootMotion = true;
+            Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f);
             Ctx.CurrentAnimation = name;
         }
 
-        protected void ConfirmAnimationChange(string name)
-        {
-            if (Ctx.CurrentAnimation != name)
-            {
-                Debug.Log("The animation did not match what it is suppsoed to! Switching from: \n" + Ctx.CurrentAnimation + " to " + name);
-
-                Ctx.CurrentAnimation = name;
-                ChangeAnimation(name);
-            }
-        }
     }
 }

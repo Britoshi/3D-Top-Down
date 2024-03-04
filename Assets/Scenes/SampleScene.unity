@@ -796,6 +796,7 @@ MonoBehaviour:
   groundedController: {fileID: 437033475}
   <ForwardDirection>k__BackingField: {fileID: 1299147440}
   <Model>k__BackingField: {fileID: 1026970857}
+  rb: {fileID: 0}
   inputVector2: {x: 0, y: 0}
   inputVector3: {x: 0, y: 0, z: 0}
   sprintHold: 0
@@ -818,6 +819,7 @@ MonoBehaviour:
     m_Bits: 1
   isGrounded: 0
   center: {fileID: 437033472}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &437033476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,8 +1936,8 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: b478a3731788aa1408005b2c2cae31a5, type: 3}
   m_Controller: {fileID: 9100000, guid: b014294c2e649d84a851eb1ffbd193e9, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -4153,7 +4155,7 @@ GameObject:
   - component: {fileID: 6459251392903166900}
   - component: {fileID: 6459251392903166899}
   - component: {fileID: 6459251392903166898}
-  - component: {fileID: 6459251392903166897}
+  - component: {fileID: 6459251392903166904}
   m_Layer: 10
   m_Name: Player Entity
   m_TagString: Player
@@ -4668,33 +4670,6 @@ Transform:
   - {fileID: 711874597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &6459251392903166897
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5974040607272788234}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &6459251392903166898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4707,12 +4682,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c416058eced3748911ad0b9c801cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereRadius: 0.5
+  sphereRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
   isGrounded: 0
   center: {fileID: 6459251392903166896}
+  offset: {x: 0, y: 0.12, z: 0}
 --- !u!114 &6459251392903166899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4742,6 +4718,7 @@ MonoBehaviour:
   groundedController: {fileID: 6459251392903166898}
   <ForwardDirection>k__BackingField: {fileID: 1541693810}
   <Model>k__BackingField: {fileID: 5974040607272788234}
+  rb: {fileID: 6459251392903166904}
   inputVector2: {x: 0, y: 0}
   inputVector3: {x: 0, y: 0, z: 0}
   sprintHold: 0
@@ -4761,7 +4738,7 @@ MonoBehaviour:
   status: {fileID: 6459251392903166902}
   stateMachine: {fileID: 6459251392903166900}
   abilityController: {fileID: 6459251392903166899}
-  rigidbody: {fileID: 6459251392903166897}
+  rigidbody: {fileID: 6459251392903166904}
   animator: {fileID: 1099989089921098186}
 --- !u!114 &6459251392903166902
 MonoBehaviour:
@@ -4857,6 +4834,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f8f01383a42d64a886e888a13c174b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &6459251392903166904
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5974040607272788234}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!4 &6465510970724788204
 Transform:
   m_ObjectHideFlags: 0

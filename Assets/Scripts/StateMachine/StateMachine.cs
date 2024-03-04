@@ -1,3 +1,4 @@
+using Game.Abilities;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -29,8 +30,8 @@ namespace Game.StateMachine
 
         protected BaseState _currentState;
 
-        public StateFactory Factory { protected set; get; }   
-        public new Rigidbody rigidbody => entity.rigidbody;
+        public StateFactory Factory { protected set; get; }
+        public new Rigidbody rigidbody;
         
         private Animator animator;
         private int _jumpGracePeriod;
@@ -52,6 +53,9 @@ namespace Game.StateMachine
             entity = owner;
             AssignFactory();
             animator = entity.animator;
+            rigidbody = entity.rigidbody;
+
+            
         }
 
         /// <summary>
@@ -59,6 +63,8 @@ namespace Game.StateMachine
         /// </summary>
         public abstract void AssignFactory(); 
         public abstract void OnStart();
+         
+
         public void Start()
         {
             SwitchCurrentState(Factory.Default());
@@ -70,6 +76,8 @@ namespace Game.StateMachine
         { 
             _currentState?.UpdateStates();
             OnUpdate();
+
+            
         }
 
         public abstract void OnFixedUpdate();
@@ -101,7 +109,7 @@ namespace Game.StateMachine
             DebugText.Log(output);
         } 
 
-        public virtual void ResetAnimation()
+        public virtual void ResetState()
         {
             SwitchCurrentState(Factory.Default());
         }

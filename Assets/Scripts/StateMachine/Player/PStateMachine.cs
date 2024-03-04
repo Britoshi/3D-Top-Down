@@ -30,7 +30,7 @@ namespace Game.StateMachine.Player
 
         public override void OnFixedUpdate()
         {
-
+            
         } 
 
         public override void OnStart()
@@ -55,13 +55,13 @@ namespace Game.StateMachine.Player
                 inputVector2 = vector2D;
                 inputVector3 = new Vector3(vector2D.x, 0, vector2D.y);
             };
-            controls.Player.Move.performed += ctx => IsMoving = ctx.performed;
+            controls.Player.Move.performed += ctx => IsMoving = true;
             controls.Player.Move.canceled += ctx =>
             {
-                inputVector2 = new Vector2(0, 0);
-                inputVector3 = new Vector3(0, 0, 0);
+                //inputVector2 = new Vector2(0, 0);
+                //inputVector3 = new Vector3(0, 0, 0);
+                IsMoving = false;
             };
-            controls.Player.Move.canceled += ctx => IsMoving = false;
 
             controls.Player.Sprint.performed += ctx => sprintHold = true;
             controls.Player.Sprint.canceled += ctx => sprintHold = false;
@@ -119,7 +119,7 @@ namespace Game.StateMachine.Player
         {
             DeRawInput();
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue() * 1.75f;
+            var speed = player.status.MovementSpeed.GetValue() * 2.25f;
             rigidbody.velocity = ForwardDirection.forward * speed;
         }
         internal void HandleWalkMovement()

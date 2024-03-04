@@ -5,18 +5,19 @@ namespace Game.StateMachine
     public class EntityAbilityState : RootState
     {
         protected NAbility ability;
-
+        
         public EntityAbilityState(NAbility ability, StateMachine currentContext, StateFactory entityStateFactory) :
             base(currentContext, entityStateFactory)
         {
             this.ability = ability;
+            _isRootMotion = ability.GetAnimationRootMotion();
         }
 
         public override void EnterState()
         {
             ability.OnAbilityCast();
             InitializeSubState();
-            ChangeAnimation(ability.AnimationName);
+            ChangeAnimation(ability.GetAnimationNodeName());
         }
 
         public override bool UpdateState()
@@ -33,7 +34,7 @@ namespace Game.StateMachine
 
         public override void ExitState()
         {
-
+            ability.OnAbilityEnd();
         }
         public override void InitializeSubState()
         {

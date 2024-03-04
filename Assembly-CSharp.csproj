@@ -60,7 +60,6 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.19f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EntityAnimationFunctionController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\PlayerMovementSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerDoubleJumpState.cs" />
@@ -69,16 +68,17 @@
     <Compile Include="Assets\Scripts\Statistics\Stats\Stat.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Manual.cs" />
     <Compile Include="Assets\Scripts\Buff\StatusBuff.cs" />
-    <Compile Include="Assets\Scripts\Abilities\Sets\ExampleChainAttack.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PIdleSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModule.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\PAirborneSubStateBase.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ExampleChainAttack.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\AirborneState.cs" />
     <Compile Include="Assets\Scripts\BritoObject.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\EntityAbilityController.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ShootUpAbility.cs" />
     <Compile Include="Assets\DebugText.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\CustomShadowResolution.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\IRootState.cs" />
@@ -91,8 +91,8 @@
     <Compile Include="Assets\Scripts\Entities\GroundedController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerDescendingSubState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\AttributeModifier.cs" />
-    <Compile Include="Assets\Scripts\Abilities\Sets\FireBallAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerJumpState.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Entity\TestSwordAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerRootState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityCost.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallAirborneSubState.cs" />
@@ -105,13 +105,13 @@
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneState.cs" />
     <Compile Include="Assets\Scripts\Utilities\Util.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\OnKill\OnKillAffectHandler.cs" />
-    <Compile Include="Assets\Scripts\Abilities\Sets\ShootUpAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerWalkState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityIdleSubState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerEntity.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerIdleState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\PStateMachine.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityRunSubState.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\RollAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\PStateFactory.cs" />
     <Compile Include="Assets\Scripts\Buff\TickBuff.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IPlayerState.cs" />
@@ -122,7 +122,6 @@
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityDrainCost.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Scripts\Abilities\Sets\RollAbility.cs" />
     <Compile Include="Assets\EntityMaster.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\SmoothObjectNormalHelper.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\GroundedState.cs" />
@@ -134,6 +133,7 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerAscendingSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedTriggers.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IMovementState.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Entity\TestOneHandAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IHasAnimation.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
@@ -166,6 +166,7 @@
     <Compile Include="Assets\Scripts\Buff\AdvancedStotusBuff.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerApexSubState.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\FireBallAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\RootState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\PJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallState.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\Cooldown.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Default.cs" />
+    <Compile Include="Assets\EntityAnimationFunctionController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

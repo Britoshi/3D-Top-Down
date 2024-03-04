@@ -5,7 +5,10 @@ namespace Game.StateMachine.Player
     public class PIdleSubState : PGroundedSubStateBase, IHasAnimation
     {
         public virtual string GetAnimationName() => standAlone ? null : "Idle";
-
+        public override AnimationParameter GetAnimationParameter()
+        {
+            return AnimationParameter.IDLE;
+        }
         /// <summary>
         /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
         /// It seems useless right now.

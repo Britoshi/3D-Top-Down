@@ -23,8 +23,6 @@ namespace Game.Abilities
         public Cooldown cooldown { private set; get; } 
         public virtual AbilityResourceCost Cost { set; get; }
 
-        public string AnimationName => Name;
-        [SerializeField] public string Name { private set; get; }
 
         protected bool MovementOverride;
 
@@ -36,18 +34,19 @@ namespace Game.Abilities
 
         public bool canCastMidAir;
 
-        protected CooldownOn ApplyCooldownOn { private set; get; }
+        public abstract string GetName();
+        public abstract string GetAnimationNodeName();
+        public abstract bool GetAnimationRootMotion();
+        protected abstract CooldownOn ApplyCooldownOn();
 
         public Event InvokeOnStart, InvokeOnUpdate, InvokeOnEnd;
-        public NAbility(Entity owner, string name, bool canCastMidAir,
-            CooldownOn cdOn = CooldownOn.START, Cooldown cooldown = null, AbilityCost cost = null)
+        public NAbility(Entity owner, bool canCastMidAir, Cooldown cooldown = null, AbilityResourceCost cost = null)
         {
-            Owner = owner;
-            Name = name;
+            Owner = owner; 
             this.canCastMidAir = canCastMidAir;
-            ApplyCooldownOn = cdOn;
 
             //Cost = cost != null ? cost : AbilityResourceCost.None;
+            Cost = cost ?? new NoResourceCost();
             this.cooldown = cooldown ?? Cooldown.Create(0);
 
             currentlyCasting = false;
@@ -73,8 +72,11 @@ namespace Game.Abilities
         public Result TryCast()
         {
             var check = CanCast();
-            if(check.result == ResultType.SUCCESS) 
-                SetStateMachine(); 
+            if (check.result == ResultType.SUCCESS)
+            {
+                SetStateMachine();
+                Cost?.Deduct();
+            }
             return check;
         } 
 
@@ -85,16 +87,18 @@ namespace Game.Abilities
         public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animationProgress = 0;
-            if (ApplyCooldownOn == CooldownOn.START) cooldown.ApplyCooldown();
+            if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
         }
         public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animationProgress = stateInfo.normalizedTime % 1;
+            
         }
         public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animationProgress = -1;
-            if (ApplyCooldownOn == CooldownOn.END) cooldown.ApplyCooldown();
+            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
+            Owner.stateMachine.ResetState(); 
         }
         #endregion
 
@@ -118,7 +122,26 @@ namespace Game.Abilities
         }
     }
     
+    public class NoResourceCost : AbilityResourceCost
+    {
+        public NoResourceCost() : base(null, null)
+        {
 
+        }
+
+        public override void CalculateCost()
+        {
+            return;
+        }
+        public override bool CanDeduct()
+        {
+            return true;
+        }
+        public override void Deduct()
+        {
+            return;
+        }
+    }
 
     public class AbilityResourceCost
     {
@@ -197,22 +220,22 @@ namespace Game.Abilities
         public AbilityResourceCost(Entity owner, List<ResourceCost> costs)
         {
             Owner = owner;
-            Costs = costs;
-            //foreach (var cost in Costs)
-            //    cost.Init(owner);
+            Costs = costs; 
         }
-        public void CalculateCost()
+
+
+        public virtual void CalculateCost()
         {
             Costs.ForEach(cost => cost.CalculateCost());
         }
-        public bool CanDeduct()
+        public virtual bool CanDeduct()
         {
             CalculateCost();
             foreach (var cost in Costs) 
                 if (!cost.CanDeduct()) return false; 
             return true;
         }
-        public void Deduct()
+        public virtual void Deduct()
         {
             Costs.ForEach(cost => cost.Deduct());
         }

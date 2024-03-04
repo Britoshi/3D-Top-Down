@@ -10,7 +10,7 @@
         public override void EnterState()
         {
             //ChangeAnimation("Walk"); 
-            print("if animation dont change, this is the problem. animation not changing on state entering");
+            //print("if animation dont change, this is the problem. animation not changing on state entering");
         }
         public override bool FixedUpdateState()
         {
@@ -34,7 +34,7 @@
             }*/
             if (!Ctx.IsMoving)
                 return SwitchState(Factory.Idle(CurrentSuperState));
-            else if (Ctx.IsMoving && Ctx.IsRunning)
+            else if (Ctx.IsRunning)
                 return SwitchState(Factory.Run(CurrentSuperState));
             return false;
         }

@@ -16,7 +16,7 @@ namespace Game
 		public uint Offense;
 		public uint Defense;
 		public uint Mobility;
-        public float MovementSpeed = 0f;
+        public float MovementSpeed = 1.75f;
         public float JumpForce = 2f;
         public float AttackSpeed = .8f; 
 		public float AttackRange = 5f;

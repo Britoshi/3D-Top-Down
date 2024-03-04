@@ -10,7 +10,7 @@ namespace Game.StateMachine
         //protected float CurrentSpeed => Ctx.CurrentSpeed;
         //protected virtual float MaxSpeed => Ctx.MaximumMovementSpeed;
 
-        public override BasicStateIndex GetBasicStateIndex() => BasicStateIndex.MOVEMENT;
+        public override AnimationParameter GetAnimationParameter() => AnimationParameter.MOVEMENT;
 
         protected EntityGroundedSubStateBase(StateMachine currentContext, StateFactory entityStateFactory, 
             BaseState superState) : base(currentContext, entityStateFactory, superState)
