@@ -18,7 +18,7 @@ namespace Game.StateMachine.Player
         [SerializeField]
         internal Vector2 inputVector2;
         [SerializeField]
-        internal Vector3 inputVector3;
+        internal Vector3 inputVector3, lastInput3;
         [SerializeField]
         internal bool sprintHold;
 
@@ -42,6 +42,11 @@ namespace Game.StateMachine.Player
         {
             IsRunning = sprintHold;
             UpdateDebugText();
+
+            inputVector2 = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+            inputVector3 = new(inputVector2.x, 0, inputVector2.y);
+            lastInput3 = new(inputVector3.x, inputVector3.y, inputVector3.z);
+            IsMoving = Input.GetButton("Horizontal") || Input.GetButton("Vertical");
         }
 
         void InitializeControls()
@@ -49,6 +54,8 @@ namespace Game.StateMachine.Player
             controls = new();
             controls.Player.Enable();
             controls.Player.Move.performed += ctx => inputVector2 = ctx.ReadValue<Vector2>();
+
+            /*
             controls.Player.Move.performed += ctx =>
             {
                 var vector2D = ctx.ReadValue<Vector2>().normalized;
@@ -61,7 +68,7 @@ namespace Game.StateMachine.Player
                 //inputVector2 = new Vector2(0, 0);
                 //inputVector3 = new Vector3(0, 0, 0);
                 IsMoving = false;
-            };
+            };*/
 
             controls.Player.Sprint.performed += ctx => sprintHold = true;
             controls.Player.Sprint.canceled += ctx => sprintHold = false;
@@ -73,7 +80,7 @@ namespace Game.StateMachine.Player
         {
             
             //var angle = Quaternion.EulerAngles(inputVector2);
-            Quaternion targetRotation = Quaternion.LookRotation(inputVector3);
+            Quaternion targetRotation = Quaternion.LookRotation(lastInput3);
             ForwardDirection.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime);
             Model.transform.rotation = ForwardDirection.rotation;
         }
@@ -127,6 +134,7 @@ namespace Game.StateMachine.Player
             DeRawInput();
             RotateTowardsInputDirection();
             var speed = player.status.MovementSpeed.GetValue();
+            var go = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             rigidbody.velocity = go * speed + rigidbody.velocity.y * transform.up;
         }
         internal void HandleIdleMovement()

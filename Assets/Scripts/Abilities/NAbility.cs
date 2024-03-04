@@ -91,8 +91,7 @@ namespace Game.Abilities
         }
         public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            animationProgress = stateInfo.normalizedTime % 1;
-            
+            animationProgress = stateInfo.normalizedTime % 1; 
         }
         public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
