@@ -13,21 +13,8 @@ namespace Game.StateMachine
 
         public override bool CheckSwitchStates()
         {   
-            /*
-            if (Ctx.JumpButtonDown) 
-            {
-                if (Ctx.CanWallJump())
-                    return SwitchState(new PlayerWallJumpState(Ctx, Factory));
-                else if (Ctx.CanJump())
-                    return SwitchState(Factory.Jump());
-                else if (Ctx.CanDoubleJump())
-                    return SwitchState(new PlayerDoubleJumpState(Ctx, Factory));
-            }
-            else if (Ctx.IsWalkingIntoWall)
-                return SwitchState(Factory.Wall());
-            */ 
             if (Ctx.IsGrounded)
-            {
+            { 
                 return SwitchState(Factory.Grounded());
             }
             return false;

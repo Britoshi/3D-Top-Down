@@ -3,7 +3,9 @@ using Game.Abilities;
 
 public class TestOneHandAbility : NAbility
 {
-    public TestOneHandAbility(Entity owner) : base(owner, false, Cooldown.Create(1f))
+    public TestOneHandAbility(Entity owner) : base(owner, 
+        isCastableAirborne: false, lockMovement: true, lockJump: true, 
+        Cooldown.Create(1f))
     {
 
     }

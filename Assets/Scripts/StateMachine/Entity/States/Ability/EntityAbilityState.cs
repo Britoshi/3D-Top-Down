@@ -5,12 +5,16 @@ namespace Game.StateMachine
     public class EntityAbilityState : RootState
     {
         protected NAbility ability;
-        
+
+
         public EntityAbilityState(NAbility ability, StateMachine currentContext, StateFactory entityStateFactory) :
             base(currentContext, entityStateFactory)
         {
             this.ability = ability;
             _isRootMotion = ability.GetAnimationRootMotion();
+
+            LockMovement = ability.LockMovement;
+            LockJump = ability.LockJump;
         }
 
         public override void EnterState()

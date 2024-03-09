@@ -28,13 +28,18 @@ namespace Game.StateMachine
         protected bool _isRootMotion;
         public bool GetIsRootMotion() => _isRootMotion;
 
+        public bool LockJump;
+        public bool LockMovement;
+
         public BaseState GetRootState()
-        { 
+        {
+            int i = 0;
             var curr = this;
-            print("I am potato.", this.GetType());
+           // print("I am potato.", this.GetType());
             while (curr != null)
             {
-                print("I am potato.", this.GetType());
+                //print("I am potato.", this.GetType(), " ", i);
+                if (i > 100) throw new System.Exception("This ran 100 times, this shouldn't be a thing.");
                 if(curr.IsRootState)
                 {
                     return curr;
@@ -43,6 +48,7 @@ namespace Game.StateMachine
                     throw new System.Exception("How are you not root and dont have a super?");
 
                 curr = curr.CurrentSuperState;
+                i++;
             }
             
             throw new System.Exception("There was no rootstate???");
@@ -55,14 +61,13 @@ namespace Game.StateMachine
 
             _isRootMotion = false;
             _currentSubState = null;
-            _currentSuperState = superState; 
+            _currentSuperState = superState;
+            LockMovement = false;
+            LockJump = false;
 
             if (GetAnimationParameter() != AnimationParameter.NONE) Ctx.GetAnimator().SetInteger("basicState", (int)GetAnimationParameter());
 
-            if (GetAnimationParameter() != AnimationParameter.IDLE)
-            {
-                if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
-            }
+            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
                 
         }
 
@@ -156,10 +161,11 @@ namespace Game.StateMachine
         }
 
 
-        protected virtual void ChangeAnimation(string name)
+        protected virtual void ChangeAnimation(string name, bool instant = false)
         {
             //_ctx.GetAnimator().applyRootMotion = true;
-            Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f);
+            if (instant) Ctx.GetAnimator().Play(name);
+            else Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f);
             Ctx.CurrentAnimation = name;
         }
 

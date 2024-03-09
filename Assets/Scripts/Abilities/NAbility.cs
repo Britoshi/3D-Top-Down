@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Playables;
 using UnityEngine; 
 
 namespace Game.Abilities
@@ -21,18 +22,24 @@ namespace Game.Abilities
     {
         public Entity Owner { private set; get; }
         public Cooldown cooldown { private set; get; } 
-        public virtual AbilityResourceCost Cost { set; get; }
+        public virtual AbilityResourceCost Cost { set; get; } 
 
-
-        protected bool MovementOverride;
+        public bool LockJump { protected set; get; }
+        public bool LockMovement { protected set; get; } 
 
         private bool currentlyCasting;
         public bool IsCasting => currentlyCasting;
 
         protected bool busy;
-        protected float animationProgress;  
+        protected float animationProgress;
 
-        public bool canCastMidAir;
+        /// <summary>
+        /// The animation will be able to change once it reaches this progression. 
+        /// Only if there is a change queue such as moving/casting ability
+        /// </summary>
+        public float preemptiveAnimationCancelThreshHold = 1f;
+
+        public bool isCastableAirborne;
 
         public abstract string GetName();
         public abstract string GetAnimationNodeName();
@@ -40,17 +47,21 @@ namespace Game.Abilities
         protected abstract CooldownOn ApplyCooldownOn();
 
         public Event InvokeOnStart, InvokeOnUpdate, InvokeOnEnd;
-        public NAbility(Entity owner, bool canCastMidAir, Cooldown cooldown = null, AbilityResourceCost cost = null)
+
+        void RegisterSelfToAbilityController()
+        {
+            Owner.abilityController.RegisterAbility(this);
+        }
+        public NAbility(Entity owner, bool isCastableAirborne, bool lockMovement, bool lockJump, Cooldown cooldown = null, AbilityResourceCost cost = null)
         {
             Owner = owner; 
-            this.canCastMidAir = canCastMidAir;
+            this.isCastableAirborne = isCastableAirborne;
 
             //Cost = cost != null ? cost : AbilityResourceCost.None;
             Cost = cost ?? new NoResourceCost();
             this.cooldown = cooldown ?? Cooldown.Create(0);
 
-            currentlyCasting = false;
-            MovementOverride = false;
+            currentlyCasting = false; 
             animationProgress = 0f;
 
             //_abilityEvents = new List<TimedEvent>();
@@ -58,18 +69,29 @@ namespace Game.Abilities
             InvokeOnStart = new();
             InvokeOnUpdate = new();
             InvokeOnEnd = new();
-        }
 
-        public Result CanCast()
+            LockJump = lockJump;
+            LockMovement = lockMovement;
+
+            RegisterSelfToAbilityController();
+        }
+        bool endedPreemptively;
+        public virtual Result CanCast()
         {
-            //perhaps check if the animation is able?
-            if (currentlyCasting) return Result.Fail("Already Casting");
-            else if (!cooldown.CanCast()) return Result.Fail("Ability On Cooldown.");
+            //perhaps check if the animation is able? 
+            if (Owner.abilityController.IsCasting)
+            {
+                var currAbility = Owner.abilityController.currentAbility;
+                if(currAbility.animationProgress <= currAbility.preemptiveAnimationCancelThreshHold) 
+                    return Result.Fail("Already Casting");
+                print("Trying to cast a queued ability");
+            }
+            if (!cooldown.CanCast()) return Result.Fail("Ability On Cooldown.");
             else if (!Cost.CanDeduct()) return Result.Fail("Not Enough Resources.");
             return Result.Success();
         }
 
-        public Result TryCast()
+        public virtual Result TryCast()
         {
             var check = CanCast();
             if (check.result == ResultType.SUCCESS)
@@ -83,41 +105,86 @@ namespace Game.Abilities
         void SetStateMachine() =>
             Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this));
 
+        protected virtual void HandlePreemptiveCancelling()
+        {   void Trigger()
+            {
+                endedPreemptively = true;
+
+            }
+            if (Owner.abilityController.TryCastAbilityQueue())
+            {
+                Trigger();
+                
+                return;
+            }
+            else if (Owner.stateMachine.TryEnterNoneIdleState())
+            {
+                Trigger();
+                return;
+            }
+        }
+
         #region Animation Functions #Only put animation related function.
-        public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public virtual void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            print("Anim Start", GetName());
             animationProgress = 0;
             if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
+            endedPreemptively = false;
         }
-        public void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public  virtual void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (endedPreemptively) return;
+
             animationProgress = stateInfo.normalizedTime % 1; 
+            //Check for preemptive ending
+            if(preemptiveAnimationCancelThreshHold < 1f)
+            {
+                if (animationProgress > preemptiveAnimationCancelThreshHold)
+                    HandlePreemptiveCancelling();
+            }
         }
-        public void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public virtual void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            print("Ability Animation Ended", GetName());
+            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown(); 
+
+            if (!endedPreemptively)
+            {
+                print("Ability Animation ended normally", GetName());
+                Owner.stateMachine.ResetState();
+                Owner.abilityController.currentAbility = null;
+            }
             animationProgress = -1;
-            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
-            Owner.stateMachine.ResetState(); 
+            endedPreemptively = false;
         }
         #endregion
+        /// <summary>
+        /// Update regardless of any state.
+        /// </summary>
+        public virtual  void PassiveUpdate()
+        { 
+            cooldown.GlobalUpdate();
+        }
 
         /// <summary>
         /// Called before the animation starts.
         /// </summary>
-        public void OnAbilityCast()
+        public virtual void OnAbilityCast()
         {
             currentlyCasting = true;
+            print("Cast On", GetName());
         }
 
-        public void OnAbilityUpdate()
+        public virtual void OnAbilityUpdate()
         {
-            cooldown.GlobalUpdate();
 
         }
 
-        public void OnAbilityEnd()
+        public virtual void OnAbilityEnd()
         {
             currentlyCasting = false;
+            print("ability ended", GetName());
         }
     }
     

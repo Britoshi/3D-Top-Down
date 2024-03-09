@@ -3,9 +3,10 @@ using Game.Abilities;
 
 public class TestSwordAbility : NAbility
 {
-    public TestSwordAbility(Entity owner) : base(owner, false, Cooldown.Create(1f))
+    public TestSwordAbility(Entity owner) : 
+        base(owner, isCastableAirborne: false, lockMovement:true, lockJump:true, Cooldown.Create(1f))
     {
-
+        preemptiveAnimationCancelThreshHold = .3f;
     }
 
     protected override CooldownOn ApplyCooldownOn() => CooldownOn.START;

@@ -24,10 +24,11 @@ namespace Game.StateMachine.Player
             context = currentContext;
         }
 
+        public override RootState Default() => Grounded();
         public override RootState Airborne() =>
             new AirborneState(context, this);
-
-        public override RootState Default() => Grounded(); 
+        public virtual RootState Aiming() =>
+            new AimingState(context, this); 
 
         public override RootState Grounded() =>
             new GroundedState(context, this); 
@@ -59,5 +60,10 @@ namespace Game.StateMachine.Player
         {
             throw new System.NotImplementedException();
         }
+
+        public virtual AimingIdleState AimIdle(BaseState super) =>
+            new(context, this, super);
+        public virtual AimingMovingState AimMove(BaseState super) =>
+            new(context, this, super);
     }
 }

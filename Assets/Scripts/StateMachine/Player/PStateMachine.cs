@@ -12,7 +12,8 @@ namespace Game.StateMachine.Player
         internal PlayerEntity player;
 
         public bool IsCrouching { set; get; }
-
+        public bool IsAiming { set; get; }
+        public Vector3 aimingPoint;
 
         internal PlayerControl controls;
         [SerializeField]
@@ -38,22 +39,15 @@ namespace Game.StateMachine.Player
             InitializeControls();
         }
         
+
         public override void OnUpdate()
         {
-            IsRunning = sprintHold;
-            UpdateDebugText();
-
-            inputVector2 = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-            inputVector3 = new(inputVector2.x, 0, inputVector2.y);
-            lastInput3 = new(inputVector3.x, inputVector3.y, inputVector3.z);
-            IsMoving = Input.GetButton("Horizontal") || Input.GetButton("Vertical");
         }
 
         void InitializeControls()
         { 
             controls = new();
             controls.Player.Enable();
-            controls.Player.Move.performed += ctx => inputVector2 = ctx.ReadValue<Vector2>();
 
             /*
             controls.Player.Move.performed += ctx =>
@@ -78,45 +72,21 @@ namespace Game.StateMachine.Player
         }
         void RotateTowardsInputDirection()
         {
-            
+
             //var angle = Quaternion.EulerAngles(inputVector2);
-            Quaternion targetRotation = Quaternion.LookRotation(lastInput3);
-            ForwardDirection.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime);
+            var lookAt =  lastInput3;
+
+            //lookAt.y = transform.position.y;
+            Quaternion targetRotation = Quaternion.LookRotation(lookAt);
+            
+            ForwardDirection.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime * 3f);
             Model.transform.rotation = ForwardDirection.rotation;
         }
-
-        float Approach(float from, float to, float rate)
+        void RotateTowardsAimPoint()
         {
-            if (Mathf.Abs(to - from) <= rate)
-                return to;
-
-            return from + Mathf.Sign(to - from) * rate;
-        }
-        Vector3 Approach(Vector3 from, Vector3 to, float rate)
-        {
-            float deltaX = to.x - from.x;
-            float deltaY = to.y - from.y;
-            float deltaZ = to.z - from.z;
-
-            float magnitude = Mathf.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-            if (magnitude <= rate)
-                return to;
-
-            float factor = rate / magnitude;
-            float newX = from.x + deltaX * factor;
-            float newY = from.y + deltaY * factor;
-            float newZ = from.z + deltaZ * factor;
-
-            return new Vector3(newX, newY, newZ);
+            Model.transform.LookAt(aimingPoint);
         }
 
-        [SerializeField]
-        Vector3 go;
-        void DeRawInput()
-        {
-
-            go = Approach(go, inputVector3, 5f * Time.deltaTime);
-        }
 
         internal override void AirborneBehavior()
         {
@@ -124,22 +94,46 @@ namespace Game.StateMachine.Player
         }
         internal void HandleRunMovement()
         {
-            DeRawInput();
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue() * 2.25f;
-            rigidbody.velocity = ForwardDirection.forward * speed;
+            var speed = player.status.MovementSpeed.GetValue() * 2.25f; 
+            rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
         internal void HandleWalkMovement()
         {
-            DeRawInput();
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue();
-            var go = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            rigidbody.velocity = go * speed + rigidbody.velocity.y * transform.up;
+            var speed = player.status.MovementSpeed.GetValue(); 
+            rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
         internal void HandleIdleMovement()
         { 
-            go = Approach(go, Vector3.zero, 4f * Time.deltaTime);
+
+        }
+
+        internal void HandleAimingBehavior()
+        { 
+            RotateTowardsAimPoint();
+        }
+        internal void HandleAimMovement()
+        {
+            // Calculate the relative direction vector
+            Vector3 forwardDirection = transform.forward; 
+            Vector3 relativeMovementDirection = forwardDirection - inputVector3;
+            // Optionally, normalize the relative direction vector if needed
+
+            var pY = transform.rotation.eulerAngles.y % 360;
+            float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up);
+            //Debug.Log(angle);
+            float rad = Mathf.Deg2Rad * angle;
+
+            Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad));
+            //Debug.Log(dir);
+
+            GetAnimator().SetFloat("x", dir.x);
+            GetAnimator().SetFloat("y", dir.y);
+            //Debug.Log(relativeMovementDirection +  " | " + dir);
+
+            var speed = player.status.MovementSpeed.GetValue() * .5f;
+            rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
 
         internal void TriggerCrouch(InputAction.CallbackContext ctx)
@@ -154,6 +148,7 @@ namespace Game.StateMachine.Player
                 IsCrouching = false;
                 return;
             }
+            if (currentState.LockJump) return;
 
             TriggerJump();
         }

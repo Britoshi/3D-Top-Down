@@ -29,7 +29,6 @@ namespace Game.StateMachine.Player
             if (!standAlone)
             {
                 if (CheckSwitchStates()) return false;
-                UpdateFacingDirection();
             }
             HandleMovement();
             return true;

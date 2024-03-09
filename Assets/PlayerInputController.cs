@@ -1,0 +1,126 @@
+using Game.StateMachine.Player;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine; 
+
+namespace Game
+{
+    public enum InputMode
+    {
+        PC, CONTROLLER, MOBILE
+    }
+    public class PlayerInputController : MonoBehaviour
+    {
+        public GameObject mobileControlGameObject;
+        public PStateMachine stateMachine;
+        InputMode inputMode;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            EnablePCControl();
+        }
+
+
+        public void PCControlUpdate()
+        { 
+            stateMachine.IsRunning = stateMachine.sprintHold;
+
+            stateMachine.inputVector2 = 
+                new Vector2(Input.GetAxisRaw("Horizontal"), 
+                Input.GetAxisRaw("Vertical")).normalized;
+            stateMachine.inputVector3 = 
+                new(stateMachine.inputVector2.x, 0, stateMachine.inputVector2.y);
+            stateMachine.lastInput3 = 
+                new(stateMachine.inputVector3.x, stateMachine.inputVector3.y, stateMachine.inputVector3.z);
+            stateMachine.IsMoving = 
+                Input.GetButton("Horizontal") || 
+                Input.GetButton("Vertical");
+            stateMachine.IsAiming = Input.GetButton("Fire2");
+            if (stateMachine.IsAiming)
+            {
+                Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Plane groundPlane = new(Vector3.up, Vector3.zero);
+                float rayLength;
+                if (groundPlane.Raycast(cameraRay, out rayLength))
+                {
+                    Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+                    Debug.DrawLine(cameraRay.origin, pointToLook, Color.yellow);
+
+                    stateMachine.aimingPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
+                }
+
+            }
+        }
+
+        public void MobileMovementInput(Vector2 input)
+        {
+            stateMachine.inputVector2 = input.normalized;
+            stateMachine.inputVector3 = new(stateMachine.inputVector2.x, 0, stateMachine.inputVector2.y);
+            stateMachine.lastInput3 = new(stateMachine.inputVector3.x, stateMachine.inputVector3.y, stateMachine.inputVector3.z);
+
+            stateMachine.IsMoving = true;
+        }
+
+        public void LateUpdate()
+        {
+            if (inputMode == InputMode.MOBILE)
+            {
+                stateMachine.IsMoving = false;
+                stateMachine.inputVector2 = Vector2.zero;
+                stateMachine.inputVector3 = Vector3.zero;
+            }
+        }
+
+        public void MobileControlUpdate()
+        {
+
+        }
+
+
+        void EnableMobileControl()
+        {
+            mobileControlGameObject.SetActive(true);
+            inputMode = InputMode.MOBILE;
+        }
+        void CheckMobileControl()
+        {
+            // Check if touch input is supported and there are touches on the screen
+            if (Input.touchSupported && Input.touchCount > 0)
+            {
+                EnableMobileControl(); 
+            }
+        }
+        void EnablePCControl()
+        { 
+            mobileControlGameObject.SetActive(false);
+            inputMode = InputMode.PC;
+        }
+        void CheckPCControl()
+        {
+            if (Input.anyKeyDown)
+            {
+                EnablePCControl();
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            switch (inputMode)
+            {
+                case InputMode.PC:
+                    PCControlUpdate();
+
+                    CheckMobileControl();
+                    break;
+                case InputMode.CONTROLLER:
+                    break;
+                case InputMode.MOBILE:
+                    CheckPCControl();
+                    break;
+            }
+
+        }
+    }
+}

@@ -40,9 +40,10 @@ namespace Game.StateMachine
 
         public string CurrentAnimation { get; internal set; }
         public string LastAnimationChangeAttempt { get; internal set; } 
-        public void SwitchCurrentState(RootState newState)
+        public void SwitchRootState(RootState newState)
         {
-            _currentState?.ExitState();
+            print("swtiching");
+            _currentState?.GetRootState().ExitState();
 
             _currentState = newState;
             _currentState.EnterState();
@@ -67,7 +68,7 @@ namespace Game.StateMachine
 
         public void Start()
         {
-            SwitchCurrentState(Factory.Default());
+            SwitchRootState(Factory.Default());
             OnStart();
         }
 
@@ -111,7 +112,7 @@ namespace Game.StateMachine
 
         public virtual void ResetState()
         {
-            SwitchCurrentState(Factory.Default());
+            SwitchRootState(Factory.Default());
         }
 
         internal virtual void AirborneBehavior()
@@ -132,9 +133,23 @@ namespace Game.StateMachine
             {
                 currentState.GetRootState().TriggerState(Factory.Jump());
             }
-            print("nay. you may not jump");
+            //print("nay. you may not jump");
         }
 
         internal Animator GetAnimator() => animator;
+
+        /// <summary>
+        /// Only enter a state if the player is doing something
+        /// </summary>
+        internal virtual bool TryEnterNoneIdleState()
+        {
+            if (IsMoving)
+            {
+                ResetState(); 
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -16,8 +16,7 @@ namespace Game.StateMachine
         public override bool UpdateState()
         {
             if (CheckSwitchStates()) return false;
-            base.UpdateState();
-            //Ctx.ResetJumpGracePeriod();
+            base.UpdateState(); 
             return true;
         }
         public override bool FixedUpdateState()
@@ -31,17 +30,6 @@ namespace Game.StateMachine
         }
         public override void InitializeSubState()
         {
-            /*
-            
-            if (Ctx.IsCrouching)
-            {
-                if (Ctx.IsMoving)
-                    SetSubState(Factory.Crawl(this));
-                else
-                    SetSubState(Factory.Crouch(this));
-            }
-            else*/
-           
             if (!Ctx.IsMoving && !Ctx.IsRunning)
                 SetSubState(Factory.Idle(this));
             else if (Ctx.IsMoving && !Ctx.IsRunning)
@@ -54,12 +42,6 @@ namespace Game.StateMachine
         {
             if (!Ctx.IsGrounded)
                 return SwitchState(Factory.Airborne());
-            /*
-            if (Ctx.JumpTrigger)
-                return SwitchState(Factory.Jump());
-            else if (Ctx.IsWalkingIntoWall)
-                return SwitchState(Factory.Wall());
-            */
             return false;
         }
     }

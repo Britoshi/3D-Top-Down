@@ -5,10 +5,23 @@ namespace Game.StateMachine.Player
 
     public class AirborneState : EntityAirborneState
     {
-        PStateMachine context;
+        protected PStateMachine pCtx;
+        protected PStateFactory pFactory;
         public AirborneState(PStateMachine currentContext, PStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
         {
-            context = currentContext;
+            pCtx = currentContext;
+            pFactory = playerStateFactory;
+        }
+        public override bool CheckSwitchStates()
+        {
+            if (Ctx.IsGrounded)
+            {
+                if (pCtx.IsAiming)
+                    return SwitchState(pFactory.Aiming());
+                else 
+                    return SwitchState(Factory.Grounded());
+            }
+            return false;
         }
 
         public override bool UpdateState()
