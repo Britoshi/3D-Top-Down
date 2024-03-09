@@ -37,7 +37,7 @@ namespace Game.Abilities
         /// The animation will be able to change once it reaches this progression. 
         /// Only if there is a change queue such as moving/casting ability
         /// </summary>
-        public float preemptiveAnimationCancelThreshHold = 1f;
+        protected float preemptiveAnimationCancelThreshHold = 1f;
 
         public bool isCastableAirborne;
 
@@ -81,10 +81,10 @@ namespace Game.Abilities
             //perhaps check if the animation is able? 
             if (Owner.abilityController.IsCasting)
             {
-                var currAbility = Owner.abilityController.currentAbility;
-                if(currAbility.animationProgress <= currAbility.preemptiveAnimationCancelThreshHold) 
+                //var currAbility = Owner.abilityController.currentAbility;
+                //if(currAbility.animationProgress <= currAbility.preemptiveAnimationCancelThreshHold) 
                     return Result.Fail("Already Casting");
-                print("Trying to cast a queued ability");
+                //print("Trying to cast a queued ability");
             }
             if (!cooldown.CanCast()) return Result.Fail("Ability On Cooldown.");
             else if (!Cost.CanDeduct()) return Result.Fail("Not Enough Resources.");
@@ -140,8 +140,8 @@ namespace Game.Abilities
             //Check for preemptive ending
             if(preemptiveAnimationCancelThreshHold < 1f)
             {
-                if (animationProgress > preemptiveAnimationCancelThreshHold)
-                    HandlePreemptiveCancelling();
+               // if (animationProgress > preemptiveAnimationCancelThreshHold)
+                    //HandlePreemptiveCancelling();
             }
         }
         public virtual void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
