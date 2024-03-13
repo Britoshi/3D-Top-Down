@@ -21,7 +21,7 @@ namespace Game.StateMachine
         {
             ability.OnAbilityCast();
             InitializeSubState();
-            ChangeAnimation(ability.GetAnimationNodeName());
+            ChangeAnimation(ability.GetAnimationNodeName(), true);
         }
 
         public override bool UpdateState()

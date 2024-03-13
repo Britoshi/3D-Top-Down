@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,50 +14,55 @@ namespace Game.Abilities
 
         public Entity entity;
         public List<NAbility>
-            activeAbilities, 
+            activeAbilities,
             passiveAbilities;
 
-        public  SortedDictionary<string, NAbility> abilities;
+        public SortedDictionary<string, NAbility> abilities;
 
         public const float QUEUE_EXPIRE_TIME = .5f;
         public NAbility abilityQueue;
         float abilityQueueExpireTimer;
-        public NAbility currentAbility;
+        private NAbility currentAbility;
+        public NAbility CurrentAbility =>  currentAbility;
+        public void SetAbility(NAbility ability) => currentAbility = ability;
 
-        NAbility testAbility,  pAttack,sAttack;
+        NAbility testAbility, pAttack, sAttack;
         internal bool IsCasting => currentAbility != null;
 
         public bool IsUsingAbility => currentAbility != null;
         private void Awake()
-        { 
+        {
             abilities = new();
         }
-        
+
         public void Initialize(Entity self)
         {
             entity = self;
             animator = self.animator;
-            testAbility  = new TestSwordAbility(self);
-            pAttack =  new PrimaryAttackAbility(self);
+            testAbility = new TestSwordAbility(self);
+            pAttack = new PrimaryAttackAbility(self);
             sAttack = new SecondaryAttackAbility(self);
         }
-        public void Cast(NAbility ability)
+        public void Cast(NAbility ability, bool skipCheck = false)
         {
-            var castResult = ability.TryCast();
-            if (castResult.result == ResultType.SUCCESS)
+            print("CAST  CALL  ", ability.GetName());
+            var castResult = ability.TryCast(skipCheck);
+            if (castResult.result == AbilityResultType.SUCCESS)
             {
                 currentAbility = ability;
             }
             else
             {
                 //Lmao spagettiiii
-                if(castResult.message == "Already Casting")
-                    QueueAbility(ability);
-                
-                else DebugText.Log(castResult.message);
+                //if (castResult.result == AbilityResultType.QUEUE)
+                //    QueueAbility(ability);
+
+//else 
+                    DebugText.Log(castResult.message);
             }
-            
+
         }
+
         public void Update()
         {
             currentAbility?.OnAbilityUpdate();
@@ -66,7 +72,7 @@ namespace Game.Abilities
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                if(testAbility.TryCast().result == ResultType.SUCCESS)
+                if (testAbility.TryCast().result == AbilityResultType.SUCCESS)
                 {
                     currentAbility = testAbility;
                 }
@@ -78,14 +84,12 @@ namespace Game.Abilities
 
             if (Input.GetButtonDown("Fire1"))
                 Cast(pAttack);
-            
-            if(abilityQueue != null)
+
+            if (abilityQueue != null)
             {
                 abilityQueueExpireTimer -= Time.deltaTime;
-                if(abilityQueueExpireTimer < 0) abilityQueue = null; 
+                if (abilityQueueExpireTimer < 0) abilityQueue = null;
             }
-            //else if (Input.GetButtonDown("Fire2"))
-            //    Cast(sAttack);
         }
 
         public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -110,26 +114,16 @@ namespace Game.Abilities
         {
             abilities[ability.GetName()] = ability;
         }
-
-        internal bool TryCastAbilityQueue()
+        bool triggerAbilityQueue;
+        public void TriggerAbilityQueue()
         {
-            if (abilityQueue == null) return false;  
-            if (abilityQueue.TryCast().result == ResultType.SUCCESS)
-            {
-                print("casting a queed ability");
-                currentAbility = abilityQueue;
-                abilityQueue = null;
-                print("new curr ability", currentAbility.GetName());
-                return true;
-            }
-            return false;
+            triggerAbilityQueue = true;
+            entity.stateMachine.ResetState();
         }
 
-        internal void QueueAbility(NAbility ability)
-        { 
-            abilityQueue = ability;
-            abilityQueueExpireTimer = QUEUE_EXPIRE_TIME;
-            DebugText.Log("Ability Queued");
-        }
+
+
     }
-}
+
+    
+} 

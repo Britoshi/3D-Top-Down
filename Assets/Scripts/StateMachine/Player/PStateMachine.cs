@@ -23,6 +23,8 @@ namespace Game.StateMachine.Player
         [SerializeField]
         internal bool sprintHold;
 
+        //IK
+
         public override void AssignFactory()
         {
             Factory = new PStateFactory(this);
@@ -37,11 +39,13 @@ namespace Game.StateMachine.Player
         public override void OnStart()
         {
             InitializeControls();
+
         }
-        
+
 
         public override void OnUpdate()
         {
+
         }
 
         void InitializeControls()

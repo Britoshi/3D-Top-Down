@@ -31,13 +31,13 @@ namespace Game.Abilities
         public bool IsCasting => currentlyCasting;
 
         protected bool busy;
-        protected float animationProgress;
+        public float animationProgress;
 
         /// <summary>
         /// The animation will be able to change once it reaches this progression. 
         /// Only if there is a change queue such as moving/casting ability
         /// </summary>
-        protected float preemptiveAnimationCancelThreshHold = 1f;
+        public float preemptiveAnimationCancelThreshHold = 1f;
 
         public bool isCastableAirborne;
 
@@ -75,26 +75,23 @@ namespace Game.Abilities
 
             RegisterSelfToAbilityController();
         }
-        bool endedPreemptively;
-        public virtual Result CanCast()
+        //bool endedPreemptively;
+        public virtual AbilityCastTryResult CanCast(bool queueAbility = false)
         {
             //perhaps check if the animation is able? 
-            if (Owner.abilityController.IsCasting)
-            {
-                //var currAbility = Owner.abilityController.currentAbility;
-                //if(currAbility.animationProgress <= currAbility.preemptiveAnimationCancelThreshHold) 
-                    return Result.Fail("Already Casting");
-                //print("Trying to cast a queued ability");
-            }
-            if (!cooldown.CanCast()) return Result.Fail("Ability On Cooldown.");
-            else if (!Cost.CanDeduct()) return Result.Fail("Not Enough Resources.");
-            return Result.Success();
+            if (Owner.abilityController.IsCasting) 
+                return AbilityCastTryResult.Queue("Already Casting");
+            if (!cooldown.CanCast()) 
+                return AbilityCastTryResult.Fail("Ability On Cooldown.");
+            else if (!Cost.CanDeduct()) 
+                return AbilityCastTryResult.Fail("Not Enough Resources.");
+            return AbilityCastTryResult.Success();
         }
 
-        public virtual Result TryCast()
+        public virtual AbilityCastTryResult TryCast(bool queueAbility = false)
         {
-            var check = CanCast();
-            if (check.result == ResultType.SUCCESS)
+            var check = CanCast(queueAbility);
+            if (check.result == (int)ResultType.SUCCESS)
             {
                 SetStateMachine();
                 Cost?.Deduct();
@@ -105,58 +102,29 @@ namespace Game.Abilities
         void SetStateMachine() =>
             Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this));
 
-        protected virtual void HandlePreemptiveCancelling()
-        {   void Trigger()
-            {
-                endedPreemptively = true;
-
-            }
-            if (Owner.abilityController.TryCastAbilityQueue())
-            {
-                Trigger();
-                
-                return;
-            }
-            else if (Owner.stateMachine.TryEnterNoneIdleState())
-            {
-                Trigger();
-                return;
-            }
-        }
-
         #region Animation Functions #Only put animation related function.
         public virtual void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             print("Anim Start", GetName());
             animationProgress = 0;
             if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
-            endedPreemptively = false;
         }
         public  virtual void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (endedPreemptively) return;
-
-            animationProgress = stateInfo.normalizedTime % 1; 
-            //Check for preemptive ending
-            if(preemptiveAnimationCancelThreshHold < 1f)
-            {
-               // if (animationProgress > preemptiveAnimationCancelThreshHold)
-                    //HandlePreemptiveCancelling();
-            }
+            animationProgress = stateInfo.normalizedTime % 1;
         }
         public virtual void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            print("Ability Animation Ended", GetName());
-            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown(); 
+            Debug.Log("Ability Animation Ended " + GetName());
+            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
 
-            if (!endedPreemptively)
-            {
-                print("Ability Animation ended normally", GetName());
-                Owner.stateMachine.ResetState();
-                Owner.abilityController.currentAbility = null;
-            }
             animationProgress = -1;
-            endedPreemptively = false;
+
+            //This  should onlybe if it is standalone
+            Owner.abilityController.SetAbility(null);
+            print("Ability Animation ended normally", GetName());
+            Owner.stateMachine.ResetState();
+            
         }
         #endregion
         /// <summary>
