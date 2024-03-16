@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 
 namespace Game
@@ -19,6 +20,10 @@ namespace Game
         public static Array EnumToArray(Type e)
         {
             return Enum.GetValues(e);
+        }
+        public static T Clone<T>(this T self) where T : ScriptableObject
+        {
+            return UnityEngine.GameObject.Instantiate(self);
         }
     }
 

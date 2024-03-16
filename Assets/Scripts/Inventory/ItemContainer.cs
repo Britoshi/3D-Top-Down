@@ -2,6 +2,7 @@ using Game.Items;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Game
@@ -30,13 +31,11 @@ namespace Game
         {
             Owner = owner; 
             isStaticContainer = owner == null;
-            foreach (var item in this) 
-                if(item != null) 
-                    item.Container = this;
         }
         public SortType SortType { get;  protected set; }
         public bool Add(Item item)
         {
+            item = item.Clone();
             if (HandleAdd(item))
             {
                 item.Container = this;
@@ -80,7 +79,9 @@ namespace Game
     [Serializable]
     public class ItemList : ItemContainer, IEnumerable<Item>
     {
-        public List<Item> items;
+        [SerializeField]
+        private List<Item> _initList;
+        private SortedSet<Item> items;
 
         public override int Count => items.Count;
 
@@ -89,8 +90,16 @@ namespace Game
         public override void Initialize(Entity owner) 
         {
             base.Initialize(owner);
-            items ??= new();
+            items = new();
             SortType = SortType.NAME;
+
+            for (int i = 0; i < _initList.Count; i++)
+            {
+                var itemClone = _initList[i].Clone();
+                itemClone.Container = this;
+                items.Add(itemClone);
+            }
+            _initList = null;
         }
          
         public override bool HandleAdd(Item item)
@@ -107,13 +116,26 @@ namespace Game
 
         public override void HandleSort()
         {
-            items.Sort();
+            items = SortItems(items.ToList());
         }
 
         // Implementing IEnumerable interface
         public override IEnumerator<Item> GetEnumerator()
         {
             return items.GetEnumerator();
+        }
+
+        private SortedSet<Item> SortItems(List<Item> itemList)
+        {
+            return SortType switch
+            {
+                SortType.NAME => new SortedSet<Item>(itemList, Comparer<Item>.Create((x, y) => x.name.CompareTo(y.name))),
+                SortType.TYPE => new SortedSet<Item>(itemList, Comparer<Item>.Create((x, y) => x.type.CompareTo(y.type))),
+                SortType.WEIGHT => new SortedSet<Item>(itemList, Comparer<Item>.Create((x, y) => x.weight.CompareTo(y.weight))),
+                SortType.COST => new SortedSet<Item>(itemList, Comparer<Item>.Create((x, y) => x.cost.CompareTo(y.cost))),
+                SortType.QUEST_ITEM => new SortedSet<Item>(itemList, Comparer<Item>.Create((x, y) => x.isQuestItem.CompareTo(y.isQuestItem))),
+                _ => items // Return the original set if sort type is unknown
+            };
         }
 
     }
@@ -130,7 +152,12 @@ namespace Game
         public override void Initialize(Entity owner) 
         {
             base.Initialize(owner);
-            //if(item != null) item.Container = this;
+
+            if (item != null)
+            {
+                item = item.Clone();
+                item.Container = this;
+            }
         }
 
         public override bool HandleAdd(Item item)

@@ -6,6 +6,7 @@ using UnityEngine;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting.FullSerializer;
+using Unity.VisualScripting;
 
 namespace Game
 {
