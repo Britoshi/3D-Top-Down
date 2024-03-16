@@ -6,7 +6,7 @@ namespace Game.Buff
 {
     public class StatusBuff : ScriptableObject, IComparable<StatusBuff>
     {
-        public Status source, target;
+        public Entity source, target;
 
         /// <summary>
         /// {targetAttribute} = AttributeAffect.affectedStatName. 
@@ -92,9 +92,9 @@ namespace Game.Buff
             ResetTime();
         }
 
-        public virtual void Apply(Status source, Status target)
+        public virtual void Apply(Entity source, Entity target)
         {
-            var buffSet = target.appliedBuffs;
+            var buffSet = target.status.appliedBuffs;
             if (buffSet.TryGetValue(this, out StatusBuff existingBuff))
             {
                 existingBuff.target = target;
@@ -120,7 +120,7 @@ namespace Game.Buff
         public virtual void OnTimeExpire()
         { 
             RemoveAttributeFromTarget();
-            target.appliedBuffs.Remove(this);
+            target.status.appliedBuffs.Remove(this);
         }
         public override int GetHashCode() => base.GetHashCode();
         public override string ToString() => base.ToString();

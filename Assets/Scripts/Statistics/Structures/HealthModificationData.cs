@@ -11,13 +11,13 @@ namespace Game
     /// </summary>
     public class HealthModificationData
     {
-        public Status source, target;
+        public Entity source, target;
         public HealthAffect affect;
         public float modifyValue; 
         
         public DamageType type;
 
-        private HealthModificationData(Status source, Status target, HealthAffect affect, DamageType type, float? amount = null)
+        private HealthModificationData(Entity source, Entity target, HealthAffect affect, DamageType type, float? amount = null)
         {
             this.source =source;
             this.target = target;
@@ -28,13 +28,13 @@ namespace Game
             else modifyValue = amount.Value;
         }  
          
-        public static HealthModificationData AutoAttack(Status source, Status target) =>
-            new(source, target, null, DamageType.PRIMARY, (int)source.AttackDamage);
-        public static HealthModificationData Spell(Status source, Status target, HealthAffect affect) =>
+        public static HealthModificationData AutoAttack(Entity source, Entity target) =>
+            new(source, target, null, DamageType.PRIMARY, (int)source.status.AttackDamage);
+        public static HealthModificationData Spell(Entity source, Entity target, HealthAffect affect) =>
             new(source, target, affect, DamageType.ABILITY);
-        public static HealthModificationData SpellAutoAttack(Status source, Status target, HealthAffect affect) =>
+        public static HealthModificationData SpellAutoAttack(Entity source, Entity target, HealthAffect affect) =>
             new(source, target, affect, DamageType.PRIMARY | DamageType.ABILITY); 
-        public static HealthModificationData OnHit(Status source, Status target, HealthAffect affect) =>
+        public static HealthModificationData OnHit(Entity source, Entity target, HealthAffect affect) =>
             new(source, target, affect, DamageType.ON_HIT);  
     }
 }

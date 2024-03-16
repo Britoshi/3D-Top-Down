@@ -6,27 +6,26 @@ namespace Game
     public enum HealthAffectType
     {
         TRUE, HEAL,
-        PHYSICAL = 18, MAGICAL,
+        PHYSICAL = 18, MAGICAL
     }
 
     public enum StatID
     {
         NONE,
+        STRENGTH,AGILITY,INTELLIGENCE,WILL,VITALITY,ENDURANCE, RESISTANCE,
         LEVEL,
         MAX_HP, MAX_MP, MAX_SP,
         SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
-        MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED,
-        ATTACK_RANGE,
-        ATTACK_DAMAGE, ABILITY_POWER,
+        MOVEMENT_SPEED, JUMP_FORCE, 
         FLAT_ARMOR_PENETRATION, FLAT_MAGIC_PENETRATION,
         ARMOR_PENETRATION, MAGIC_PENETRATION,
 
         //This should never change.
         ARMOR, MAGIC_RESISTANCE,
 
-        HP_REGEN, TENACITY,
-        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION,
+        HP_REGEN, MP_REGEN, SP_REGEN, TENACITY,
+        DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION,
 
         //From here is just Resources
         HP, MP, SP, Money, 
@@ -34,20 +33,22 @@ namespace Game
 
     public enum AttributeID
     {
-        NONE = 0,
-        LEVEL = 1,
-        MAX_HP, MAX_MP,  MAX_SP,
+        NONE,
+        STRENGTH, AGILITY, INTELLIGENCE, WILL, VITALITY, ENDURANCE, RESISTANCE,
+        LEVEL,
+        MAX_HP, MAX_MP, MAX_SP,
         SPEED, RANGE, DEFENSE, OFFENSE, MOBILITY,
 
-        MOVEMENT_SPEED, JUMP_FORCE, ATTACK_SPEED, 
-        ATTACK_RANGE,
-        ATTACK_DAMAGE, ABILITY_POWER,
+        MOVEMENT_SPEED, JUMP_FORCE,
         FLAT_ARMOR_PENETRATION, FLAT_MAGIC_PENETRATION,
         ARMOR_PENETRATION, MAGIC_PENETRATION,
+
+        //This should never change.
         ARMOR, MAGIC_RESISTANCE,
 
-        HP_REGEN, TENACITY,
-        LIFE_STEAL, DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION
+        HP_REGEN, MP_REGEN, SP_REGEN, TENACITY,
+        DAMAGE_OUTPUT_MODIFIER, HEALING_MODIFIER, COOLDOWN_REDUCTION,
+
     }
 
     public enum ResourceID
@@ -59,8 +60,8 @@ namespace Game
         MONEY,
     }
 
-    public delegate void EntityTriggeredFunction(Status other);
-    public delegate void EntityTriggeredValueFunction(Status source, float value);
+    public delegate void EntityTriggeredFunction(Entity other);
+    public delegate void EntityTriggeredValueFunction(Entity source, float value);
 
     [System.Serializable]
     public class AttributeAffect
@@ -69,8 +70,9 @@ namespace Game
         public StatAffectType affectType;
         public StatusModule[] statusModules;
 
-        public float GetAmount(Status source)
+        public float GetAmount(Entity entitySource)
         {
+            Status source = entitySource.status;
             float total = 0f;
             foreach (var amountItem in statusModules)
             {
@@ -99,25 +101,25 @@ namespace Game
         }
 
         
-        public void Remove(Status stats)
+        public void Remove(Entity entitySource)
         {
             if (attributeID == 0) return;
 
             var targetStat = attributeID;
-            float amount = GetAmount(stats);
+            float amount = GetAmount(entitySource);
 
             switch (affectType)
             {
                 case StatAffectType.Additive:
-                    stats[targetStat].Subtract(amount);
+                    entitySource[targetStat].Subtract(amount);
                     break;
                 case StatAffectType.Multiplicative:
-                    stats[targetStat].Divide(amount);
+                    entitySource[targetStat].Divide(amount);
                     break;
             }
         } 
 
-        public void Apply(Status source, Status targetStats)
+        public void Apply(Entity source, Entity targetStats)
         {
             if (attributeID == 0) return; 
             var targetStat = attributeID; 

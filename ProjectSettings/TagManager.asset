@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - 'Holder: Right Hand'
+  - 'Holder: Left Hand'
+  - 'Holder: Left Foot'
+  - 'Holder: Right Foot'
+  - 'Holder: Right Hand Weapon'
+  - 'Holder: Left Hand Weapon'
+  - 'Holder: Torso'
+  - 'Holder: Head'
   layers:
   - Default
   - TransparentFX

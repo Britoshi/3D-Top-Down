@@ -1,10 +1,12 @@
 ﻿using Game.Buff;
-using Game.Utilities; 
+using Game.Utilities;
+using System;
 using System.ComponentModel;
 using UnityEngine;
 
 namespace Game
-{ 
+{
+    [Serializable]
     public class OnHitAffect
     {
         public AffectTarget affectTarget;
@@ -31,10 +33,10 @@ namespace Game
         }
 
 
-        public void ApplyOnGetHit(Status owner, Status source) =>
+        public void ApplyOnGetHit(Entity owner, Entity source) =>
             ApplyOnHit(source, owner); 
 
-        public void ApplyOnHit(Status owner, Status target)
+        public void ApplyOnHit(Entity owner, Entity target)
         {
             var targetEntity = affectTarget == AffectTarget.Self ? owner : target;
              
@@ -50,13 +52,13 @@ namespace Game
                 {
                     if (resourceAffect is HealthAffect) 
                         EntityUtil.Modify(targetEntity, HealthModificationData.OnHit(owner, targetEntity, resourceAffect as HealthAffect));  
-                    else targetEntity.ApplyResourceAffect(owner, resourceAffect);
+                    else targetEntity.status.ApplyResourceAffect(owner, resourceAffect);
                 }
             }
             buff?.Apply(owner, targetEntity);
         }
 
-        public void ApplyOnKill(Status killer, Status victim) =>
+        public void ApplyOnKill(Entity killer, Entity victim) =>
             ApplyOnHit(killer, victim); 
 
         public static OnHitAffect Buff(AffectTarget target, StatusBuff buff) => new(target, null, null, 0, buff);

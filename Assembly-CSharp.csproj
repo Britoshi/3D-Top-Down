@@ -60,6 +60,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.19f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Items\Equipment\Weapon\RangeWeapon.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\PlayerMovementSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerDoubleJumpState.cs" />
@@ -68,18 +69,19 @@
     <Compile Include="Assets\Scripts\Statistics\Stats\Stat.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Manual.cs" />
     <Compile Include="Assets\Scripts\Buff\StatusBuff.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\PelvisUnset.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PIdleSubState.cs" />
-    <Compile Include="Assets\Scripts\Inventory\Item\Item.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Equipment.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModule.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\PAirborneSubStateBase.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ExampleChainAttack.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\AirborneState.cs" />
+    <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\BritoObject.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\EntityAbilityController.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ShootUpAbility.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Weapon\MeleeWeapon.cs" />
     <Compile Include="Assets\DebugText.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\CustomShadowResolution.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\IRootState.cs" />
@@ -102,8 +104,8 @@
     <Compile Include="Assets\Scripts\Statistics\Structures\OnHitAffect.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PGroundedState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Weapon\Wand.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityGroundedSubStateBase.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\CameraController.cs" />
     <Compile Include="Assets\EntityIKController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\BaseState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneState.cs" />
@@ -127,14 +129,13 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityDrainCost.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\MecFootPlacer\FootPlacementData.cs" />
     <Compile Include="Assets\EntityMaster.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\SmoothObjectNormalHelper.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\GroundedState.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\LocomotionUpdate.cs" />
+    <Compile Include="Assets\TransformData.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ItemContainer.cs" />
     <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PRunSubState.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\MecFootPlacer\MecFootPlacer.cs" />
     <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubStateBase.cs" />
     <Compile Include="Assets\Scripts\Utilities\Cost.cs" />
@@ -147,11 +148,10 @@
     <Compile Include="Assets\Scripts\Abilities\Entity\TestOneHandAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IHasAnimation.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\IdleUpdate.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\PelvisSet.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
     <Compile Include="Assets\Scripts\Statistics\Stats\Attribute.cs" />
     <Compile Include="Assets\Scripts\BritoBehavior.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Gear\Gear.cs" />
     <Compile Include="Assets\Scripts\Statistics\EntityUtil.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Aiming\AimingIdleState.cs" />
     <Compile Include="Assets\Scripts\Abilities\NChainedAbility.cs" />
@@ -171,13 +171,13 @@
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PWalkSubState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Ability\EntityAbilityState.cs" />
     <Compile Include="Assets\Scripts\AbilityController.cs" />
-    <Compile Include="Assets\Reference Pose\Mec Foot Placer Assets\Codes\ExtraScripts\InputController.cs" />
     <Compile Include="Assets\PlayerInputController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\TabEventHandler.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\Result.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceModifier.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\PlayerBaseState.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Gear\BodyWear.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Ability\PlayerAbilityState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\SecondaryAttackAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Aiming\AimingSubState.cs" />
@@ -194,10 +194,12 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallState.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityProcessor.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\AttributeAffects.cs" />
+    <Compile Include="Assets\Scripts\Items\Misc.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PGroundedSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\Cooldown.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Default.cs" />
+    <Compile Include="Assets\Scripts\Items\Equipment\Weapon\Weapon.cs" />
     <Compile Include="Assets\EntityAnimationFunctionController.cs" />
   </ItemGroup>
   <ItemGroup>

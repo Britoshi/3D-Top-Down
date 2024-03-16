@@ -46,7 +46,7 @@ namespace Game.Buff
                 else if(tickDamage > 0)
                     EntityUtil.Heal(target, (int)MathF.Round(tickDamage));
             }
-            else target.ApplyResourceAffect(source, affect, damageToDealWithDeltaTime * stackCount);
+            else target.status.ApplyResourceAffect(source, affect, damageToDealWithDeltaTime * stackCount);
         }
 
         internal void CalculateDamage()
@@ -98,7 +98,7 @@ namespace Game.Buff
 
             if (stackCount <= 0)
             {
-                target.appliedBuffs.Remove(this);
+                target.status.appliedBuffs.Remove(this);
                 Tick.RemoveFunction(OnTick);
                 
 				Debug.LogError("Free is supposed to happen, forgot what it does tho.");

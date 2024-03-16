@@ -15,12 +15,15 @@ namespace Game
 
         public EntityTriggeredFunction onKilled;
         public EntityTriggeredValueFunction onDealDamage, onTakeDamage;
-
-        public Inventory inventory;
+         
         public bool dead;
 
         #region Status Layout  
         [HideInInspector]
+        public FloatAttribute Strength, Agility, Intelligence, Will, Vitality, Endurance, Resistance;
+        public FloatAttribute Light, Dark, Neutral;
+        public FloatAttribute Blood;
+
         public IntegerAttribute Level, MaxHP, MaxMP, MaxSP;
         //Root Attributes
         [HideInInspector]
@@ -30,14 +33,7 @@ namespace Game
         public IntegerAttribute Mobility;
 
         [HideInInspector]
-        public FloatAttribute MovementSpeed, JumpForce;
-        [HideInInspector]
-        public FloatAttribute AttackSpeed;
-        [HideInInspector]
-        //Offense
-        public FloatAttribute AttackRange;
-        [HideInInspector]
-        public IntegerAttribute AttackDamage, AbilityPower;
+        public FloatAttribute MovementSpeed, JumpHeight;
         [HideInInspector]
         public IntegerAttribute FlatArmorPenetration, FlatMagicPenetration;
         [HideInInspector]
@@ -47,11 +43,11 @@ namespace Game
         public IntegerAttribute Armor, MagicResistance;
         [HideInInspector]
         //None 
-        public FloatAttribute HPRegen;
+        public FloatAttribute HPRegen, MPRegen, SPRegen;
         [HideInInspector]
         public IntegerAttribute Tenacity;
         [HideInInspector]
-        public FloatAttribute LifeSteal, DamageOutputModifier, HealingModifier;
+        public FloatAttribute DamageOutputModifier, HealingModifier;
         [HideInInspector]
 
         public CappedResource HP, MP, SP;
@@ -72,6 +68,8 @@ namespace Game
         internal SortedSet<AdvancedStatusBuff> appliedAdvancedBuffs;
         internal Entity owner;
 
+        public float AttackDamage => throw new NotImplementedException();
+
         #region Initializers 
         internal void Initialize(Entity owner)
         {
@@ -87,6 +85,13 @@ namespace Game
 
             builder =
             builder != null ? builder : ScriptableObject.CreateInstance<StatusBuilder>();
+            Strength = new(builder.Strength);
+            Agility = new(builder.Agility);
+            Intelligence = new(builder.Intelligence);
+            Will = new(builder.Will);
+            Vitality = new(builder.Vitality);
+            Endurance = new(builder.Endurance);
+            Resistance = new(builder.Resistance);
 
             Level = new(builder.Level);
             MaxHP = new(builder.MaxHP);
@@ -99,13 +104,7 @@ namespace Game
 
             Mobility = new(builder.Mobility);
             MovementSpeed = new(builder.MovementSpeed, parent: Mobility);
-            JumpForce = new(builder.JumpForce, parent: Mobility);
-
-            AttackSpeed = new(builder.AttackSpeed, parent: Speed);
-
-            AttackRange = new((int)builder.AttackRange, parent: Range);
-            AttackDamage = new(builder.AttackDamage, parent: Offense);
-            AbilityPower = new(builder.AbilityPower, parent: Offense);
+            JumpHeight = new(builder.JumpForce, parent: Mobility);
 
             FlatArmorPenetration = new(builder.FlatArmorPenetration, parent: Offense);
             FlatMagicPenetration = new(builder.FlatMagicPenetration, parent: Offense);
@@ -116,8 +115,9 @@ namespace Game
             MagicResistance = new(builder.MagicResistance, parent: Defense);
 
             HPRegen = new(builder.HPRegen);
-            Tenacity = new(builder.Tenacity);
-            LifeSteal = new(builder.LifeSteal);
+            MPRegen = new(builder.MPRegen);
+            SPRegen = new(builder.SPRegen);
+            Tenacity = new(builder.Tenacity); 
             DamageOutputModifier = new(builder.DamageOutputModifier);
             HealingModifier = new(builder.HealingModifier);
 
@@ -128,11 +128,13 @@ namespace Game
 
             CooldownReduction = new(builder.CooldownReduction);
 
-            _stat_array = new Stat[31]
+            _stat_array = new Stat[]
             {
-                Level, MaxHP, MaxMP, MaxSP, Speed, Range, Offense, Defense, Mobility, MovementSpeed, JumpForce, AttackSpeed, AttackRange,
-                AttackDamage, AbilityPower, FlatArmorPenetration,FlatMagicPenetration, ArmorPenetration,
-                MagicPenetration ,Armor, MagicResistance, HPRegen, Tenacity, LifeSteal, DamageOutputModifier,
+                Strength, Agility, Intelligence, Will, Vitality, Endurance, Resistance,
+            Level, MaxHP, MaxMP, MaxSP, Speed, Range, Offense, Defense, Mobility, MovementSpeed, JumpHeight, FlatArmorPenetration,FlatMagicPenetration, ArmorPenetration,
+                MagicPenetration ,Armor, MagicResistance,
+                HPRegen, MPRegen,  SPRegen,
+                Tenacity, DamageOutputModifier,
                 HealingModifier, CooldownReduction, HP, MP, SP, Money,
             };
 
@@ -194,15 +196,16 @@ namespace Game
             HP.Add(HPRegen.GetValue() * (float)Tick.TrueDeltaTime);
         }
 
-        public void ApplyResourceAffect(Status source, ResourceAffect resourceAffect, float? amount = null)
+        public void ApplyResourceAffect(Entity source, ResourceAffect resourceAffect, float? amount = null)
         {
             if (resourceAffect.id == 0) return;
-            amount ??= resourceAffect.GetAmount(source, this);
+            amount ??= resourceAffect.GetAmount(source, owner);
             this[resourceAffect.id].Add(amount.Value);
         }
 
-        public void ApplyOnHitAffects(Status target, float amount)
+        public void ApplyOnHitAffects(Entity target, float amount)
         {
+            /*
             //Eventually want to transition to event system.
             foreach (var item in inventory.items)
                 if (item.OnHitAffects != null)
@@ -210,30 +213,32 @@ namespace Game
 
             foreach (var buff in appliedAdvancedBuffs)
                 if (buff?.OnHitAffects != null) buff.OnHit(this, target, amount);
-
+            */
         }
 
-        public void ApplyGetHitAffects(Status source, float amount)
+        public void ApplyGetHitAffects(Entity source, float amount)
         {
+            /*
             foreach (var item in inventory.items) 
                 if (item?.OnGetHitAffects != null) item.OnGetHit(this, source, amount);
 
             foreach (var buff in appliedAdvancedBuffs) 
                 if (buff?.OnGetHitAffects != null) buff.OnGetHit(this, source, amount);
-
+            */
         }
 
-        public void ApplyOnKillAffects(Status victim)
+        public void ApplyOnKillAffects(Entity victim)
         {
+            /*
             foreach (var item in inventory.items){ 
                 if (item?.OnKillAffects != null) item.OnKill(this, victim);
             }
 			foreach (var buff in appliedAdvancedBuffs){ 
                 if (buff?.OnKillAffects != null) buff.OnKill(this, victim);
-        	}
+        	}*/
 		}
 
-        public void OnDeathEssential(Status _)
+        public void OnDeathEssential(Entity _)
         {
             if (freedTasks) return;
             foreach (var buff in appliedBuffs)
@@ -265,16 +270,16 @@ namespace Game
             HP.AddCallBack(F);
         }*/
 
-        void DoVitalCheck(Stat stat, int change, Status affecter)
+        void DoVitalCheck(Stat stat, int change, Entity affecter)
         {
-            if (stat.GetValue() <= 0) EntityUtil.Death(this, affecter);
+            if (stat.GetValue() <= 0) EntityUtil.Death(owner, affecter);
         }
 
-        public void InvokeOnKill(Status killer) => onKilled?.Invoke(killer);
-        public void InvokeOnDealDamage(Status target, int amount) => onDealDamage?.Invoke(target, amount);
-        public void InvokeOnTakeDamage(Status source, int amount) => onTakeDamage?.Invoke(source, amount);
+        public void InvokeOnKill(Entity killer) => onKilled?.Invoke(killer);
+        public void InvokeOnDealDamage(Entity target, int amount) => onDealDamage?.Invoke(target, amount);
+        public void InvokeOnTakeDamage(Entity source, int amount) => onTakeDamage?.Invoke(source, amount);
         //Temporary solution
-        public HealthModificationData AutoAttackData(Status other) => HealthModificationData.AutoAttack(this, other);
+        public HealthModificationData AutoAttackData(Entity other) => HealthModificationData.AutoAttack(owner, other);
         #endregion
     }
 }

@@ -63,7 +63,7 @@ namespace Game.Buff
 
             if (stackCount <= 0)
             {
-                target.appliedBuffs.Remove(this);
+                target.status.appliedBuffs.Remove(this);
     			Debug.LogError("Supposed to Free?");            
 				//Free();
             }

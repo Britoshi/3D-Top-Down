@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game
-{ 
+{
+    [Serializable]
     public class StatusModule
     {
+        /// <summary>
+        /// This should be NONE if you are not using it as a derivative, such as this value will contribute 15% of armor of the wearer.
+        /// </summary>
+        [Tooltip("This should be NONE if you are not using it as a derivative")]
         [SerializeField] public StatID statID;
         [SerializeField] public ResourceAffectType statAffectType;
         [SerializeField] public float amount;

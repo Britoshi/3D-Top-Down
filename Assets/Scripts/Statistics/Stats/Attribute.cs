@@ -1,10 +1,12 @@
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game
 {
     public abstract class Attribute : Stat
     {
+        [HideInInspector]
         public bool inheritBaseValue;
         protected float _multiplierValue = 1f;
 

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c293774ea321b9c428cd3731356a6742, type: 3}
+  m_Name: test armor
+  m_EditorClassIdentifier: 
+  description: 
+  type: 19
+  weight: 0
+  cost: 0
+  isQuestItem: 0
+  icon: {fileID: 0}
+  attributeAffect: []
+  targetArea: 1
+  models:
+  - {fileID: 6269968599112067291, guid: e1733da1d6f2aaa478246e753fa6c752, type: 3}
+  statusModifiersOnEquip:
+  - attributeID: 17
+    affectType: 0
+    statusModules:
+    - statID: 0
+      statAffectType: 0
+      amount: 0.5
+  onTargetHit: []
+  onGetHit: []
+  onKill: []

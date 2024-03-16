@@ -29,9 +29,9 @@ namespace Game.Buff
         [SerializeField] public OnHitAffect[] OnHitAffects { get; set; }
         [SerializeField] public OnHitAffect[] OnGetHitAffects { get; set; }
         [SerializeField] public OnHitAffect[] OnKillAffects { get; set; }
-        public override void Apply(Status source, Status target)
+        public override void Apply(Entity source, Entity target)
         {
-            SortedSet<AdvancedStatusBuff> buffSet = target.appliedAdvancedBuffs;
+            SortedSet<AdvancedStatusBuff> buffSet = target.status.appliedAdvancedBuffs;
             if (buffSet.TryGetValue(this, out AdvancedStatusBuff existingBuff))
             {
                 existingBuff.target = target;
@@ -43,7 +43,7 @@ namespace Game.Buff
                 var newInstance = (AdvancedStatusBuff)Clone();
 
                 buffSet.Add(newInstance);
-                target.appliedBuffs.Add(newInstance);
+                target.status.appliedBuffs.Add(newInstance);
 
                 newInstance.source = source;
                 newInstance.target = target;
@@ -71,19 +71,19 @@ namespace Game.Buff
         public override void OnTimeExpire()
         {
             RemoveAttributeFromTarget();
-            target.appliedBuffs.Remove(this);
-            target.appliedAdvancedBuffs.Remove(this);
+            target.status.appliedBuffs.Remove(this);
+            target.status.appliedAdvancedBuffs.Remove(this);
         }
 
-        internal void OnHit(Status owner, Status target, float amount) =>
+        internal void OnHit(Entity owner, Entity target, float amount) =>
             IAdvancedTriggers.OnHit(this, owner, target, amount, CustomOnHit);
-        internal void OnGetHit(Status owner, Status source, float amount) =>
+        internal void OnGetHit(Entity owner, Entity source, float amount) =>
             IAdvancedTriggers.OnGetHit(this, owner, source, amount, CustomOnGetHit);
-        internal void OnKill(Status killer, Status victim) =>
+        internal void OnKill(Entity killer, Entity victim) =>
             IAdvancedTriggers.OnKill(this, killer, victim, CustomOnKill);
 
-        public virtual void CustomOnHit(Status owner, Status target, float amount) { }
-        public virtual void CustomOnGetHit(Status owner, Status source, float amount) { }
-        public virtual void CustomOnKill(Status killer, Status victim) { }
+        public virtual void CustomOnHit(Entity owner, Entity target, float amount) { }
+        public virtual void CustomOnGetHit(Entity owner, Entity source, float amount) { }
+        public virtual void CustomOnKill(Entity killer, Entity victim) { }
     }
 }

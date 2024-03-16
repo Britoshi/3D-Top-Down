@@ -9,7 +9,7 @@ namespace Game
         [SerializeField] public ResourceID id;
         [SerializeField] public ResourceModifier[] resourceModifiers;
 
-        public float GetAmount(Status source, Status target)
+        public float GetAmount(Entity source, Entity target)
         {
             //GD.Print($"Calculating amount from {source} to {target}");
             float total = 0f;

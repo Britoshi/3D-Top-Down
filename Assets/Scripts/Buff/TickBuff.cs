@@ -28,7 +28,7 @@ namespace Game.Buff
 
         public void OnTick()
         {
-            target.ApplyResourceAffect(source, affect, damageToDealWithDeltaTime);
+            target.status.ApplyResourceAffect(source, affect, damageToDealWithDeltaTime);
         }
 
         protected void CalculateDamage()
@@ -59,7 +59,7 @@ namespace Game.Buff
         public override void OnTimeExpire()
         {
             RemoveAttributeFromTarget();
-            target.appliedBuffs.Remove(this);
+            target.status.appliedBuffs.Remove(this);
             Tick.RemoveFunction(OnTick);
         }
     }

@@ -124,7 +124,7 @@ namespace Game.StateMachine
 
         internal virtual void ApplyJumpForce()
         {
-            float jumpVelocity = Mathf.Sqrt(2f * Physics.gravity.magnitude * entity.status.JumpForce);
+            float jumpVelocity = Mathf.Sqrt(2f * Physics.gravity.magnitude * entity.status.JumpHeight);
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpVelocity, rigidbody.velocity.z);
         }
 

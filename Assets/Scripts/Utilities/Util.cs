@@ -2,7 +2,7 @@
 using System;
 
 
-namespace Game.Utilities
+namespace Game
 {
     public static class Util
     {
@@ -15,5 +15,12 @@ namespace Game.Utilities
 
             throw new NotImplementedException();
         }
+
+        public static Array EnumToArray(Type e)
+        {
+            return Enum.GetValues(e);
+        }
     }
+
+    
 }
