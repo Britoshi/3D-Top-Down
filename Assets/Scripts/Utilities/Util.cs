@@ -22,9 +22,12 @@ namespace Game
             return Enum.GetValues(e);
         }
         public static T Clone<T>(this T self) where T : ScriptableObject
-        {
-            return UnityEngine.GameObject.Instantiate(self);
+        { 
+            var clone = UnityEngine.Object.Instantiate(self);
+            clone.name = self.name;
+            return clone;
         }
+
     }
 
     

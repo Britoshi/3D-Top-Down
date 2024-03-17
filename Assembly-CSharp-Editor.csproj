@@ -60,9 +60,33 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.19f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\DropdownMultiSelectEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerWithIconEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerBasicWithIconEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\SliderManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerBasicEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\NotificationManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\PieChartEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\UIManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\HorizontalSelectorEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\TooltipManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Editor\InitMUIP.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ProgressBarEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Editor\ExtendedColorPicker.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\RadialSliderEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\UIGradientEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\CustomDropdownEditor.cs" />
     <Compile Include="Assets\RealToon\Editor\RealToonShaderGUI_URP_SRP.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerIconEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ContextMenuManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\SwitchManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ModalWindowManagerEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\ButtonManagerBasicIconEditor.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Editor\WindowManagerEditor.cs" />
     <Compile Include="Assets\RealToon\Editor\RT_Welcome.cs" />
     <Compile Include="Assets\RealToon\Editor\SwapShaderToRealToon.cs" />
+    <Compile Include="Assets\Modern UI Pack\Editor\ContextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

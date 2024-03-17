@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System; 
 using UnityEngine;
-using static UnityEditor.Progress;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Game.Items
 {
@@ -19,6 +15,8 @@ namespace Game.Items
         FULL_GEAR = 1 << 4 | ARMOR,
         MELEE_WEAPON = 1 << 5 | WEAPON,
         RANGE_WEAPON = 1 << 6 | WEAPON,
+        CONSUMABLE = 1 << 7,
+        MISC = 1 << 8,
     }
 
     [Serializable]
@@ -27,7 +25,7 @@ namespace Game.Items
     {
         public string description; //"&{" and "}&" for using live variables
         public Type type;
-        public short weight;
+        public float weight;
         public int cost;
         public bool isQuestItem = false;
         public Sprite icon;
@@ -39,16 +37,29 @@ namespace Game.Items
             
         public int CompareTo(Item other)
         {
-            if (Container == null) return name.CompareTo(other.name);
-            return Container.SortType switch
-            {
-                SortType.NAME => name.CompareTo(other.name),
-                SortType.TYPE => type.CompareTo(other.type),
-                SortType.WEIGHT => weight.CompareTo(other.weight),
-                SortType.COST => cost.CompareTo(other.cost),
-                SortType.QUEST_ITEM => isQuestItem.CompareTo(other.isQuestItem),
-                _ => -1,
-            };
+            //if (Container == null)
+            //{ 
+                int result = name.CompareTo(other.name);
+                if (result != 0) return result;
+
+                result = weight.CompareTo(other.weight);
+                if (result != 0) return result;
+
+                result = cost.CompareTo(other.cost);
+                if (result != 0) return result;
+
+                result = isQuestItem.CompareTo(other.isQuestItem);
+                return result;
+            //}
+            //return Container.SortType switch
+            //{
+            //    SortType.NAME => name.CompareTo(other.name),
+            //    SortType.TYPE => type.CompareTo(other.type),
+            //    SortType.WEIGHT => weight.CompareTo(other.weight),
+            //    SortType.COST => cost.CompareTo(other.cost),
+            //    SortType.QUEST_ITEM => isQuestItem.CompareTo(other.isQuestItem),
+            //    _ => -1,
+            //};
         }
 
         public virtual void ApplyOnPossession()

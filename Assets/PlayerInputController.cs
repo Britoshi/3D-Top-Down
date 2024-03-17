@@ -15,6 +15,9 @@ namespace Game
         public PStateMachine stateMachine;
         InputMode inputMode;
 
+        public KeyCode pauseKeyCode = KeyCode.Escape;
+        public KeyCode inventoryKeyCode = KeyCode.I;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -41,16 +44,18 @@ namespace Game
             {
                 Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Plane groundPlane = new(Vector3.up, Vector3.zero);
-                float rayLength;
-                if (groundPlane.Raycast(cameraRay, out rayLength))
+                if (groundPlane.Raycast(cameraRay, out float rayLength))
                 {
                     Vector3 pointToLook = cameraRay.GetPoint(rayLength);
                     Debug.DrawLine(cameraRay.origin, pointToLook, Color.yellow);
 
                     stateMachine.aimingPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
-                }
-
+                } 
             }
+
+            if (Input.GetKeyDown(inventoryKeyCode)) GameUIManager.ToggleInventoryPanel();
+            else if (Input.GetKeyDown(KeyCode.Pause)) GameUIManager.TogglePause();
+
         }
 
         public void MobileMovementInput(Vector2 input)
