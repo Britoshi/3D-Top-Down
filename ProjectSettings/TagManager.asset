@@ -4,14 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - 'Holder: Right Hand'
-  - 'Holder: Left Hand'
-  - 'Holder: Left Foot'
-  - 'Holder: Right Foot'
-  - 'Holder: Right Hand Weapon'
-  - 'Holder: Left Hand Weapon'
-  - 'Holder: Torso'
-  - 'Holder: Head'
+  - ToolTip:Storage Slot
+  - ToolTip:Equipment Slot
   layers:
   - Default
   - TransparentFX

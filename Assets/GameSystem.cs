@@ -1,3 +1,4 @@
+using Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,7 @@ public class GameSystem : MonoBehaviour
         Paused = true;
         previousTimeScale = Time.timeScale;
         Time.timeScale = 0f;
+        GameUIManager.EnablePausePanel();
         //pauseMenu.SetActive(true);
     }
 
@@ -40,6 +42,8 @@ public class GameSystem : MonoBehaviour
     {
         Paused = false;
         Time.timeScale = previousTimeScale;
+        if (Time.timeScale < 0.01f) Time.timeScale = 1;
+        GameUIManager.DisablePausePanel();
         //pauseMenu.SetActive(false);
     }
 }

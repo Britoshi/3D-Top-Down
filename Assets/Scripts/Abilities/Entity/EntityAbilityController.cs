@@ -70,18 +70,14 @@ namespace Game.Abilities
             foreach (var ability in abilities.Values)
                 ability.PassiveUpdate();
 
+            if (GameSystem.Paused) return;
             if (Input.GetKeyDown(KeyCode.P))
             {
                 if (testAbility.TryCast().result == AbilityResultType.SUCCESS)
                 {
                     currentAbility = testAbility;
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                Debug.Log(animator.applyRootMotion);
-            }
-
+            } 
             if (Input.GetButtonDown("Fire1"))
                 Cast(pAttack);
 

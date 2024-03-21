@@ -16,6 +16,7 @@ namespace Game
         InputMode inputMode;
 
         public KeyCode pauseKeyCode = KeyCode.Escape;
+        public KeyCode pauseKeyCodeBackUP = KeyCode.Return;
         public KeyCode inventoryKeyCode = KeyCode.I;
 
         // Start is called before the first frame update
@@ -26,35 +27,41 @@ namespace Game
 
 
         public void PCControlUpdate()
-        { 
-            stateMachine.IsRunning = stateMachine.sprintHold;
-
-            stateMachine.inputVector2 = 
-                new Vector2(Input.GetAxisRaw("Horizontal"), 
-                Input.GetAxisRaw("Vertical")).normalized;
-            stateMachine.inputVector3 = 
-                new(stateMachine.inputVector2.x, 0, stateMachine.inputVector2.y);
-            stateMachine.lastInput3 = 
-                new(stateMachine.inputVector3.x, stateMachine.inputVector3.y, stateMachine.inputVector3.z);
-            stateMachine.IsMoving = 
-                Input.GetButton("Horizontal") || 
-                Input.GetButton("Vertical");
-            stateMachine.IsAiming = Input.GetButton("Fire2");
-            if (stateMachine.IsAiming)
+        {
+            void HandleInGameControls()
             {
-                Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Plane groundPlane = new(Vector3.up, Vector3.zero);
-                if (groundPlane.Raycast(cameraRay, out float rayLength))
-                {
-                    Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-                    Debug.DrawLine(cameraRay.origin, pointToLook, Color.yellow);
+                if (GameSystem.Paused) return;
 
-                    stateMachine.aimingPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
-                } 
+                stateMachine.IsRunning = stateMachine.sprintHold;
+
+                stateMachine.inputVector2 =
+                    new Vector2(Input.GetAxisRaw("Horizontal"),
+                    Input.GetAxisRaw("Vertical")).normalized;
+                stateMachine.inputVector3 =
+                    new(stateMachine.inputVector2.x, 0, stateMachine.inputVector2.y);
+                stateMachine.lastInput3 =
+                    new(stateMachine.inputVector3.x, stateMachine.inputVector3.y, stateMachine.inputVector3.z);
+                stateMachine.IsMoving =
+                    Input.GetButton("Horizontal") ||
+                    Input.GetButton("Vertical");
+                stateMachine.IsAiming = Input.GetButton("Fire2");
+                if (stateMachine.IsAiming)
+                {
+                    Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Plane groundPlane = new(Vector3.up, Vector3.zero);
+                    if (groundPlane.Raycast(cameraRay, out float rayLength))
+                    {
+                        Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+                        Debug.DrawLine(cameraRay.origin, pointToLook, Color.yellow);
+
+                        stateMachine.aimingPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
+                    }
+                }
             }
 
+            HandleInGameControls();
             if (Input.GetKeyDown(inventoryKeyCode)) GameUIManager.ToggleInventoryPanel();
-            else if (Input.GetKeyDown(KeyCode.Pause)) GameUIManager.TogglePause();
+            else if (Input.GetKeyDown(pauseKeyCode)) GameUIManager.TogglePause();
 
         }
 

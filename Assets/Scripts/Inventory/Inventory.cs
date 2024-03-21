@@ -90,7 +90,15 @@ namespace Game
         }
         public void UnEquip(Equipment equipment)
         {
-
+            foreach (var slot in equipmentSlots)
+            {
+                if (slot.Value.Equals(equipment))
+                {
+                    if (TryUnequipAt(slot.Value))
+                        return;
+                    else throw new Exception("What");
+                }
+            }
         } 
         public bool TryUnequipAt(EquipmentSlot slot)
         {  

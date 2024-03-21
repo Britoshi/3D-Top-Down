@@ -15,8 +15,9 @@ namespace Game.UI
         [SerializeField] PlayerEntity player;
         [SerializeField] ItemSortList itemList;
         Inventory inventory;
-
-        [SerializeField] List<Item> _display;
+        //[SerializeField] 
+         
+        [SerializeField] List<Transform> equipments;
 
         public Type filter;
         public SortType sortType;
@@ -26,15 +27,29 @@ namespace Game.UI
             var items = inventory.storage.GetFilteredList(filter);
             if (items != null) itemList = new ItemSortList(items); 
             else gameObject.SetActive(false);
-            itemList.SortItems(sortType);
-            _display = itemList;
+
+
+            itemList.SortItems(sortType); 
         }
-        void CreateItemSlot(Item item)
+        void CreateItemSlot(Item item, int index)
         {
-            Debug.Log("Creating Item Slot");
+            //Debug.Log("Creating Item Slot");
             var newSlotGameObject = Instantiate(slotPrefab, container);
+            newSlotGameObject.name = index.ToString();
+            //newSlotGameObject.tag = slotPrefab.tag;
             var icon = item.icon != null ? item.icon : GameResources.MissingTexture;
             newSlotGameObject.transform.GetChild(0).GetComponent<Image>().sprite = icon;
+        }
+        void RefreshEquipmentSlot()
+        {
+            if (inventory.equipmentSlots == null) return;
+            foreach(var item in inventory.equipmentSlots)
+            {
+                if (item.Value.item == null) continue;
+                int index = (int)item.Key;
+                var icon = item.Value.item.icon != null ? item.Value.item.icon : GameResources.MissingTexture;
+                equipments[index].GetChild(0).GetComponent<Image>().sprite = icon;
+            }
         }
         public void RefreshUI()
         {  
@@ -44,8 +59,13 @@ namespace Game.UI
                 if (transform == container) continue;
                 Destroy(transform.gameObject);
             }
-
-            foreach (var item in itemList) CreateItemSlot(item);
+            foreach(var item in equipments)
+            {
+                item.GetChild(0).GetComponent<Image>().sprite = null;
+            }
+            int index = 0;
+            foreach (var item in itemList) CreateItemSlot(item, index++);
+            RefreshEquipmentSlot();
             autoCellSize.AdjustCellSize();
         }
         public void OnOpenTab(Type filter)
@@ -53,6 +73,27 @@ namespace Game.UI
             this.filter = filter;
             ArrangeList();
             RefreshUI();
+        }
+        //public Item GetItem(int index)
+        //{
+
+        //} 
+        public void GetStorageToolTip(int index, ToolTip tooltip)
+        {
+            if (itemList.Count == 0) ArrangeList();
+            Item item = itemList[index];
+            tooltip.Set(item.name, item.description);
+        }
+        public void GetEquipmentToolTip(int index, ToolTip tooltip)
+        {
+            if (itemList.Count == 0) ArrangeList();
+            Item item = inventory.equipmentSlots[(EquippableArea)index].item;
+            if (item == null)
+            {
+                tooltip.Disable();
+                return;
+            }
+            tooltip.Set(item.name, item.description);
         }
 
         private void OnEnable()
@@ -70,10 +111,14 @@ namespace Game.UI
         {
             itemList.Clear();
         }
+        private void Awake()
+        {
+            
+        }
         // Start is called before the first frame update
         void Start()
         {
-            itemList = new();
+            itemList = new(); 
         }
 
         // Update is called once per frame

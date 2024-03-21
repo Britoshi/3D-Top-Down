@@ -1,5 +1,7 @@
-using System; 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Game.Items
 {
@@ -77,6 +79,28 @@ namespace Game.Items
             owner.inventory.CurrentWeight -= weight;
             for (int i = 0; i < attributeAffect.Length; i++)
                 attributeAffect[i]?.Remove(owner);
+        }
+
+        public struct ItemAction
+        {
+            public string name;
+            public Action action;
+
+            public ItemAction(string name, Action action)
+            {
+                this.name = name;
+                this.action = action;
+            }
+        }
+
+        public virtual void Drop()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual List<ItemAction> ItemActions()
+        {
+            return isQuestItem ? new() : new() { new("Drop", Drop) };
         }
     }
 

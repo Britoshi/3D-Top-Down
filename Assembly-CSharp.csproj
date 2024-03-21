@@ -117,14 +117,15 @@
     <Compile Include="Assets\UIInventory.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\InputSystemChecker.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneSubStateBase.cs" />
+    <Compile Include="Assets\Scripts\UI\ItemDisplay.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityDrainCost.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerInputField.cs" />
     <Compile Include="Assets\EntityMaster.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\SmoothObjectNormalHelper.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\GroundedState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Window\WindowManagerButton.cs" />
-    <Compile Include="Assets\Scripts\Inventory\ItemContainer.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RadialSlider.cs" />
+    <Compile Include="Assets\Scripts\Inventory\ItemContainer.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PRunSubState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Switch\SwitchManager.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerSlider.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerBasicIcon.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateMachine.cs" />
-    <Compile Include="Assets\Scripts\AbilityController.cs" />
     <Compile Include="Assets\TabEventHandler.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RangeSlider.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerProgressBarLoop.cs" />
@@ -167,6 +167,7 @@
     <Compile Include="Assets\EntityAnimationFunctionController.cs" />
     <Compile Include="Assets\UIInventoryTabManager.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Weapon\RangeWeapon.cs" />
+    <Compile Include="Assets\ToolTipDetector.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModule.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\AirborneState.cs" />
@@ -216,8 +217,8 @@
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubStateBase.cs" />
     <Compile Include="Assets\GameResources.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerAnimatedIcon.cs" />
-    <Compile Include="Assets\Modern UI Pack\Scripts\Context Menu\ContextMenuContent.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Input Field\CustomInputField.cs" />
+    <Compile Include="Assets\Modern UI Pack\Scripts\Context Menu\ContextMenuContent.cs" />
     <Compile Include="Assets\Scripts\Utilities\Cost.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\HealthAffect.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Aiming\AimingMovingState.cs" />

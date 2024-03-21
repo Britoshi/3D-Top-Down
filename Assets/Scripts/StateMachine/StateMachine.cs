@@ -42,7 +42,6 @@ namespace Game.StateMachine
         public string LastAnimationChangeAttempt { get; internal set; } 
         public void SwitchRootState(RootState newState)
         {
-            print("swtiching");
             _currentState?.GetRootState().ExitState();
 
             _currentState = newState;

@@ -27,7 +27,10 @@ namespace Game
             clone.name = self.name;
             return clone;
         }
-
+        public static bool TagContains(this GameObject gameObject, string substring)
+        {
+                return  gameObject.tag.Contains(substring);
+        }
     }
 
     

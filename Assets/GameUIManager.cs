@@ -17,7 +17,7 @@ namespace Game
         // Start is called before the first frame update
         void Start()
         {
-
+            ClosePauseMenu();
         }
 
         // Update is called once per frame
@@ -29,12 +29,14 @@ namespace Game
         {
             CloseInventoryPanel();
             pausePanel.SetActive(false);
-            GameSystem.ResumeGame();
+            if(GameSystem.Paused)
+                GameSystem.ResumeGame();
         }
         public void OpenPauseMenu()
         {
             pausePanel.SetActive(true);
-            GameSystem.PauseGame();
+            if (!GameSystem.Paused)
+                GameSystem.PauseGame();
         }
         public  void TogglePauseMenu()
         {
