@@ -16,20 +16,28 @@ namespace Game.Items
     }
 
     //Gonna be further expanded. 
-    public enum EquippableArea
-    {     
+    [Flags]
+    public enum EquipmentType
+    {      
+        ARMOR = 1,
+        WEAPON = 2,
+    }
+    public enum EquipmentLocation
+    { 
+        LEFT_HAND,
+        RIGHT_HAND,
+        BOTH_HANDS,
         HEAD,
         BODY,
-        HAND,
-        BOOTS,
-        WEAPON,
+        PANTS,
+        SHOES,
     }
 
     [Serializable]
     public abstract class Equipment : Item
     {
         [Header("Equipment")]
-        public EquippableArea targetArea;
+        public EquipmentLocation targetArea;
         public GameObject[] models;
         public AttributeAffect[] statusModifiersOnEquip;
         public OnHitAffect[] onTargetHit, onGetHit, onKill;
@@ -38,8 +46,10 @@ namespace Game.Items
         /// </summary>
 
         public bool isEquipped;
-        
+
+        public abstract EquipmentType EquipType { get; }
         public EquipmentOnHitAffect OnHits { set; get; }
+
         private void OnValidate()
         {
             OnHits = 0;
@@ -49,11 +59,7 @@ namespace Game.Items
                 OnHits |= EquipmentOnHitAffect.ON_GET_HIT;
             if (onKill.Length > 0)
                 OnHits |= EquipmentOnHitAffect.ON_KILL;
-        }
-        public EquippableArea[] AllAreas()
-        { 
-            return Enum.GetValues(typeof(EquippableArea)) as EquippableArea[];
-        }
+        } 
         readonly List<GameObject> spawnedModels = new();
         public Transform GetTargetTransform() => owner.GetEquipmentTransform(targetArea);
         public virtual void SetModel()
@@ -96,14 +102,14 @@ namespace Game.Items
                 throw new Exception("What the fuck");
         }
 
-        public override List<ItemAction> ItemActions()
+        public override List<ItemAction> GetItemActions()
         {
-            var ba = base.ItemActions();
+            var ba = base.GetItemActions();
             ba.Add(
                 isEquipped ? new("Unequip", Unequip) :
                 new( "Equip", Equip)
                 );
             return ba;
-        }
+        } 
     }
 }

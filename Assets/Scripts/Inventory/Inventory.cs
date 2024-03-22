@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using Game.Items;
 using System.Linq; 
-using UnityEngine; 
+using UnityEngine;
+using Unity.VisualScripting.FullSerializer;
 namespace Game
 {
     [Serializable]
@@ -17,8 +18,7 @@ namespace Game
         public float CurrentWeight { set; get; }
 
         public ItemList storage;
-        public EquipmentSlot head, body, hands, feet, weapon;
-        public Dictionary<EquippableArea, EquipmentSlot> equipmentSlots;
+        public EquipmentSlot armor, weapon;
 
 
         public Inventory(Entity owner) => Initialize(owner); 
@@ -31,32 +31,21 @@ namespace Game
                 storage.ForEach(item => item.ApplyOnPossession()); 
             }
 
-            void InitializeEquipments()
+            void InitializeEquipments(EquipmentSlot slot)
             {
-                equipmentSlots ??= new()
-                {
-                    [EquippableArea.HEAD] = head,
-                    [EquippableArea.BODY] = body,
-                    [EquippableArea.HAND] = hands,
-                    [EquippableArea.BOOTS] = feet,
-                    [EquippableArea.WEAPON] = weapon
-                };
-                foreach (var iter in equipmentSlots)
-                {
-                    var slot = iter.Value; 
-                    slot.Initialize(owner);
-                    if (slot.Count == 0) continue; 
-                    //Only  Apply if they exist
-                    slot.item.ApplyOnPossession();
-                    slot.item.ApplyOnEquip();
-                }
+                slot.Initialize(owner);
+                if (slot.Count == 0) return; 
+                //Only  Apply if they exist
+                slot.item.ApplyOnPossession();
+                slot.item.ApplyOnEquip();
             }
 
             Owner = owner;
             status = owner.status;
             CurrentWeight = 0f; 
             InitializeStorage();
-            InitializeEquipments();
+            InitializeEquipments(armor);
+            InitializeEquipments(weapon);
 
             return this;
         }
@@ -67,6 +56,10 @@ namespace Game
             {
                 item.ApplyOnPossession();
             }
+            else
+            {
+                Debug.Log("What the fuck again");
+            }
         }
 
         public void RemoveItem(Item item)
@@ -76,32 +69,29 @@ namespace Game
                 item.ApplyOnDepossession();
             }
         }
+        private EquipmentSlot GetEquipmentSlot(Equipment equipment) =>
+            equipment.EquipType == EquipmentType.WEAPON ? weapon : armor;
 
         public void Equip(Equipment equipment)
         {
             Debug.Log("This is pretty inefficient \"Contains\"");
             if (!storage.Contains(equipment)) 
                 throw new Exception("You cannot equip something you do not have?");
-             
-            var slot = equipmentSlots[equipment.targetArea];
+
+            EquipmentSlot slot = GetEquipmentSlot(equipment);
             TryUnequipAt(slot);
             slot.Add(equipment);
             equipment.ApplyOnEquip(); 
         }
         public void UnEquip(Equipment equipment)
-        {
-            foreach (var slot in equipmentSlots)
-            {
-                if (slot.Value.Equals(equipment))
-                {
-                    if (TryUnequipAt(slot.Value))
-                        return;
-                    else throw new Exception("What");
-                }
-            }
+        { 
+            if (TryUnequipAt(GetEquipmentSlot(equipment))) return;
+            else throw new Exception("What");
         } 
         public bool TryUnequipAt(EquipmentSlot slot)
-        {  
+        {
+            // foreach (var item in equipmentSlots)  Debug.Log("shit dawg" + item.Value.item);
+            var item = slot.item;
             if (slot.IsEmpty)
             {
                 Debug.Log("dis slot empty   dawhg.");
@@ -109,6 +99,9 @@ namespace Game
             } 
             slot.item.ApplyOnUnEquip();
             slot.Remove();
+
+            AddItem(item);
+            
             return true; 
         }
     }

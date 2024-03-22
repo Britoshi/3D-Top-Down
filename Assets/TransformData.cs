@@ -14,15 +14,15 @@ public class TransformData
     public Transform leftHand, rightHand;
     public Transform leftFoot, rightFoot;
     public Transform leftHandWeapon, rightHandWeapon;
-    public SortedDictionary<EquippableArea, Transform> targets;
+    public SortedDictionary<EquipmentLocation, Transform> targets;
 
     public void Initialize(Entity entity)
     {
         owner = entity;
         targets = new()
         {
-            [EquippableArea.HEAD] = head,
-            [EquippableArea.BODY] = torso
+            [EquipmentLocation.HEAD] = head,
+            [EquipmentLocation.BODY] = torso
         };
 
         root = owner.gameObject;

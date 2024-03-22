@@ -15,7 +15,7 @@ namespace Game
         public Animator animator;
         public TransformData transforms;
 
-        public void Awake()
+        public virtual void Awake()
         {
             InitializeComponents(); 
             status.owner = this;
@@ -41,7 +41,7 @@ namespace Game
             abilityController.Initialize(this);
         }
 
-        internal Transform GetEquipmentTransform(EquippableArea targetArea)
+        internal Transform GetEquipmentTransform(EquipmentLocation targetArea)
         {  
             transforms.targets.TryGetValue(targetArea, out Transform targetTransform);
             return targetTransform;  

@@ -31,7 +31,7 @@ namespace Game.UI
 
             itemList.SortItems(sortType); 
         }
-        void CreateItemSlot(Item item, int index)
+        GameObject CreateItemSlot(Item item, int index)
         {
             //Debug.Log("Creating Item Slot");
             var newSlotGameObject = Instantiate(slotPrefab, container);
@@ -39,9 +39,11 @@ namespace Game.UI
             //newSlotGameObject.tag = slotPrefab.tag;
             var icon = item.icon != null ? item.icon : GameResources.MissingTexture;
             newSlotGameObject.transform.GetChild(0).GetComponent<Image>().sprite = icon;
+            return newSlotGameObject;
         }
         void RefreshEquipmentSlot()
         {
+            /*
             if (inventory.equipmentSlots == null) return;
             foreach(var item in inventory.equipmentSlots)
             {
@@ -49,7 +51,7 @@ namespace Game.UI
                 int index = (int)item.Key;
                 var icon = item.Value.item.icon != null ? item.Value.item.icon : GameResources.MissingTexture;
                 equipments[index].GetChild(0).GetComponent<Image>().sprite = icon;
-            }
+            }*/
         }
         public void RefreshUI()
         {  
@@ -78,22 +80,23 @@ namespace Game.UI
         //{
 
         //} 
-        public void GetStorageToolTip(int index, ToolTip tooltip)
+        public void GetStorageItem(int index, ItemData tooltip)
         {
             if (itemList.Count == 0) ArrangeList();
             Item item = itemList[index];
-            tooltip.Set(item.name, item.description);
+            tooltip.Set(item);
         }
-        public void GetEquipmentToolTip(int index, ToolTip tooltip)
+        public void GetEquipmentItem(int index, ItemData tooltip)
         {
+            /*
             if (itemList.Count == 0) ArrangeList();
-            Item item = inventory.equipmentSlots[(EquippableArea)index].item;
+            Item item = inventory.equipmentSlots[(EquipmentType)index].item;
             if (item == null)
             {
                 tooltip.Disable();
                 return;
             }
-            tooltip.Set(item.name, item.description);
+            tooltip.Set(item);*/
         }
 
         private void OnEnable()

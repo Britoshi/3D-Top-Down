@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ToolTip:Storage Slot
   - ToolTip:Equipment Slot
+  - Tool Tip
+  - Tool Tip:Item
   layers:
   - Default
   - TransparentFX

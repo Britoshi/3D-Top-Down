@@ -13,7 +13,7 @@ namespace Game.Items
         EQUIPMENT = 1 << 0,
         ARMOR = 1 << 1 | EQUIPMENT,
         WEAPON = 1 << 2 | EQUIPMENT,
-        HEAD_GEAR = 1 << 3 | ARMOR,
+       // HEAD_GEAR = 1 << 3 | ARMOR,
         FULL_GEAR = 1 << 4 | ARMOR,
         MELEE_WEAPON = 1 << 5 | WEAPON,
         RANGE_WEAPON = 1 << 6 | WEAPON,
@@ -36,22 +36,23 @@ namespace Game.Items
         public bool HasAttributeAffector => attributeAffect.Length > 0;   
         public ItemContainer Container { set; get; }
         public Entity owner => Container.Owner;
-            
+
         public int CompareTo(Item other)
         {
             //if (Container == null)
             //{ 
-                int result = name.CompareTo(other.name);
-                if (result != 0) return result;
+            int result = name.CompareTo(other.name);
+            if (result != 0) return result;
 
-                result = weight.CompareTo(other.weight);
-                if (result != 0) return result;
+            result = weight.CompareTo(other.weight);
+            if (result != 0) return result;
 
-                result = cost.CompareTo(other.cost);
-                if (result != 0) return result;
+            result = cost.CompareTo(other.cost);
+            if (result != 0) return result;
 
-                result = isQuestItem.CompareTo(other.isQuestItem);
-                return result;
+            result = isQuestItem.CompareTo(other.isQuestItem);
+            if(result != 0) return result;
+            return result;
             //}
             //return Container.SortType switch
             //{
@@ -98,7 +99,7 @@ namespace Game.Items
             throw new NotImplementedException();
         }
 
-        public virtual List<ItemAction> ItemActions()
+        public virtual List<ItemAction> GetItemActions()
         {
             return isQuestItem ? new() : new() { new("Drop", Drop) };
         }

@@ -31,6 +31,19 @@ namespace Game
         {
                 return  gameObject.tag.Contains(substring);
         }
+
+        public static void DestroyChildren(this Transform transform)
+        {
+            if (transform.childCount == 0) return;
+            foreach(Transform child in transform)
+                UnityEngine.Object.Destroy(child.gameObject); 
+        }
+        public static void DestroyChildren(this RectTransform transform)
+        {
+            if (transform.childCount == 0) return;
+            foreach (Transform child in transform)
+                UnityEngine.Object.Destroy(child.gameObject);
+        }
     }
 
     

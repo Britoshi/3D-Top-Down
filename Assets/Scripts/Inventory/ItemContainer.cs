@@ -83,7 +83,7 @@ namespace Game
     {
         [SerializeField]
         private List<Item> _initList;
-        private SortedSet<Item> items;
+        private List<Item> items;
 
         public override int Count => items.Count;
 
@@ -232,6 +232,10 @@ namespace Game
         {
 
         }
+        public ItemSortList(ItemSortList list) : base(list)
+        {
+
+        }
         public ItemSortList() : base()
         {
 
@@ -244,7 +248,7 @@ namespace Game
             }
             base.Add(item);
         }
-
+         
         public void SortItems(SortType sortType)
         {
             SortType = sortType;

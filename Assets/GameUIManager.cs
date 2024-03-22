@@ -1,3 +1,4 @@
+using Game.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,6 @@ namespace Game
     {
         public static GameUIManager instance;
         public GameObject pausePanel;
-
-        public GameObject inventoryPanel;
         private void Awake()
         {
             instance = this;
@@ -27,7 +26,7 @@ namespace Game
         }
         public void ClosePauseMenu()
         {
-            CloseInventoryPanel();
+            CloseInventory();
             pausePanel.SetActive(false);
             if(GameSystem.Paused)
                 GameSystem.ResumeGame();
@@ -45,23 +44,21 @@ namespace Game
         }
         public static void DisablePausePanel() => instance.ClosePauseMenu();
         public static void EnablePausePanel() => instance.OpenPauseMenu();
-        public static void TogglePause() => instance.TogglePauseMenu();
-        public void OpenInventory()
+        public static void TogglePause() => instance.TogglePauseMenu(); 
+
+        public static void OpenItemPanel()
         { 
             EnablePausePanel();
-            inventoryPanel.SetActive(true);
+            UIInventoryMenu.DisplayItemPage();
         }
-        public void CloseInventory()
+        public static void OpenEquipmentPanel()
         {
-            inventoryPanel.SetActive(false);
+            EnablePausePanel();
+            UIInventoryMenu.DisplayEquipmentPage();
         }
-        public void ToggleInventory()
+        public static void CloseInventory()
         {
-            if (inventoryPanel.activeSelf) CloseInventory();
-            else OpenInventory();
+            UIInventoryMenu.Close();
         }
-        public static void OpenInventoryPanel() => instance.OpenInventory();
-        public static void CloseInventoryPanel() => instance.CloseInventory();
-        public static void ToggleInventoryPanel() => instance.ToggleInventory();
     }
 }

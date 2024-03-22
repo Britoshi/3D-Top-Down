@@ -1,4 +1,5 @@
 using Game.StateMachine.Player;
+using Game.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; 
@@ -60,7 +61,8 @@ namespace Game
             }
 
             HandleInGameControls();
-            if (Input.GetKeyDown(inventoryKeyCode)) GameUIManager.ToggleInventoryPanel();
+            if (Input.GetKeyDown(inventoryKeyCode)) GameUIManager.OpenItemPanel();
+            else if (Input.GetKeyDown(KeyCode.P)) GameUIManager.OpenEquipmentPanel();
             else if (Input.GetKeyDown(pauseKeyCode)) GameUIManager.TogglePause();
 
         }
@@ -119,6 +121,7 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
+            
             switch (inputMode)
             {
                 case InputMode.PC:
