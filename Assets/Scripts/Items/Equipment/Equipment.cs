@@ -64,6 +64,8 @@ namespace Game.Items
         public Transform GetTargetTransform() => owner.GetEquipmentTransform(targetArea);
         public virtual void SetModel()
         {
+            //Debug.Log("We don't do models yet?");
+            
             if (models.Length == 1)
             {
                 var target = GetTargetTransform();
@@ -88,6 +90,7 @@ namespace Game.Items
         {
             //if (Container.isStaticContainer) return;
             isEquipped = false;
+            ClearModel();
             for (int i = 0; i < statusModifiersOnEquip.Length; i++)
                 statusModifiersOnEquip[i]?.Remove(owner);
         }

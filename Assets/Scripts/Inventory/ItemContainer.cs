@@ -36,8 +36,7 @@ namespace Game
         }
         //public SortType SortType { get;  protected set; }
         public bool Add(Item item)
-        {
-            item = item.Clone();
+        { 
             if (HandleAdd(item))
             {
                 item.Container = this;
@@ -197,6 +196,7 @@ namespace Game
             {
                 throw new System.Exception("Why are you trying to remove an item that doesn't exist?");
             }
+            item.Container = null;
             item = null;
             return true;
         }

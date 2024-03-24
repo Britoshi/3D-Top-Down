@@ -18,10 +18,4 @@ MonoBehaviour:
   cost: 0
   isQuestItem: 0
   icon: {fileID: 0}
-  attributeAffect:
-  - attributeID: 17
-    affectType: 0
-    statusModules:
-    - statID: 0
-      statAffectType: 0
-      amount: 2
+  attributeAffect: []

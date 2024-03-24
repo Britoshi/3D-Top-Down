@@ -2,13 +2,8 @@ using Game.StateMachine.Player;
 
 namespace Game.StateMachine.Player
 {
-    public class PIdleSubState : PGroundedSubStateBase, IHasAnimation
-    {
-        public virtual string GetAnimationName() => standAlone ? null : "Idle";
-        public override AnimationParameter GetAnimationParameter()
-        {
-            return AnimationParameter.IDLE;
-        }
+    public class PIdleSubState : PGroundedSubStateBase
+    { 
         /// <summary>
         /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
         /// It seems useless right now.
@@ -20,8 +15,8 @@ namespace Game.StateMachine.Player
             this.standAlone = standAlone;
         }
         public override void EnterState()
-        {
-
+        { 
+            base.EnterState();
         }
 
         public override bool UpdateState()

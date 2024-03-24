@@ -102,8 +102,7 @@ namespace Game.Abilities
 
         #region Animation Functions #Only put animation related function.
         public virtual void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            print("Anim Start", GetName());
+        { 
             animationProgress = 0;
             if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
         }
@@ -112,15 +111,14 @@ namespace Game.Abilities
             animationProgress = stateInfo.normalizedTime % 1;
         }
         public virtual void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            Debug.Log("Ability Animation Ended " + GetName());
+        { 
             if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
 
             animationProgress = -1;
 
             //This  should onlybe if it is standalone
             Owner.abilityController.SetAbility(null);
-            print("Ability Animation ended normally", GetName());
+            //print("Ability Animation ended normally", GetName());
             Owner.stateMachine.ResetState();
             
         }
@@ -223,9 +221,11 @@ namespace Game.Abilities
                     case CostType.MaximumPercentage:
                         calculatedCost += owner.status[resourceID].GetMaximumValue() * value;
                         break;
+                    case CostType.MissingPercentage:
+                        break;
                     default:
                         throw new NotImplementedException();
-                } 
+                }
                 return calculatedCost.Value;
             }
 

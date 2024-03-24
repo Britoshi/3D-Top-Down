@@ -9,8 +9,7 @@
         }
         public override void EnterState()
         {
-            //ChangeAnimation("Walk"); 
-            print("if animation dont change, this is the problem. animation not changing on state entering");
+            base.EnterState();
         }
         public override bool FixedUpdateState()
         {

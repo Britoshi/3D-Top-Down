@@ -19,11 +19,11 @@ namespace Game.StateMachine
 
         public override void EnterState()
         {
+            base.EnterState();
             deadtime = 0;
             //Ctx.JumpTrigger = false;
-            ApplyInitialJump();
-            Ctx.PurgeJumpGracePeriod();
-            ChangeAnimation("Air Ascend");
+            ApplyInitialJump(); 
+            //ChangeAnimation("Air Ascend");
         }
 
         public override bool UpdateState()

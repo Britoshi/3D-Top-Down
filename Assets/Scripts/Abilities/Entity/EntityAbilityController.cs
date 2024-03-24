@@ -40,7 +40,7 @@ namespace Game.Abilities
             entity = self;
             animator = self.animator;
             testAbility = new TestSwordAbility(self);
-            pAttack = new PrimaryAttackAbility(self);
+            pAttack = new SwordCombo(self);
             sAttack = new SecondaryAttackAbility(self);
         }
         public void Cast(NAbility ability, bool skipCheck = false)

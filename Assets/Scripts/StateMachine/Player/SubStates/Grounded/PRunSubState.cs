@@ -8,16 +8,15 @@ using UnityEngine;
 
 namespace Game.StateMachine.Player
 {
-    public class PRunSubState : PGroundedSubStateBase, IHasAnimation
+    public class PRunSubState : PGroundedSubStateBase
     {
-        public virtual string GetAnimationName() => "Run";
         public PRunSubState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }
         public override void EnterState()
         {
-            //ChangeAnimation("Run");
+            base.EnterState(); 
         }
         public override bool UpdateState()
         {

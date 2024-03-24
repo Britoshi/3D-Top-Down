@@ -1,8 +1,7 @@
 namespace Game.StateMachine.Player
 {
-    public class AimingMovingState : AimingSubState, IHasAnimation
+    public class AimingMovingState : AimingSubState
     {
-        public virtual string GetAnimationName() => "Aim Blend";
         public AimingMovingState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
@@ -10,7 +9,7 @@ namespace Game.StateMachine.Player
         }
         public override void EnterState()
         {
-
+            base.EnterState();
         }
         public override bool FixedUpdateState()
         {

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Game.StateMachine.Player
 {
-    public abstract class PGroundedSubStateBase : EntityGroundedSubStateBase, IPlayerState
-    {
-        
+    public abstract class PGroundedSubStateBase : EntityGroundedSubStateBase, IPlayerState, IHasAnimation
+    { 
+        public virtual string GetAnimationName() => "Default";
         public PStateMachine P_CTX { set; get; }
         public PStateFactory P_Factory { set; get; } 
 

@@ -1,4 +1,5 @@
 using Game.Abilities;
+using Game.Items;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,25 +18,31 @@ namespace Game.StateMachine
         public GroundedController groundedController;
 
         public bool IsMoving { get; set; }
-        public bool IsRunning { get; set; } 
-        public float CurrentSpeed => Mathf.Abs(entity.rigidbody.velocity.magnitude);
-
-        //Dir
-        public int RawInputDir { set; get; }
-        public int RawVerticalInput { set; get; }
-        [field: SerializeField]
-        public Transform ForwardDirection { set; get; }
-        [field: SerializeField]
-        public GameObject Model { set; get; }
+        public bool IsRunning { get; set; }  
+         
+        [field: SerializeField] public Transform ForwardDirection { set; get; }
+        [field: SerializeField] public GameObject Model { set; get; }
 
         protected BaseState _currentState;
 
         public StateFactory Factory { protected set; get; }
         public new Rigidbody rigidbody;
         
-        private Animator animator;
-        private int _jumpGracePeriod;
+        private Animator animator; 
 
+        public WeapnHoldType? GetWeaponAnimationType()
+        {
+            var weapon = entity.inventory.weapon.item;
+            if (weapon == null) return null;
+            return (weapon as Weapon).holdType;
+        }
+        public string GetBasicAnimationNamePrefix()
+        {
+            var slot = entity.inventory.weapon;
+            if (slot.IsEmpty) return "";
+            return (slot.item as Weapon).AnimationPrefix + " ";
+        }
+        
         public BaseState currentState { get => _currentState; internal set => _currentState = value; }
 
         public string CurrentAnimation { get; internal set; }
@@ -94,8 +101,7 @@ namespace Game.StateMachine
             //if (currentState is not EntityGroundedSubStateBase) return false;
             else if (currentState is EntityJumpState) return false;
             return true;
-        }
-        internal void PurgeJumpGracePeriod() => _jumpGracePeriod = 0;
+        } 
 
         public void UpdateDebugText()
         {

@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace Game.StateMachine.Player
 {
-    public abstract class AimingSubState : BaseState
+    public abstract class AimingSubState : BaseState, IHasAnimation
     {
+        public virtual string GetAnimationName() => "Aim";
         //If this is a purformace issue, remake it.
         //protected float CurrentSpeed => Ctx.CurrentSpeed;
         //protected virtual float MaxSpeed => Ctx.MaximumMovementSpeed;
-
-        public override AnimationParameter GetAnimationParameter() => AnimationParameter.MOVEMENT;
 
         public PStateMachine P_CTX { set; get; }
         public PStateFactory P_Factory { set; get; }

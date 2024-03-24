@@ -1,16 +1,14 @@
 ﻿namespace Game.StateMachine.Player
 {
-    public class PWalkSubState : PGroundedSubStateBase, IHasAnimation
+    public class PWalkSubState : PGroundedSubStateBase
     {
-        public virtual string GetAnimationName() => "Walk";
         public PWalkSubState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }
         public override void EnterState()
         {
-            //ChangeAnimation("Walk"); 
-            //print("if animation dont change, this is the problem. animation not changing on state entering");
+            base.EnterState(); 
         }
         public override bool FixedUpdateState()
         {

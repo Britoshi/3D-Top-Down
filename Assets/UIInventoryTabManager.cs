@@ -35,7 +35,7 @@ namespace Game.UI
             {
                 tab.button.onClick.AddListener(() => Switch(tab));
                 tab.button.onClick.AddListener(tab.onTabClick.Invoke);
-                tab.button.onClick.AddListener(() => uiInventory.OnOpenTab(tab.type));
+                //tab.button.onClick.AddListener(() => uiInventory.OnOpenTab(tab.type));
             }
         }
 

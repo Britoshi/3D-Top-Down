@@ -41,16 +41,11 @@ public class ItemData : IEquatable<ItemData>
 public class ToolTipDetector : BritoBehavior
 {
     [Serializable]
-    public struct ToolTipItem
-    {
-        public string tag;
-        public UnityEvent<int, ItemData> func;
-    }
-    [Serializable]
     public struct ToolTipData
     {
         public string tag;
         public UnityEvent<GameObject> function;
+        //public UnityEvent<GameObject> clickFunction;
     }
 
     [SerializeField] RectTransform rightClickMenu;
@@ -58,69 +53,11 @@ public class ToolTipDetector : BritoBehavior
 
     [SerializeField] TMPro.TMP_Text text;
 
-    public List<ToolTipItem> itemDatas;
     public List<ToolTipData> toolTipDatas;
     Vector2 mousePosition;
 
     public const string TOOLTIP_STRING = "Tool Tip"; // Substring to check for in the tag
-
-    ItemData currentItem;
-
-    
-    void DisableToolTip()
-    {
-        //print("disable");
-        currentItem = null;
-        tooltipRectTransform.gameObject.SetActive(false);
-    }
-
-    void HandleRightClick()
-    { 
-        if (Input.GetButtonDown("Fire2"))
-        {
-            if (currentItem == null || currentItem.disable)
-            {
-                rightClickMenu.gameObject.SetActive(false);
-                return;
-            }
-            var list = currentItem.item.GetItemActions();
-            if (list.Count >= 0)
-            {
-
-                //Delete previous ones
-                int i = 0;
-                foreach (Transform child in rightClickMenu)
-                {
-                    if (i == 0)
-                    {
-                        i++; continue;
-                    }
-                    Destroy(child.gameObject);
-                    i++;
-                }
-                foreach (var action in list)
-                {
-                    var newObj = Instantiate(prefabMenuItem, rightClickMenu);
-                    var button = newObj.GetComponent<ButtonManagerBasicWithIcon>();
-                    //button.transform
-                    button.buttonText = action.name;
-                    button.GetComponentInChildren<Button>().onClick.AddListener(action.action.Invoke);
-
-                    // .transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = action.name;
-
-                }
-            }
-            var title = rightClickMenu.GetChild(0);
-            title.GetChild(0).GetComponent<TMPro.TMP_Text>().text = currentItem.title;
-            MoveTransform(rightClickMenu, mousePosition);
-
-            var newpos = rightClickMenu.position;
-            newpos.y -= (22) * rightClickMenu.childCount;
-
-            rightClickMenu.position = newpos;
-            rightClickMenu.gameObject.SetActive(true);
-        }
-    }
+     
 
     private void Update()
     {
@@ -130,46 +67,17 @@ public class ToolTipDetector : BritoBehavior
 
         if (targetGameObject)
         {
-            print("was something");
+
             string subtag = targetGameObject.tag.Split(':')[1];
             foreach(var data in toolTipDatas)
             {
                 if (data.tag == subtag)
-                    data.function.Invoke(targetGameObject);
-            }
-
-            /*
-            return; 
-            if(itemDatas.Count == 0)
-            {
-                Debug.LogError("There are no item datas. Something  Reset");
-            }
-            foreach (var itemData in itemDatas)
-            {
-                if (itemData.tag == subtag)
                 {
-
-                    if (int.TryParse(targetGameObject.name, out int index))
-                    {
-                        currentItem ??= new();
-                        itemData.func.Invoke(index, currentItem);
-
-                        if (currentItem.disable)
-                        {
-                            DisableToolTip();
-                            return;
-                        }
-                        break;
-                    } 
+                    data.function.Invoke(targetGameObject);
+                    //if (Input.GetButtonDown("Fire1"))
+                    //    data.clickFunction.Invoke(targetGameObject);
                 }
             }
-            if (currentItem != null)
-            {
-                RefreshToolTip();
-                MoveToolTip();
-                tooltipRectTransform.gameObject.SetActive(true);
-            }*/
-            
         }
         else
         {
@@ -179,13 +87,7 @@ public class ToolTipDetector : BritoBehavior
         }
 
         //HandleRightClick();
-    }
-    public Canvas canvas;
-    public RectTransform tooltipRectTransform;
-    void RefreshToolTip()
-    {
-        text.text = currentItem.ToString();
-    }
+    } 
 
     void MoveTransform(RectTransform transform, Vector2 position, bool scale = true)
     { 
@@ -197,10 +99,7 @@ public class ToolTipDetector : BritoBehavior
         }
         transform.anchoredPosition = test;
     }
-    void MoveToolTip()
-    {
-        MoveTransform(tooltipRectTransform, mousePosition, true);
-    }
+
     // Method to check if the mouse is over any UI element with a tag containing the specified substring
     private GameObject IsMouseOverToolTip()
     {  

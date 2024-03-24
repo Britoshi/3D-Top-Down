@@ -15,6 +15,8 @@ namespace Game
         public Animator animator;
         public TransformData transforms;
 
+
+
         public virtual void Awake()
         {
             InitializeComponents(); 

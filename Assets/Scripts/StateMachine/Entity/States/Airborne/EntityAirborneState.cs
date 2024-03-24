@@ -21,8 +21,8 @@ namespace Game.StateMachine
         }
 
         public override void EnterState()
-        {
-
+        { 
+            base.EnterState();
         }
 
         public override bool UpdateState()

@@ -17,9 +17,8 @@ MonoBehaviour:
   weight: 0
   cost: 0
   isQuestItem: 0
-  icon: {fileID: 0}
   attributeAffect: []
-  targetArea: 1
+  targetArea: 4
   models:
   - {fileID: 6269968599112067291, guid: e1733da1d6f2aaa478246e753fa6c752, type: 3}
   statusModifiersOnEquip:
@@ -28,7 +27,8 @@ MonoBehaviour:
     statusModules:
     - statID: 0
       statAffectType: 0
-      amount: 0.5
+      amount: 5
   onTargetHit: []
   onGetHit: []
   onKill: []
+  isEquipped: 0

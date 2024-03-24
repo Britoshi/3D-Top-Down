@@ -77,11 +77,13 @@ namespace Game
             Debug.Log("This is pretty inefficient \"Contains\"");
             if (!storage.Contains(equipment)) 
                 throw new Exception("You cannot equip something you do not have?");
+            storage.Remove(equipment);
 
             EquipmentSlot slot = GetEquipmentSlot(equipment);
             TryUnequipAt(slot);
-            slot.Add(equipment);
-            equipment.ApplyOnEquip(); 
+            if(slot.Add(equipment))
+                equipment.ApplyOnEquip();
+            else throw new Exception("How did this fail?");
         }
         public void UnEquip(Equipment equipment)
         { 
@@ -100,7 +102,7 @@ namespace Game
             slot.item.ApplyOnUnEquip();
             slot.Remove();
 
-            AddItem(item);
+            storage.Add(item);
             
             return true; 
         }

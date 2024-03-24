@@ -30,13 +30,15 @@ namespace Game.Items
         public float weight;
         public int cost;
         public bool isQuestItem = false;
-        public Sprite icon;
+        protected Sprite icon;
 
         public AttributeAffect[] attributeAffect;
         public bool HasAttributeAffector => attributeAffect.Length > 0;   
         public ItemContainer Container { set; get; }
         public Entity owner => Container.Owner;
 
+        public Sprite GetIcon() =>
+            icon != null ? icon : GameResources.MissingTexture; 
         public int CompareTo(Item other)
         {
             //if (Container == null)

@@ -45,7 +45,14 @@ namespace Game.StateMachine.Player
 
         public override void OnUpdate()
         {
-
+            if (!IsMoving)
+            {
+                GetAnimator().SetFloat("movement state", 0);
+                return;
+            }
+            var vec = inputVector3.magnitude;
+            vec *= IsMoving && IsRunning ? 3 : 2;
+            GetAnimator().SetFloat("movement state", vec); 
         }
 
         void InitializeControls()
@@ -78,7 +85,7 @@ namespace Game.StateMachine.Player
         {
 
             //var angle = Quaternion.EulerAngles(inputVector2);
-            var lookAt =  lastInput3;
+            var lookAt = lastInput3;
 
             //lookAt.y = transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(lookAt);
@@ -99,7 +106,7 @@ namespace Game.StateMachine.Player
         internal void HandleRunMovement()
         {
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue() * 2.25f; 
+            var speed = player.status.MovementSpeed.GetValue() * 1.25f; 
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
         internal void HandleWalkMovement()
@@ -118,25 +125,20 @@ namespace Game.StateMachine.Player
             RotateTowardsAimPoint();
         }
         internal void HandleAimMovement()
-        {
-            // Calculate the relative direction vector
+        { 
             Vector3 forwardDirection = transform.forward; 
-            Vector3 relativeMovementDirection = forwardDirection - inputVector3;
-            // Optionally, normalize the relative direction vector if needed
+            Vector3 relativeMovementDirection = forwardDirection - inputVector3; 
 
             var pY = transform.rotation.eulerAngles.y % 360;
-            float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up);
-            //Debug.Log(angle);
+            float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up); 
             float rad = Mathf.Deg2Rad * angle;
 
-            Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad));
-            //Debug.Log(dir);
+            Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad)); 
 
             GetAnimator().SetFloat("x", dir.x);
-            GetAnimator().SetFloat("y", dir.y);
-            //Debug.Log(relativeMovementDirection +  " | " + dir);
+            GetAnimator().SetFloat("y", dir.y); 
 
-            var speed = player.status.MovementSpeed.GetValue() * .5f;
+            var speed = player.status.MovementSpeed.GetValue() * .3f;
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
 
@@ -157,5 +159,10 @@ namespace Game.StateMachine.Player
             TriggerJump();
         }
 
+        internal void HandleAimIdle()
+        {
+            GetAnimator().SetFloat("x", 0);
+            GetAnimator().SetFloat("y", 0);
+        }
     }
 }

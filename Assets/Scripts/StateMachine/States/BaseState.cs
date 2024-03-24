@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Game.StateMachine
 {
     public enum AnimationParameter
@@ -63,15 +61,14 @@ namespace Game.StateMachine
             _currentSubState = null;
             _currentSuperState = superState;
             LockMovement = false;
-            LockJump = false;
-
-            if (GetAnimationParameter() != AnimationParameter.NONE) Ctx.GetAnimator().SetInteger("basicState", (int)GetAnimationParameter());
-
-            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
+            LockJump = false;  
                 
         }
 
-        public abstract void EnterState();
+        public virtual void EnterState()
+        {
+            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
+        }
         public abstract bool FixedUpdateState();
         /// <summary>
         /// Updates on every frame
@@ -163,8 +160,12 @@ namespace Game.StateMachine
 
         protected virtual void ChangeAnimation(string name, bool instant = false)
         {
-            //_ctx.GetAnimator().applyRootMotion = true;
-            if (instant) Ctx.GetAnimator().Play(name);
+            var anim = Ctx.GetAnimator();
+            if (anim.HasState(Ctx.GetBasicAnimationNamePrefix() + name))
+                name = Ctx.GetBasicAnimationNamePrefix() + name;
+
+            if (Ctx.CurrentAnimation == name) return;
+                if (instant) anim.Play(name);
             else Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f);
             Ctx.CurrentAnimation = name;
         }

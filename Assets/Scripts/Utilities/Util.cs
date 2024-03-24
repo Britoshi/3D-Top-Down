@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 
 
 namespace Game
@@ -43,6 +44,14 @@ namespace Game
             if (transform.childCount == 0) return;
             foreach (Transform child in transform)
                 UnityEngine.Object.Destroy(child.gameObject);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasState(this Animator anim, string stateName, int layer = 0)
+        { 
+            int stateID = Animator.StringToHash(stateName);
+            return anim.HasState(layer, stateID);
+
         }
     }
 

@@ -1,8 +1,10 @@
 
 namespace Game.StateMachine
 {
-    public class PGroundedState : RootState
+    public class PGroundedState : RootState, IHasAnimation
     {
+        public virtual string GetAnimationName() => "Default";
+
         public PGroundedState(StateMachine currentContext, StateFactory entityStateFactory) :
             base(currentContext, entityStateFactory)
         {
@@ -10,7 +12,9 @@ namespace Game.StateMachine
 
         public override void EnterState()
         {
-            InitializeSubState(); 
+            base.EnterState();
+            InitializeSubState();
+            //ChangeAnimation(GetAnimationName());
         }
 
         public override bool UpdateState()
@@ -62,5 +66,6 @@ namespace Game.StateMachine
             */
             return false;
         }
+
     }
 }

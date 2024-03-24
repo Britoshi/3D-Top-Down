@@ -182,9 +182,12 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\Crouch\PlayerCrawlState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Window\WindowDragger.cs" />
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
+    <Compile Include="Assets\UIEquipmentSelector.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Dropdown\CustomDropdown.cs" />
     <Compile Include="Assets\Scripts\Entities\GroundedController.cs" />
+    <Compile Include="Assets\UIItemSelectionPanel.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerIcon.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Entity\SwordCombo.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RangeMinSlider.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerRootState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityCost.cs" />

@@ -2,8 +2,6 @@ namespace Game.StateMachine.Player
 {
     public class AimingIdleState : AimingSubState, IHasAnimation
     {
-        public virtual string GetAnimationName() => "Aim Idle";
-
         /// <summary>
         /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
         /// It seems useless right now.
@@ -14,7 +12,7 @@ namespace Game.StateMachine.Player
         }
         public override void EnterState()
         {
-
+            base.EnterState();
         }
 
         public override bool UpdateState()
@@ -38,7 +36,7 @@ namespace Game.StateMachine.Player
 
         protected override void HandleMovement()
         {
-            //P_CTX.HandleAim();
+            P_CTX.HandleAimIdle();
         }
     }
 }

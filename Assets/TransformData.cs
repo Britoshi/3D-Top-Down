@@ -22,7 +22,10 @@ public class TransformData
         targets = new()
         {
             [EquipmentLocation.HEAD] = head,
-            [EquipmentLocation.BODY] = torso
+            [EquipmentLocation.BODY] = torso,
+            [EquipmentLocation.LEFT_HAND] = leftHandWeapon,
+            [EquipmentLocation.RIGHT_HAND] = rightHandWeapon,
+            
         };
 
         root = owner.gameObject;

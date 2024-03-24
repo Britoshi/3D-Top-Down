@@ -15,8 +15,8 @@ namespace Game.StateMachine
             this.standAlone = standAlone;
         }
         public override void EnterState()
-        {
-
+        { 
+            base.EnterState();
         }
 
         public override bool UpdateState()
