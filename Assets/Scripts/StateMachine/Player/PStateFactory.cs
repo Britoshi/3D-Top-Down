@@ -15,9 +15,9 @@ namespace Game.StateMachine.Player
         AirborneAscend, AirborneApex, AirborneDescend
     }
 
-    public class PStateFactory : StateFactory
+    public class PStateFactory : HumanoidStateFactory
     {
-        protected PStateMachine context;
+        protected new PStateMachine context;
 
         public PStateFactory(PStateMachine currentContext) : base(currentContext)
         {
@@ -27,24 +27,24 @@ namespace Game.StateMachine.Player
         public override RootState Default() => Grounded();
         public override RootState Airborne() =>
             new AirborneState(context, this);
-        public virtual RootState Aiming() =>
-            new AimingState(context, this); 
+        public override Aiming Aiming(BaseState superState) =>
+            new Aiming(context, this, superState); 
 
         public override RootState Grounded() =>
             new GroundedState(context, this); 
 
         public override BaseState Idle(BaseState superState) =>
-            new PIdleSubState(context, this, superState);
+            new HumanoidIdleSubState(context, this, superState);
 
         public override BaseState Run(BaseState superState) =>
-            new PRunSubState(context, this, superState);
+            new HumanoidRunSubState(context, this, superState);
 
         public override BaseState Walk(BaseState superState) =>
-            new PWalkSubState(context, this, superState);
+            new HumanoidWalkSubState(context, this, superState);
         public override BaseState Airborne(BaseState superState) =>
-            new PAirborneSubState(context, this, superState);
+            new HumanoidAirborneSubState(context, this, superState);
 
-        public override RootState Jump() => new PJumpState(context, this);
+        public override RootState Jump() => new HumanoidJumpState(context, this);
 
         public override BaseState AirborneAscend()
         {
@@ -61,9 +61,9 @@ namespace Game.StateMachine.Player
             throw new System.NotImplementedException();
         }
 
-        public virtual AimingIdleState AimIdle(BaseState super) =>
+        public override AimingIdleState AimIdle(BaseState super) =>
             new(context, this, super);
-        public virtual AimingMovingState AimMove(BaseState super) =>
+        public override AimingMovingState AimMove(BaseState super) =>
             new(context, this, super);
     }
 }

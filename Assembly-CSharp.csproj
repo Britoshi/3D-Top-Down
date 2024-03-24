@@ -63,7 +63,6 @@
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\PlayerMovementSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerDoubleJumpState.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\PAirborneSubState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\SliderManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerRunState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Stats\Stat.cs" />
@@ -73,16 +72,16 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Notification\NotificationManager.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerSwitch.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubState.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PIdleSubState.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Equipment.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\PAirborneSubStateBase.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ExampleChainAttack.cs" />
+    <Compile Include="Assets\HumanoidStateMachine.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\AutoCellSize.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\EntityAbilityController.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ShootUpAbility.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\CustomShadowResolution.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\LaunchURL.cs" />
+    <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\Scripts\IHasOnTick.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Charts\PieChart.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Toggle\CustomToggle.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Jump\PlayerJumpState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\TestSwordAbility.cs" />
-    <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\DemoListShadow.cs" />
     <Compile Include="Assets\Scripts\Buff\StackableTickBuff.cs" />
     <Compile Include="Assets\UIInventoryMenu.cs" />
@@ -115,9 +113,9 @@
     <Compile Include="Assets\Scripts\StateMachine\Interface\IPlayerState.cs" />
     <Compile Include="Assets\PlayerControl.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Modal Window\ModalWindowManager.cs" />
-    <Compile Include="Assets\UIInventory.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\InputSystemChecker.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneSubStateBase.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\States\HumanoidJumpState.cs" />
     <Compile Include="Assets\Scripts\UI\ItemDisplay.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityDrainCost.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerInputField.cs" />
@@ -128,17 +126,21 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RadialSlider.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemContainer.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManager.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PRunSubState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Switch\SwitchManager.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidGroundedState.cs" />
     <Compile Include="Assets\GameUIManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\Crouch\PlayerCrouchState.cs" />
+    <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
     <Compile Include="Assets\Scripts\Statistics\Stats\Attribute.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidIdleSubState.cs" />
     <Compile Include="Assets\Scripts\Abilities\NChainedAbility.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\HumanoidAirborneSubState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Status.cs" />
     <Compile Include="Assets\Scripts\Buff\StackableStotusBuff.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerScrollbar.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidWalkSubState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallGroundedSubState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerBasic.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Notification\NotificationStacking.cs" />
@@ -148,7 +150,11 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerSlider.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerBasicIcon.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateMachine.cs" />
+    <Compile Include="Assets\HumanoidEntity.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidGroundedSubStateBase.cs" />
+    <Compile Include="Assets\Scripts\Abilities\AbilityFactory.cs" />
     <Compile Include="Assets\TabEventHandler.cs" />
+    <Compile Include="Assets\Scripts\Abilities\Entity\MagicCastTest.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RangeSlider.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerProgressBarLoop.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Gear\BodyWear.cs" />
@@ -157,16 +163,13 @@
     <Compile Include="Assets\Scripts\Buff\AdvancedStotusBuff.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\RootState.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\States\PJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\AttributeAffects.cs" />
     <Compile Include="Assets\Scripts\Items\Misc.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PGroundedSubStateBase.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\Cooldown.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Default.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Weapon\Weapon.cs" />
     <Compile Include="Assets\EntityAnimationFunctionController.cs" />
-    <Compile Include="Assets\UIInventoryTabManager.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Weapon\RangeWeapon.cs" />
     <Compile Include="Assets\ToolTipDetector.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
@@ -187,13 +190,14 @@
     <Compile Include="Assets\Scripts\Entities\GroundedController.cs" />
     <Compile Include="Assets\UIItemSelectionPanel.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerIcon.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\Aiming.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\SwordCombo.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RangeMinSlider.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerRootState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityCost.cs" />
+    <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallAirborneSubState.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\OnHitAffect.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PGroundedState.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Weapon\Wand.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManager.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Progress Bar\ProgressBar.cs" />
@@ -202,12 +206,14 @@
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerWalkState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityIdleSubState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerSliderEditor.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidRunSubState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\MovementStates\SubStates\PlayerIdleState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\PStateMachine.cs" />
+    <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\RollAbility.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerModalWindow.cs" />
     <Compile Include="Assets\Scripts\Buff\TickBuff.cs" />
-    <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\HumanoidAirborneSubStateBase.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Horizontal Selector\HorizontalSelector.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModifiers.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\ResourceAffect.cs" />
@@ -215,8 +221,7 @@
     <Compile Include="Assets\TransformData.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerContextMenu.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerBasicWithIcon.cs" />
-    <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualButton.cs" />
-    <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Humanoid\HumanoidStateFactory.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerToggle.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityAirborneSubStateBase.cs" />
     <Compile Include="Assets\GameResources.cs" />
@@ -241,14 +246,13 @@
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Airborne\EntityJumpState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Progress Bar\PBFilled.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Rendering\UIGradient.cs" />
-    <Compile Include="Assets\Player Assets\Mobile-Controls\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\HealthModificationData.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\OnKill\GasonlineOnKill.cs" />
     <Compile Include="Assets\Scripts\Abilities\NAbility.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManagerWithIcon.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Wall\PlayerWallGripSubState.cs" />
-    <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\PWalkSubState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Ability\EntityAbilityState.cs" />
+    <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Window\WindowManager.cs" />
     <Compile Include="Assets\PlayerInputController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
@@ -1138,6 +1142,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1168,6 +1176,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
@@ -1204,6 +1216,10 @@
     </Reference>
     <Reference Include="Unity.InputSystem">
       <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
@@ -1244,6 +1260,10 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">

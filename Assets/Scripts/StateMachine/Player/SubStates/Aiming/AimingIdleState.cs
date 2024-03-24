@@ -6,7 +6,7 @@ namespace Game.StateMachine.Player
         /// This represents a toggle of whether the idle state will only inherit the idle functionalities.
         /// It seems useless right now.
         /// </summary>
-        public AimingIdleState(PStateMachine currentContext, PStateFactory entityStateFactory, BaseState superState) :
+        public AimingIdleState(HumanoidStateMachine currentContext, HumanoidStateFactory entityStateFactory, BaseState superState) :
             base(currentContext, entityStateFactory, superState)
         {
         }
@@ -30,13 +30,13 @@ namespace Game.StateMachine.Player
         public override bool CheckSwitchStates()
         {
             if (Ctx.IsMoving)
-                return SwitchState(P_Factory.AimMove(CurrentSuperState));
+                return SwitchState(Factory.AimMove(CurrentSuperState));
             return false; 
         }
 
         protected override void HandleMovement()
         {
-            P_CTX.HandleAimIdle();
+            CTX.HandleAimIdle();
         }
     }
 }

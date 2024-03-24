@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Game.Abilities
 {
@@ -25,8 +23,8 @@ namespace Game.Abilities
         private NAbility currentAbility;
         public NAbility CurrentAbility =>  currentAbility;
         public void SetAbility(NAbility ability) => currentAbility = ability;
-
-        NAbility testAbility, pAttack, sAttack;
+        
+        private NAbility primaryAbility;
         internal bool IsCasting => currentAbility != null;
 
         public bool IsUsingAbility => currentAbility != null;
@@ -38,14 +36,12 @@ namespace Game.Abilities
         public void Initialize(Entity self)
         {
             entity = self;
-            animator = self.animator;
-            testAbility = new TestSwordAbility(self);
-            pAttack = new SwordCombo(self);
-            sAttack = new SecondaryAttackAbility(self);
+            animator = self.animator;  
         }
         public void Cast(NAbility ability, bool skipCheck = false)
         {
-            print("CAST  CALL  ", ability.GetName());
+            if (ability == null) return;
+            //print("CAST  CALL  ", ability.GetName());
             var castResult = ability.TryCast(skipCheck);
             if (castResult.result == AbilityResultType.SUCCESS)
             {
@@ -53,39 +49,32 @@ namespace Game.Abilities
             }
             else
             {
-                //Lmao spagettiiii
-                //if (castResult.result == AbilityResultType.QUEUE)
-                //    QueueAbility(ability);
-
-//else 
-                    DebugText.Log(castResult.message);
+                DebugText.Log(castResult.message);
             }
 
         }
 
-        public void Update()
+        public void TriggerPrimaryAttack()
         {
+            Cast(primaryAbility);
+        }
+
+        public void Update()
+        { 
+            if (GameSystem.Paused) return;
+
             currentAbility?.OnAbilityUpdate();
 
             foreach (var ability in abilities.Values)
                 ability.PassiveUpdate();
 
-            if (GameSystem.Paused) return;
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                if (testAbility.TryCast().result == AbilityResultType.SUCCESS)
-                {
-                    currentAbility = testAbility;
-                }
-            } 
-            if (Input.GetButtonDown("Fire1"))
-                Cast(pAttack);
 
+            /*
             if (abilityQueue != null)
             {
                 abilityQueueExpireTimer -= Time.deltaTime;
                 if (abilityQueueExpireTimer < 0) abilityQueue = null;
-            }
+            }*/
         }
 
         public void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -109,16 +98,21 @@ namespace Game.Abilities
         public void RegisterAbility(NAbility ability)
         {
             abilities[ability.GetName()] = ability;
-        }
-        bool triggerAbilityQueue;
+        } 
         public void TriggerAbilityQueue()
-        {
-            triggerAbilityQueue = true;
+        { 
             entity.stateMachine.ResetState();
         }
 
+        public void SetPrimaryAbility(NAbility ability) 
+        {
+            primaryAbility = ability;
+        }
 
-
+        internal void ClearPrimaryAbility()
+        {
+            primaryAbility = null;
+        }
     }
 
     

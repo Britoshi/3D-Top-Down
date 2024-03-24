@@ -58,6 +58,8 @@ namespace Game
                         stateMachine.aimingPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
                     }
                 }
+                if (Input.GetButtonDown("Fire1"))
+                    stateMachine.entity.abilityController.TriggerPrimaryAttack();
             }
 
             HandleInGameControls();

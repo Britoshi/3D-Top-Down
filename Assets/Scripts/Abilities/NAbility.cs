@@ -50,6 +50,7 @@ namespace Game.Abilities
         {
             Owner.abilityController.RegisterAbility(this);
         }
+
         public NAbility(Entity owner, bool isCastableAirborne, bool lockMovement, bool lockJump, Cooldown cooldown = null, AbilityResourceCost cost = null)
         {
             Owner = owner; 

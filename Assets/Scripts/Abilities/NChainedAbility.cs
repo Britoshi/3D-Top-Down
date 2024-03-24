@@ -27,8 +27,14 @@ namespace Game.Abilities
             }
             if (!cooldown.CanCast())
             {
-                if(timeoutCountDown <= 0)
+                if (timeoutCountDown <= 0)
+                {
                     return AbilityCastTryResult.Fail("Ability On Cooldown.");
+                }
+                else
+                {
+                    print(timeoutCountDown, "time?");
+                }
             }
             else if (!Cost.CanDeduct())
                 return AbilityCastTryResult.Fail("Not Enough Resources.");
@@ -76,8 +82,13 @@ namespace Game.Abilities
             base.OnAbilityEnd();
             index++;
             if (index >= animationList.Count)
+            { 
                 index = 0;
+                timeoutCountDown = -1;
+            }
             else timeoutCountDown = CHAIN_TIMEOUT;
+
+            
         }
         #region Animation Functions #Only put animation related function.
         public override void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -86,7 +97,7 @@ namespace Game.Abilities
             if (ApplyCooldownOn() == CooldownOn.START && index == 0)
             {
                 cooldown.ApplyCooldown();
-                print("Applied Cooldown Start");
+                //print("Applied Cooldown Start");
             }
         }
         public override void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -94,12 +105,11 @@ namespace Game.Abilities
             animationProgress = stateInfo.normalizedTime % 1;
         }
         public override void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            print(index);
+        { 
             if (ApplyCooldownOn() == CooldownOn.END && index == animationList.Count - 1)
             {
                 cooldown.ApplyCooldown();
-                print("Applied Cooldown End");
+                //print("Applied Cooldown End");
             }
 
             animationProgress = -1;

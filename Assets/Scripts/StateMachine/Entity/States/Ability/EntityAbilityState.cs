@@ -21,7 +21,8 @@ namespace Game.StateMachine
         { 
             ability.OnAbilityCast();
             InitializeSubState();
-            ChangeAnimation(ability.GetAnimationNodeName(), true);
+            int layer = LockMovement ? 2 : 3;
+            ChangeAnimation(ability.GetAnimationNodeName(), true, layer);
         }
 
         public override bool UpdateState()
@@ -52,13 +53,24 @@ namespace Game.StateMachine
                     SetSubState(Factory.Crouch(this));
             }
             else*/
-            /*
+            
+            if (LockMovement) return;
+
+            if (Ctx.GetType().IsSubclassOf(typeof(HumanoidStateMachine)))
+            {
+                var hCtx = Ctx as HumanoidStateMachine;
+                if (hCtx.IsAiming)
+                {
+                    SetSubState((Factory as HumanoidStateFactory).Aiming(this));
+                    return;
+                }
+            } 
             if (!Ctx.IsMoving && !Ctx.IsRunning)
                 SetSubState(Factory.Idle(this));
             else if (Ctx.IsMoving && !Ctx.IsRunning)
                 SetSubState(Factory.Walk(this));
             else
-                SetSubState(Factory.Run(this));*/
+                SetSubState(Factory.Run(this));
 
         }
         public override bool CheckSwitchStates()

@@ -11,14 +11,14 @@ namespace Game.StateMachine.Player
         //protected float CurrentSpeed => Ctx.CurrentSpeed;
         //protected virtual float MaxSpeed => Ctx.MaximumMovementSpeed;
 
-        public PStateMachine P_CTX { set; get; }
-        public PStateFactory P_Factory { set; get; }
+        public HumanoidStateMachine CTX { set; get; }
+        public new HumanoidStateFactory Factory { set; get; }
 
-        protected AimingSubState(PStateMachine currentContext, PStateFactory entityStateFactory,
+        protected AimingSubState(HumanoidStateMachine currentContext, HumanoidStateFactory entityStateFactory,
             BaseState superState) : base(currentContext, entityStateFactory, superState)
         { 
-            P_CTX = currentContext;
-            P_Factory = entityStateFactory;
+            CTX = currentContext;
+            Factory = entityStateFactory;
         }
 
         public override bool UpdateState()

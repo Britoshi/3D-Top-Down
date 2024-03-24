@@ -158,15 +158,15 @@ namespace Game.StateMachine
         }
 
 
-        protected virtual void ChangeAnimation(string name, bool instant = false)
+        protected virtual void ChangeAnimation(string name, bool instant = false, int layer = 0)
         {
             var anim = Ctx.GetAnimator();
             if (anim.HasState(Ctx.GetBasicAnimationNamePrefix() + name))
                 name = Ctx.GetBasicAnimationNamePrefix() + name;
 
             if (Ctx.CurrentAnimation == name) return;
-                if (instant) anim.Play(name);
-            else Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f);
+                if (instant) anim.Play(name , layer);
+            else Ctx.GetAnimator().CrossFadeInFixedTime(name, 0.2f, layer);
             Ctx.CurrentAnimation = name;
         }
 

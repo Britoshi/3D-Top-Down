@@ -7,23 +7,10 @@ using UnityEngine.InputSystem;
 namespace Game.StateMachine.Player
 {
 
-    public class PStateMachine : StateMachine
+    public class PStateMachine : HumanoidStateMachine
     {
-        internal PlayerEntity player;
-
-        public bool IsCrouching { set; get; }
-        public bool IsAiming { set; get; }
-        public Vector3 aimingPoint;
-
+        internal PlayerEntity player; 
         internal PlayerControl controls;
-        [SerializeField]
-        internal Vector2 inputVector2;
-        [SerializeField]
-        internal Vector3 inputVector3, lastInput3;
-        [SerializeField]
-        internal bool sprintHold;
-
-        //IK
 
         public override void AssignFactory()
         {
@@ -33,11 +20,12 @@ namespace Game.StateMachine.Player
 
         public override void OnFixedUpdate()
         {
-            
+            base.OnFixedUpdate();
         } 
 
         public override void OnStart()
         {
+            base.OnStart();
             InitializeControls();
 
         }
@@ -45,6 +33,7 @@ namespace Game.StateMachine.Player
 
         public override void OnUpdate()
         {
+            base.OnUpdate();
             if (!IsMoving)
             {
                 GetAnimator().SetFloat("movement state", 0);
@@ -79,75 +68,34 @@ namespace Game.StateMachine.Player
             controls.Player.Sprint.canceled += ctx => sprintHold = false;
 
             controls.Player.Crouch.performed += TriggerCrouch;
-            controls.Player.Jump.performed += OnJumpPressed;
-        }
-        void RotateTowardsInputDirection()
-        {
-
-            //var angle = Quaternion.EulerAngles(inputVector2);
-            var lookAt = lastInput3;
-
-            //lookAt.y = transform.position.y;
-            Quaternion targetRotation = Quaternion.LookRotation(lookAt);
-            
-            ForwardDirection.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime * 3f);
-            Model.transform.rotation = ForwardDirection.rotation;
-        }
-        void RotateTowardsAimPoint()
-        {
-            Model.transform.LookAt(aimingPoint);
-        }
-
+            controls.Player.Jump.performed += OnJumpTriggered;
+        }  
 
         internal override void AirborneBehavior()
         {
-            HandleWalkMovement();
+            HandleMovement();
         }
-        internal void HandleRunMovement()
+        internal override void HandleRunMovement()
         {
             RotateTowardsInputDirection();
-            var speed = player.status.MovementSpeed.GetValue() * 1.25f; 
+            var runMult = 1.5f;
+            var speed = player.status.MovementSpeed.GetValue() * runMult; 
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
-        internal void HandleWalkMovement()
+        internal override void HandleMovement()
         {
             RotateTowardsInputDirection();
             var speed = player.status.MovementSpeed.GetValue(); 
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }
-        internal void HandleIdleMovement()
-        { 
 
-        }
-
-        internal void HandleAimingBehavior()
-        { 
-            RotateTowardsAimPoint();
-        }
-        internal void HandleAimMovement()
-        { 
-            Vector3 forwardDirection = transform.forward; 
-            Vector3 relativeMovementDirection = forwardDirection - inputVector3; 
-
-            var pY = transform.rotation.eulerAngles.y % 360;
-            float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up); 
-            float rad = Mathf.Deg2Rad * angle;
-
-            Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad)); 
-
-            GetAnimator().SetFloat("x", dir.x);
-            GetAnimator().SetFloat("y", dir.y); 
-
-            var speed = player.status.MovementSpeed.GetValue() * .3f;
-            rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
-        }
 
         internal void TriggerCrouch(InputAction.CallbackContext ctx)
         {
             IsCrouching = !IsCrouching;
         }
 
-        internal void OnJumpPressed(InputAction.CallbackContext ctx)
+        internal void OnJumpTriggered(InputAction.CallbackContext ctx)
         {
             if (IsCrouching)
             {
@@ -159,7 +107,7 @@ namespace Game.StateMachine.Player
             TriggerJump();
         }
 
-        internal void HandleAimIdle()
+        internal override void HandleAimIdle()
         {
             GetAnimator().SetFloat("x", 0);
             GetAnimator().SetFloat("y", 0);
