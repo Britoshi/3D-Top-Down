@@ -116,6 +116,7 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\InputSystemChecker.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneSubStateBase.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\HumanoidJumpState.cs" />
+    <Compile Include="Assets\Scripts\AI\States\AIWanderAround.cs" />
     <Compile Include="Assets\Scripts\UI\ItemDisplay.cs" />
     <Compile Include="Assets\Scripts\Abilities\Utility\AbilityDrainCost.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerInputField.cs" />
@@ -126,10 +127,12 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Slider\RadialSlider.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemContainer.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Button\ButtonManager.cs" />
+    <Compile Include="Assets\Scripts\AI\AIStateFactory.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Switch\SwitchManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidGroundedState.cs" />
     <Compile Include="Assets\GameUIManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\Crouch\PlayerCrouchState.cs" />
+    <Compile Include="Assets\Scripts\AI\States\AIChaseEnemy.cs" />
     <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
@@ -172,6 +175,7 @@
     <Compile Include="Assets\EntityAnimationFunctionController.cs" />
     <Compile Include="Assets\Scripts\Items\Equipment\Weapon\RangeWeapon.cs" />
     <Compile Include="Assets\ToolTipDetector.cs" />
+    <Compile Include="Assets\Scripts\AI\AIStateMachine.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModule.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\AirborneState.cs" />
@@ -265,6 +269,7 @@
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Aiming\AimingSubState.cs" />
     <Compile Include="Assets\Scripts\Tick.cs" />
     <Compile Include="Assets\Scripts\Statistics\StatusBuilder.cs" />
+    <Compile Include="Assets\Scripts\AI\States\AIState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerNotification.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\PrimaryAttackAbility.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\FireBallAbility.cs" />
@@ -1130,6 +1135,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1234,6 +1243,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Updater">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1266,6 +1279,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
       <Private>False</Private>
@@ -1276,6 +1293,10 @@
     </Reference>
     <Reference Include="Cinemachine">
       <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
