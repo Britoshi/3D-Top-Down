@@ -24,6 +24,15 @@ namespace Game.AI
             ChangeState(Factory.Default());
         }
 
+        public virtual void Update()
+        {
+            CurrentState.Update();
+        }
+        public virtual void FixedUpdate()
+        {
+            CurrentState.FixedUpdate();
+        }
+
         public void ChangeState(AIState state)
         {
             CurrentState = state;

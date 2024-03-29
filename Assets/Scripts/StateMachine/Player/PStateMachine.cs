@@ -9,12 +9,15 @@ namespace Game.StateMachine.Player
 
     public class PStateMachine : HumanoidStateMachine
     {
+        public PStateFactory PFactory;
+
         internal PlayerEntity player; 
         internal PlayerControl controls;
 
         public override void AssignFactory()
         {
-            Factory = new PStateFactory(this);
+            PFactory = new PStateFactory(this);
+            Factory = PFactory;
             player = entity as PlayerEntity;
         }
 
@@ -41,7 +44,9 @@ namespace Game.StateMachine.Player
             }
             var vec = inputVector3.magnitude;
             vec *= IsMoving && IsRunning ? 3 : 2;
-            GetAnimator().SetFloat("movement state", vec); 
+            GetAnimator().SetFloat("movement state", vec);
+
+            if (Input.GetKeyDown(KeyCode.L)) Interrupt(Factory.Stagger());
         }
 
         void InitializeControls()

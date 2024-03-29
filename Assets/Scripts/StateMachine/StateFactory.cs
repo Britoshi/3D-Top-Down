@@ -15,7 +15,7 @@ namespace Game.StateMachine
             _context = currentContext;
             library = new SortedDictionary<string, BaseState>();
         }
-
+        public abstract RootState Stagger();
         public abstract RootState Default();
         public abstract RootState Grounded();
         public abstract RootState Airborne();

@@ -43,5 +43,7 @@ namespace Game.StateMachine
             new(context, this, super);
         public virtual AimingMovingState AimMove(BaseState super) =>
             new(context, this, super);
+
+        public override RootState Stagger() => new Stagger(_context, this);
     }
 }

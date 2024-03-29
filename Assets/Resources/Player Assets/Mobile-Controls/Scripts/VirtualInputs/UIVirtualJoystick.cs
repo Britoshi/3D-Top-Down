@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -20,11 +21,20 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     [Header("Output")]
     public Event joystickOutputEvent;
 
+    bool holding;
+
     void Start()
     {
         SetupHandle();
+        holding = false;
     }
-
+    void Update()
+    {
+        if (holding)
+        { 
+            OutputPointerEventValue(outputPosition * magnitudeMultiplier); 
+        }
+    }
     private void SetupHandle()
     {
         if(handleRect)
@@ -36,8 +46,9 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     public void OnPointerDown(PointerEventData eventData)
     {
         OnDrag(eventData);
+        holding = true;
     }
-
+    Vector2 outputPosition;
     public void OnDrag(PointerEventData eventData)
     {
 
@@ -47,9 +58,9 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         
         Vector2 clampedPosition = ClampValuesToMagnitude(position);
 
-        Vector2 outputPosition = ApplyInversionFilter(position);
+        outputPosition = ApplyInversionFilter(position);
 
-        OutputPointerEventValue(outputPosition * magnitudeMultiplier);
+        //OutputPointerEventValue(outputPosition * magnitudeMultiplier);
 
         if(handleRect)
         {
@@ -59,13 +70,14 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     }
 
     public void OnPointerUp(PointerEventData eventData)
-    {
+    { 
         OutputPointerEventValue(Vector2.zero);
 
         if(handleRect)
         {
              UpdateHandleRectPosition(Vector2.zero);
         }
+        holding = false;
     }
 
     private void OutputPointerEventValue(Vector2 pointerPosition)

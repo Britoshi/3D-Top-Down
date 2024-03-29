@@ -1,4 +1,5 @@
 using Game.Items;
+using Game.Weapons;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -160,52 +161,113 @@ namespace Game
         //}
 
     }
-    [Serializable]
-    public class EquipmentSlot : ItemContainer, IEnumerable<Item>
+
+    public class WeaponSlot : EquipmentSlot
     {
-        public Equipment item;
+        public List<WeaponObject> objects;
+        public Weapon weapon;
 
-        public override int Count => item == null ? 0 : 1;
 
-        public override bool IsEmpty => item == null;
+        public override bool HandleAdd(Item item)
+        {
+            if (!base.HandleAdd(item)) return false;
+            weapon = equipment as Weapon;
+            objects = new();
+            foreach (var obj in weapon.spawnedModels)
+                if (obj.TryGetComponent<WeaponObject>(out var weaponObject))
+                    objects.Add(weaponObject);
+            return true;
+        }
+        public override bool Remove()
+        { 
+            weapon = null;
+            objects = null;
+            return base.Remove();
+        }
+        public override bool HandleRemove(Item item)
+        { 
+            weapon = null;
+            objects = null;
+            return base.HandleRemove(item);
+        }
+    }
+    public class ArmorSlot : EquipmentSlot
+    {
+        //public List<object> objects;
+        public Gear armor;
 
-        public bool HasItem() => item != null;
+
+        public override bool HandleAdd(Item item)
+        {
+            if (!base.HandleAdd(item)) return false;
+            armor = equipment as Gear;
+            //objects = new();
+           // foreach (var obj in weapon.spawnedModels)
+            //    if (obj.TryGetComponent<WeaponObject>(out var weaponObject))
+           //         objects.Add(weaponObject);
+            return true;
+        }
+        public override bool Remove()
+        {
+            armor = null;
+            //objects = null;
+            return base.Remove();
+        }
+        public override bool HandleRemove(Item item)
+        {
+            armor = null;
+            //objects = null;
+            return base.HandleRemove(item);
+        }
+    }
+
+    [Serializable]
+    public abstract class EquipmentSlot : ItemContainer, IEnumerable<Item>
+    {
+        public Equipment equipment;
+
+        public override int Count => equipment == null ? 0 : 1;
+
+        public override bool IsEmpty => equipment == null;
+
+        public bool HasItem() => equipment != null;
         public override void Initialize(Entity owner) 
         {
             base.Initialize(owner);
-
-            if (item != null)
+            if (equipment != null)
             {
-                item = item.Clone();
-                item.Container = this;
+                equipment = equipment.Clone();
+                equipment.Container = this;
             }
         }
 
         public override bool HandleAdd(Item item)
         {
-            if(this.item == null)
+            if(equipment == null)
             {
-                this.item = item as Equipment;
+                equipment = item as Equipment; 
+                equipment.ApplyOnEquip();
                 return true;
             }
             return false;
         }
-        public bool Remove()
+        public virtual bool Remove()
         {
-            if (item == null)
+            if (equipment == null)
             {
                 throw new System.Exception("Why are you trying to remove an item that doesn't exist?");
-            }
-            item.Container = null;
-            item = null;
+            }   
+            equipment.Container = null;
+            equipment = null;
             return true;
         }
         public override bool HandleRemove(Item item)
         {
-            if(this.item == null)
+            if(equipment == null)
             {
                 throw new System.Exception("Why are you trying to remove an item that doesn't exist?");
             }
+            equipment.ApplyOnUnEquip();
             return true;
         }
 
@@ -216,9 +278,9 @@ namespace Game
         // Implementing IEnumerable interface
         public override IEnumerator<Item> GetEnumerator()
         {
-            if (item != null)
+            if (equipment != null)
             {
-                yield return item;
+                yield return equipment;
             }
         }
     }

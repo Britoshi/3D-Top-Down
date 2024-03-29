@@ -18,7 +18,8 @@ namespace Game
         public float CurrentWeight { set; get; }
 
         public ItemList storage;
-        public EquipmentSlot armor, weapon;
+        public WeaponSlot weapon;
+        public ArmorSlot armor;
 
 
         public Inventory(Entity owner) => Initialize(owner); 
@@ -36,8 +37,8 @@ namespace Game
                 slot.Initialize(owner);
                 if (slot.Count == 0) return; 
                 //Only  Apply if they exist
-                slot.item.ApplyOnPossession();
-                slot.item.ApplyOnEquip();
+                slot.equipment.ApplyOnPossession();
+                slot.equipment.ApplyOnEquip();
             }
 
             Owner = owner;
@@ -81,9 +82,9 @@ namespace Game
 
             EquipmentSlot slot = GetEquipmentSlot(equipment);
             TryUnequipAt(slot);
-            if(slot.Add(equipment))
-                equipment.ApplyOnEquip();
-            else throw new Exception("How did this fail?");
+
+            if(!slot.Add(equipment)) 
+                throw new Exception("How did this fail?");
         }
         public void UnEquip(Equipment equipment)
         { 
@@ -93,13 +94,12 @@ namespace Game
         public bool TryUnequipAt(EquipmentSlot slot)
         {
             // foreach (var item in equipmentSlots)  Debug.Log("shit dawg" + item.Value.item);
-            var item = slot.item;
+            var item = slot.equipment;
             if (slot.IsEmpty)
             {
                 Debug.Log("dis slot empty   dawhg.");
                 return false;
-            } 
-            slot.item.ApplyOnUnEquip();
+            }  
             slot.Remove();
 
             storage.Add(item);

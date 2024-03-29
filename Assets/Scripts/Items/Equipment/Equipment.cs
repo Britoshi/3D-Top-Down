@@ -60,7 +60,7 @@ namespace Game.Items
             if (onKill.Length > 0)
                 OnHits |= EquipmentOnHitAffect.ON_KILL;
         } 
-        readonly List<GameObject> spawnedModels = new();
+        public readonly List<GameObject> spawnedModels = new();
         public Transform GetTargetTransform() => owner.GetEquipmentTransform(targetArea);
         public virtual void SetModel()
         {

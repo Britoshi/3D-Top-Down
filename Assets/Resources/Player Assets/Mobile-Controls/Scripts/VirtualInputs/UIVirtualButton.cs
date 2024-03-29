@@ -12,7 +12,16 @@ public class UIVirtualButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [Header("Output")]
     public BoolEvent buttonStateOutputEvent;
     public Event buttonClickOutputEvent;
+    public Event buttonHoldeEvent;
 
+    bool held;
+    void Update()
+    {
+        if (held)
+        {
+            buttonHoldeEvent.Invoke();
+        }
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         OutputButtonStateValue(true);

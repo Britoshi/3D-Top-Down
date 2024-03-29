@@ -14,10 +14,6 @@ namespace Game.StateMachine
         public Vector3 aimingPoint;
 
         [SerializeField]
-        internal Vector2 inputVector2;
-        [SerializeField]
-        internal Vector3 inputVector3, lastInput3;
-        [SerializeField]
         internal bool sprintHold;
 
         //IK
@@ -53,8 +49,8 @@ namespace Game.StateMachine
         }
 
         protected virtual void RotateTowardsInputDirection()
-        {
-
+        {  
+            if (rotationOverride) return;
             //var angle = Quaternion.EulerAngles(inputVector2);
             var lookAt = lastInput3;
 
@@ -68,6 +64,7 @@ namespace Game.StateMachine
         }
         protected virtual void RotateTowardsAimPoint()
         {
+            if (rotationOverride) return;
             Model.transform.LookAt(aimingPoint);
         }
 
@@ -78,6 +75,7 @@ namespace Game.StateMachine
         }
         internal virtual void HandleRunMovement()
         {
+            if (movementOverride) return;
             RotateTowardsInputDirection();
             var runMult = 1.5f;
             var speed = entity.status.MovementSpeed.GetValue() * runMult;
@@ -85,6 +83,7 @@ namespace Game.StateMachine
         }
         internal virtual void HandleMovement()
         {
+            if (movementOverride) return;
             RotateTowardsInputDirection();
             var speed = entity.status.MovementSpeed.GetValue();
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;

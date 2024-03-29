@@ -26,7 +26,14 @@ namespace Game
             EnablePCControl();
         }
 
-
+        public void MobileSetRunning(bool running)
+        {
+            stateMachine.IsRunning= running;
+        }
+        public void Attack()
+        {
+            stateMachine.entity.abilityController.TriggerPrimaryAttack(); 
+        }
         public void PCControlUpdate()
         {
             void HandleInGameControls()
@@ -34,17 +41,11 @@ namespace Game
                 if (GameSystem.Paused) return;
 
                 stateMachine.IsRunning = stateMachine.sprintHold;
-
-                stateMachine.inputVector2 =
-                    new Vector2(Input.GetAxisRaw("Horizontal"),
-                    Input.GetAxisRaw("Vertical")).normalized;
-                stateMachine.inputVector3 =
-                    new(stateMachine.inputVector2.x, 0, stateMachine.inputVector2.y);
-                stateMachine.lastInput3 =
-                    new(stateMachine.inputVector3.x, stateMachine.inputVector3.y, stateMachine.inputVector3.z);
+                stateMachine.AssertInput(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                 stateMachine.IsMoving =
                     Input.GetButton("Horizontal") ||
                     Input.GetButton("Vertical");
+
                 stateMachine.IsAiming = Input.GetButton("Fire2");
                 if (stateMachine.IsAiming)
                 {
@@ -59,7 +60,7 @@ namespace Game
                     }
                 }
                 if (Input.GetButtonDown("Fire1"))
-                    stateMachine.entity.abilityController.TriggerPrimaryAttack();
+                    Attack();
             }
 
             HandleInGameControls();

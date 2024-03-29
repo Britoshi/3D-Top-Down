@@ -1,9 +1,6 @@
 using Game.Abilities;
 using Game.Items;
-using System;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine; 
 
 namespace Game.StateMachine
 {
@@ -12,14 +9,19 @@ namespace Game.StateMachine
         public Entity entity;
 
         //public Vector2 Velocity { get; set; }
-
+        public bool movementOverride, rotationOverride;
         public bool IsBusy { get; set; }
         public bool IsGrounded { get => groundedController.IsGrounded(); }
         public GroundedController groundedController;
 
         public bool IsMoving { get; set; }
-        public bool IsRunning { get; set; }  
-         
+        public bool IsRunning { get; set; }
+
+        [SerializeField]
+        internal Vector2 inputVector2;
+        [SerializeField]
+        internal Vector3 inputVector3, lastInput3;
+
         [field: SerializeField] public Transform ForwardDirection { set; get; }
         [field: SerializeField] public GameObject Model { set; get; }
 
@@ -28,11 +30,18 @@ namespace Game.StateMachine
         public StateFactory Factory { protected set; get; }
         public new Rigidbody rigidbody;
         
-        private Animator animator; 
+        private Animator animator;
+        private const string HURT_ANIMATION_NAME = "Hurt";
 
+        public void AssertInput(float x, float y)
+        {
+            inputVector2 = new Vector2(x, y).normalized;
+            inputVector3 = new(inputVector2.x, 0, inputVector2.y);
+            lastInput3 = new(inputVector3.x, inputVector3.y, inputVector3.z); 
+        }
         public WeapnHoldType? GetWeaponAnimationType()
         {
-            var weapon = entity.inventory.weapon.item;
+            var weapon = entity.inventory.weapon.equipment;
             if (weapon == null) return null;
             return (weapon as Weapon).holdType;
         }
@@ -40,7 +49,7 @@ namespace Game.StateMachine
         {
             var slot = entity.inventory.weapon;
             if (slot.IsEmpty) return "";
-            return (slot.item as Weapon).AnimationPrefix + " ";
+            return (slot.equipment as Weapon).AnimationPrefix + " ";
         }
         
         public BaseState currentState { get => _currentState; internal set => _currentState = value; }
@@ -55,14 +64,25 @@ namespace Game.StateMachine
             _currentState.EnterState();
         } 
 
+        /// <summary>
+        /// Changes state.
+        /// </summary>
+        /// <param name="state"></param>
+        internal void Interrupt(BaseState state)
+        {
+            _currentState.ExitState();
+            _currentState = state;
+            _currentState.EnterState();
+        }
+
         public void Initialize(Entity owner)
         {
             entity = owner;
             AssignFactory();
             animator = entity.animator;
             rigidbody = entity.rigidbody;
-
-            
+            movementOverride = false;
+            rotationOverride = false;  
         }
 
         /// <summary>
@@ -144,18 +164,9 @@ namespace Game.StateMachine
 
         internal Animator GetAnimator() => animator;
 
-        /// <summary>
-        /// Only enter a state if the player is doing something
-        /// </summary>
-        internal virtual bool TryEnterNoneIdleState()
+        public void PlayHurtAnimation()
         {
-            if (IsMoving)
-            {
-                ResetState(); 
-                return true;
-            }
-
-            return false;
+            animator.Play(HURT_ANIMATION_NAME, 4);
         }
     }
 }

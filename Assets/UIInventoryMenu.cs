@@ -236,9 +236,9 @@ namespace Game.UI
         protected void SetEquipmentSlot(EquipmentSlot slot, RectTransform display)
         { 
             if (!slot.HasItem()) return;
-            var icon = slot.item.GetIcon();
+            var icon = slot.equipment.GetIcon();
             display.GetChild(0).GetComponent<Image>().sprite = icon; 
-            registeredItems.Add(display.gameObject, slot.item);
+            registeredItems.Add(display.gameObject, slot.equipment);
         }
 
         public void RefreshEquipmentsDisplay()

@@ -14,6 +14,9 @@ namespace Game.AI
             _context = currentContext;  
         }
 
-        public virtual AIState Default() => throw new NotImplementedException();
+        public virtual AIState Default() => Wander();
+
+        public virtual AIWanderAround Wander() => new AIWanderAround(_context, this);
+        public virtual AIChaseEnemy Chase(Entity target) => new AIChaseEnemy(_context, this, target);
     }
 }

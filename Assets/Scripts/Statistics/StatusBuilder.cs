@@ -30,7 +30,7 @@ namespace Game
 		public uint Mobility;
 
         [Header("Variables")]
-        public float MovementSpeed = 4f;
+        public float MovementSpeed = 4.65f;
         public float JumpForce = 2f;  
 		public uint FlatArmorPenetration, FlatMagicPenetration;
 		public float ArmorPenetration, MagicPenetration; 

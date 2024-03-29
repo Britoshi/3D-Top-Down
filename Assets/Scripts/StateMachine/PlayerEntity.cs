@@ -11,5 +11,10 @@ namespace Game
             Instance = this;
             base.Awake();
         }
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K)) stateMachine.PlayHurtAnimation();
+        }
     }
 }
