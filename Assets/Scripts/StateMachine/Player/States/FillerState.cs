@@ -13,7 +13,7 @@ namespace Game.StateMachine
         {
             this.animationName = animationName;
             this.inturruptable = inturruptable;
-            _isRootMotion = true; 
+            _isRootMotion = false; 
         }
 
         public override bool CheckSwitchStates()
