@@ -22847,4 +22847,20 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.11666667
+    functionName: EnableWeaponHitBox
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 5e5da6b80783c394da9ac05b2d5a408e,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.2
+    functionName: DisableWeaponHitBox
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 5e5da6b80783c394da9ac05b2d5a408e,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
