@@ -81,9 +81,24 @@ namespace Game
             return false;
         }
 
-        public void TriggerWeaponHitBox(int index)
+        public void EnableWeaponHitBox()
         {
+            print("Hitboxed");
+            var weaponSlot = inventory.weapon;
+            if (!weaponSlot.HasItem()) return;
+            print("COUNT:", weaponSlot.objects.Count);
+            if (weaponSlot.objects.Count == 0) return; 
+            foreach (var obj  in weaponSlot.objects)
+                obj.SetHitBox(true);
 
+            print("Hitboxed2");
+        }
+        public void DisableWeaponHitBox()
+        {
+            print("Hitboxed End");
+            //Precontext that the disable should be called with enable.
+            foreach (var obj in inventory.weapon.objects)
+                obj.SetHitBox(true);
         }
 
         #region Getter

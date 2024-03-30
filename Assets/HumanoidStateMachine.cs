@@ -108,14 +108,14 @@ namespace Game.StateMachine
         {
             Vector3 forwardDirection = transform.forward;
             Vector3 relativeMovementDirection = forwardDirection - inputVector3;
-            print(inputVector3);
+            //print(inputVector3);
 
             var pY = transform.rotation.eulerAngles.y % 360;
             float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up);
             float rad = Mathf.Deg2Rad * angle;
 
             Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad));
-            print(dir);
+            //print(dir);
 
             GetAnimator().SetFloat("x", dir.x);
             GetAnimator().SetFloat("y", dir.y);

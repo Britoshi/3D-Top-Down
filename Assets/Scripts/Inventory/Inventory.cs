@@ -7,7 +7,7 @@ using Unity.VisualScripting.FullSerializer;
 namespace Game
 {
     [Serializable]
-	public class Inventory
+	public class Inventory:  BritoObject
     {
         public Entity Owner { set; get; }
         Status status;
@@ -65,10 +65,8 @@ namespace Game
 
         public void RemoveItem(Item item)
         {
-            if (storage.Remove(item))
-            { 
-                item.ApplyOnDepossession();
-            }
+            if (storage.Remove(item)) 
+                item.ApplyOnDepossession(); 
         }
         private EquipmentSlot GetEquipmentSlot(Equipment equipment) =>
             equipment.EquipType == EquipmentType.WEAPON ? weapon : armor;
@@ -84,7 +82,7 @@ namespace Game
             TryUnequipAt(slot);
 
             if(!slot.Add(equipment)) 
-                throw new Exception("How did this fail?");
+                throw new Exception("How did this fail?"); 
         }
         public void UnEquip(Equipment equipment)
         { 
@@ -100,10 +98,8 @@ namespace Game
                 Debug.Log("dis slot empty   dawhg.");
                 return false;
             }  
-            slot.Remove();
-
-            storage.Add(item);
-            
+            slot.Remove();   
+            storage.Add(item); 
             return true; 
         }
     }

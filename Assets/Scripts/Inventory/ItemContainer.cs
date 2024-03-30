@@ -115,13 +115,6 @@ namespace Game
             items.Remove(item);
             return true;
         }
-
-        //public override void HandleSort()
-        //{
-        //    items = SortItems(items.ToList());
-        //}
-
-        // Implementing IEnumerable interface
         public override IEnumerator<Item> GetEnumerator()
         {
             return items.GetEnumerator();
@@ -162,9 +155,12 @@ namespace Game
 
     }
 
+    [Serializable]
     public class WeaponSlot : EquipmentSlot
     {
+        [HideInInspector]
         public List<WeaponObject> objects;
+        [HideInInspector]
         public Weapon weapon;
 
 
@@ -172,28 +168,27 @@ namespace Game
         {
             if (!base.HandleAdd(item)) return false;
             weapon = equipment as Weapon;
-            objects = new();
-            foreach (var obj in weapon.spawnedModels)
-                if (obj.TryGetComponent<WeaponObject>(out var weaponObject))
-                    objects.Add(weaponObject);
+            objects = new(weapon.spawnedModels);  
             return true;
         }
         public override bool Remove()
         { 
             weapon = null;
-            objects = null;
+            objects.Clear();
             return base.Remove();
         }
         public override bool HandleRemove(Item item)
         { 
             weapon = null;
-            objects = null;
+            objects.Clear();
             return base.HandleRemove(item);
         }
     }
+    [Serializable]
     public class ArmorSlot : EquipmentSlot
     {
         //public List<object> objects;
+        [HideInInspector]
         public Gear armor;
 
 
@@ -246,6 +241,7 @@ namespace Game
             if(equipment == null)
             {
                 equipment = item as Equipment; 
+                equipment.Container = this;
                 equipment.ApplyOnEquip();
                 return true;
             }
@@ -256,7 +252,8 @@ namespace Game
             if (equipment == null)
             {
                 throw new System.Exception("Why are you trying to remove an item that doesn't exist?");
-            }   
+            }
+            equipment.ApplyOnUnEquip();
             equipment.Container = null;
             equipment = null;
             return true;

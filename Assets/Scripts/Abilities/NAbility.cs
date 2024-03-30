@@ -138,7 +138,7 @@ namespace Game.Abilities
         public virtual void OnAbilityCast()
         {
             currentlyCasting = true;
-            print("Cast On", GetName());
+            //print("Cast On", GetName());
         }
 
         public virtual void OnAbilityUpdate()
@@ -149,7 +149,7 @@ namespace Game.Abilities
         public virtual void OnAbilityEnd()
         {
             currentlyCasting = false;
-            print("ability ended", GetName());
+            //print("ability ended", GetName());
         }
     }
     

@@ -137,7 +137,7 @@ namespace Game.StateMachine
 
         public virtual void ResetState()
         {
-            print("Resetting State");
+            //print("Resetting State");
             SwitchRootState(Factory.Default());
         }
 

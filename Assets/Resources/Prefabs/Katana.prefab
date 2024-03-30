@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02187fb8c0970343aac09cf103e57eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBox: {fileID: 0}
+  <HitBox>k__BackingField: {fileID: 3492677077143838864}
 --- !u!1 &6244785034682558503
 GameObject:
   m_ObjectHideFlags: 0

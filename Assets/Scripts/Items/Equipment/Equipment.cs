@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Buff;
+using Game.Weapons;
 using UnityEngine; 
 
 namespace Game.Items
@@ -60,27 +61,26 @@ namespace Game.Items
             if (onKill.Length > 0)
                 OnHits |= EquipmentOnHitAffect.ON_KILL;
         } 
-        public readonly List<GameObject> spawnedModels = new();
+        public readonly List<WeaponObject> spawnedModels = new();
         public Transform GetTargetTransform() => owner.GetEquipmentTransform(targetArea);
         public virtual void SetModel()
-        {
-            //Debug.Log("We don't do models yet?");
-            
+        {    
             if (models.Length == 1)
             {
                 var target = GetTargetTransform();
                 if (target == null) return;
-                spawnedModels.Add(Instantiate(models[0], target));
+                spawnedModels.Add(Instantiate(models[0], target).GetComponent<WeaponObject>());
             }
         }
         public virtual void ClearModel()
         {
-            spawnedModels.ForEach(model => Destroy(model));
+            spawnedModels.ForEach(model => Destroy(model.gameObject));
             spawnedModels.Clear();
         }
         public virtual void ApplyOnEquip()
         {
             //if (Container.isStaticContainer) return; 
+            if (owner == null) throw new Exception("WhAT");
             isEquipped = true;
             SetModel();
             for (int i = 0; i < statusModifiersOnEquip.Length; i++)
