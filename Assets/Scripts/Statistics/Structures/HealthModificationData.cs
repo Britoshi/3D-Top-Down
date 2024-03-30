@@ -1,9 +1,15 @@
+using System;
+
 namespace Game
 {
-    [System.Flags]
+    [Flags]
     public enum DamageType
     {
-        NONE, PRIMARY, ABILITY, ON_HIT, ITEM
+        NONE = 0, 
+        PRIMARY = 1, 
+        ABILITY = 2, 
+        ON_HIT = 4, 
+        ITEM = 8,
     }
     /// <summary>
     /// <b>Health Point Modification Metadata.</b>
@@ -26,10 +32,10 @@ namespace Game
 
             if(amount == null) modifyValue = affect.GetAmount(source, target);  
             else modifyValue = amount.Value;
-        }  
-         
-        public static HealthModificationData AutoAttack(Entity source, Entity target) =>
-            new(source, target, null, DamageType.PRIMARY, (int)source.status.AttackDamage);
+        }
+
+        public static HealthModificationData AutoAttack(Entity source, Entity target, HealthAffect affect) =>
+            new(source, target, affect, DamageType.PRIMARY);
         public static HealthModificationData Spell(Entity source, Entity target, HealthAffect affect) =>
             new(source, target, affect, DamageType.ABILITY);
         public static HealthModificationData SpellAutoAttack(Entity source, Entity target, HealthAffect affect) =>

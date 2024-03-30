@@ -12,6 +12,8 @@ namespace Game.StateMachine
         public Stagger(StateMachine currentContext, StateFactory stateFactory) : base(currentContext, stateFactory)
         {
             _isRootMotion = true;
+            LockMovement = true;
+            LockJump = true;
         }
         public override void EnterState()
         {

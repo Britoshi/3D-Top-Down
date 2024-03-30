@@ -18,8 +18,9 @@ namespace Game
         public float CurrentWeight { set; get; }
 
         public ItemList storage;
-        public WeaponSlot weapon;
-        public ArmorSlot armor;
+
+        public WeaponSlot weaponSlot;
+        public ArmorSlot armorSlot;
 
 
         public Inventory(Entity owner) => Initialize(owner); 
@@ -35,18 +36,21 @@ namespace Game
             void InitializeEquipments(EquipmentSlot slot)
             {
                 slot.Initialize(owner);
-                if (slot.Count == 0) return; 
-                //Only  Apply if they exist
-                slot.equipment.ApplyOnPossession();
-                slot.equipment.ApplyOnEquip();
+                if (slot.equipment == null) return;
+
+                var equipment = slot.equipment.Clone();
+                slot.equipment = null;
+
+                AddItem(equipment);
+                Equip(equipment);
             }
 
             Owner = owner;
             status = owner.status;
             CurrentWeight = 0f; 
             InitializeStorage();
-            InitializeEquipments(armor);
-            InitializeEquipments(weapon);
+            InitializeEquipments(armorSlot);
+            InitializeEquipments(weaponSlot);
 
             return this;
         }
@@ -69,7 +73,7 @@ namespace Game
                 item.ApplyOnDepossession(); 
         }
         private EquipmentSlot GetEquipmentSlot(Equipment equipment) =>
-            equipment.EquipType == EquipmentType.WEAPON ? weapon : armor;
+            equipment.EquipType == EquipmentType.WEAPON ? weaponSlot : armorSlot;
 
         public void Equip(Equipment equipment)
         {

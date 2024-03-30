@@ -66,9 +66,7 @@ namespace Game
 
         internal SortedSet<StatusBuff> appliedBuffs;
         internal SortedSet<AdvancedStatusBuff> appliedAdvancedBuffs;
-        internal Entity owner;
-
-        public float AttackDamage => throw new NotImplementedException();
+        internal Entity owner; 
 
         #region Initializers 
         internal void Initialize(Entity owner)
@@ -278,8 +276,7 @@ namespace Game
         public void InvokeOnKill(Entity killer) => onKilled?.Invoke(killer);
         public void InvokeOnDealDamage(Entity target, int amount) => onDealDamage?.Invoke(target, amount);
         public void InvokeOnTakeDamage(Entity source, int amount) => onTakeDamage?.Invoke(source, amount);
-        //Temporary solution
-        public HealthModificationData AutoAttackData(Entity other) => HealthModificationData.AutoAttack(owner, other);
+        //Temporary solution 
         #endregion
     }
 }

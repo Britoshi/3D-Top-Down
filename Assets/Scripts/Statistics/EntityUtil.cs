@@ -11,11 +11,6 @@ namespace Game
             else if (amount > 0) Heal(self, metadata);
         }
 
-        public static void AutoAttack(Entity source, Entity target)
-        {
-            var metadata = HealthModificationData.AutoAttack(source, target);
-            Damage(target, metadata); 
-        }
 
         static float CalculateDamage(HealthModificationData data)
         {

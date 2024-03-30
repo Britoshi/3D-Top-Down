@@ -56,13 +56,17 @@ namespace Game
 					}
             return total;
         }
-        public ResourceAffect(ResourceID id, ResourceModifier[] affectAmount)
-        {
-            //GD.Print("So... what 1?" + affectAmount.Count);
+        //public ResourceAffect(ResourceID id, ResourceModifier[] affectAmount)
+        //{ 
+        //    this.id = id;
+        //    resourceModifiers = affectAmount; 
+        //}
+        public ResourceAffect(ResourceID id, params ResourceModifier[] affectAmount)
+        { 
             this.id = id;
             resourceModifiers = affectAmount;
-            //GD.Print("So... what? 2" + resourceModifiers.Count);
         }
+
          
     }
 }

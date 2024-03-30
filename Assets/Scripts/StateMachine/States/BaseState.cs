@@ -9,7 +9,7 @@ namespace Game.StateMachine
 
     public abstract class BaseState : BritoObject
     {
-        private bool _isRootState = false;
+        protected bool _isRootState = false;
         private StateMachine _ctx;
         private StateFactory _factory;
         private BaseState _currentSuperState;

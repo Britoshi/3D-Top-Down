@@ -7,13 +7,21 @@ namespace Game
 {
 
     [RequireComponent(typeof(Status))]
-    public class Entity : BritoBehavior
+    public class Entity : BritoBehavior, IComparable<Entity>
     {
+        [Flags]
+        public enum FactionLayer
+        {
+            DEFAULT = 0,
+            NEUTRAL = 1 << Faction.NEUTRAL,
+            PLAYER = 1 << Faction.PLAYER,
+            HOSTILE = 1 << Faction.HOSTILE, 
+        }
         public enum Faction
         {
-            NEUTRAL,
-            PLAYER,
-            HOSTILE,
+            NEUTRAL = 0,
+            PLAYER = 1,
+            HOSTILE = 2,
         }
 
         public int ID => GetInstanceID();
@@ -69,6 +77,7 @@ namespace Game
             return targetTransform;  
         }
 
+        #region FACTION
         public bool IsHostileTo(Entity other)
         {
             if (other.faction == 0 || faction == 0) return false;
@@ -80,25 +89,38 @@ namespace Game
             if (faction == other.faction) return true;
             return false;
         }
+        #endregion
+
+        public void PrimaryAttack(Entity other, float amount)
+        {
+            var affect = new HealthAffect(HealthAffectType.PHYSICAL, new ResourceModifier(amount, ResourceAffectType.Additive));
+            var data = HealthModificationData.AutoAttack(this, other, affect);
+            float calculatedDamage = data.modifyValue;
+
+            other.status.HP.Subtract(calculatedDamage);
+            other.stateMachine.Interrupt(other.stateMachine.Factory.Stagger());
+            //other.stateMachine.PlayHurtAnimation();
+            print("lol hurt");
+        }
 
         public void EnableWeaponHitBox()
-        {
-            print("Hitboxed");
-            var weaponSlot = inventory.weapon;
-            if (!weaponSlot.HasItem()) return;
-            print("COUNT:", weaponSlot.objects.Count);
-            if (weaponSlot.objects.Count == 0) return; 
-            foreach (var obj  in weaponSlot.objects)
-                obj.SetHitBox(true);
-
-            print("Hitboxed2");
+        { 
+            var weaponSlot = inventory.weaponSlot;
+            if (!weaponSlot.HasItem()) return; 
+            if (weaponSlot.weapon.runtimeObjects.Count == 0) return; 
+            foreach (var obj in weaponSlot.weapon.runtimeObjects)
+                obj.SetHitBox(true); 
         }
         public void DisableWeaponHitBox()
-        {
-            print("Hitboxed End");
+        { 
             //Precontext that the disable should be called with enable.
-            foreach (var obj in inventory.weapon.objects)
+            foreach (var obj in inventory.weaponSlot.weapon.runtimeObjects)
                 obj.SetHitBox(true);
+        }
+
+        public int CompareTo(Entity other)
+        {
+            return GetInstanceID().CompareTo(other.GetInstanceID());
         }
 
         #region Getter

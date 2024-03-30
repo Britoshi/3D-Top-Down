@@ -1,21 +1,40 @@
+using Game.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Game.Entity;
 
 namespace Game.Weapons
 {
-    public class WeaponObject : MonoBehaviour
+    [Flags]
+    public enum FactionTarget
     {
+        DEFAULT = 0,
+        FRIENDLY = 1,
+        HOSTILE = 1 << 1,
+    }
+    public class WeaponObject : BritoBehavior
+    {
+        public Weapon weapon;
+        internal Entity entity;
+
         // Start is called before the first frame update
-        void Start()
+        protected virtual void Start()
         {
 
         }
 
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
 
+        }
+
+        public virtual void Initialize(Entity entity, Weapon weapon)
+        {
+            this.entity = entity;
+            this.weapon = weapon;
         }
 
         public void SetHitBox(bool state)
@@ -26,7 +45,7 @@ namespace Game.Weapons
                 return;
             } 
             var hitbox = (IHasHitBox)this;
-            hitbox.HitBox.SetActive(state);
+            hitbox.Toggle(state); 
         }
     }
 }

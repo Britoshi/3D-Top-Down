@@ -1,6 +1,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Game.Buff;
 using Game.Weapons;
 using UnityEngine; 
@@ -61,35 +63,39 @@ namespace Game.Items
             if (onKill.Length > 0)
                 OnHits |= EquipmentOnHitAffect.ON_KILL;
         } 
-        public readonly List<WeaponObject> spawnedModels = new();
+        public readonly List<GameObject> spawnedModels = new();
         public Transform GetTargetTransform() => owner.GetEquipmentTransform(targetArea);
+
+        public virtual void RegisterModel(GameObject target) { }
         public virtual void SetModel()
         {    
             if (models.Length == 1)
             {
                 var target = GetTargetTransform();
                 if (target == null) return;
-                spawnedModels.Add(Instantiate(models[0], target).GetComponent<WeaponObject>());
+                var spawnedModel = Instantiate(models[0], target);
+                spawnedModels.Add(spawnedModel);
+                RegisterModel(spawnedModel);
             }
         }
         public virtual void ClearModel()
         {
-            spawnedModels.ForEach(model => Destroy(model.gameObject));
-            spawnedModels.Clear();
+            spawnedModels?.ForEach(model => Destroy(model.gameObject));
+            spawnedModels?.Clear();
         }
         public virtual void ApplyOnEquip()
         {
-            //if (Container.isStaticContainer) return; 
             if (owner == null) throw new Exception("WhAT");
             isEquipped = true;
+
             SetModel();
             for (int i = 0; i < statusModifiersOnEquip.Length; i++)
                 statusModifiersOnEquip[i]?.Apply(owner, owner);
         }
         public virtual void ApplyOnUnEquip()
         {
-            //if (Container.isStaticContainer) return;
             isEquipped = false;
+
             ClearModel();
             for (int i = 0; i < statusModifiersOnEquip.Length; i++)
                 statusModifiersOnEquip[i]?.Remove(owner);

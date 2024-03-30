@@ -6,7 +6,7 @@ namespace Game.Abilities
     public class SwordCombo : NChainedAbility
     {
         public SwordCombo(Entity owner) : base(owner,
-            new() { "Sword Combo_01_1", "Sword Combo_01_2", "Sword Combo_01_3", "Sword Combo_01_4" }, isCastableAirborne:  false, lockMovement:true, lockJump:true, null, null)
+            new() { "Sword Combo Custom 1", "Sword Combo Custom 2", "Sword Combo Custom 3", "Sword Combo Custom 4" }, isCastableAirborne:  false, lockMovement:true, lockJump:true, null, null)
         {
 
         }
@@ -21,11 +21,32 @@ namespace Game.Abilities
             return true;
         }
 
+        public override string GetFillerAnimationName()
+        {
+            return GetAnimationNodeName() + " End";
+        }
 
         protected override CooldownOn ApplyCooldownOn()
         {
             return CooldownOn.START;
         }
-
+        internal override void Affect(Entity contact)
+        {
+            switch(index)
+            {
+                case 0:
+                    Owner.PrimaryAttack(contact, 10);
+                    break;
+                case 1:
+                    Owner.PrimaryAttack(contact, 10);
+                    break;
+                case 2:
+                    Owner.PrimaryAttack(contact, 10);
+                    break;
+                case 3:
+                    Owner.PrimaryAttack(contact, 10);
+                    break;
+            }
+        }
     }
 }

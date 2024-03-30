@@ -40,6 +40,8 @@ namespace Game.AI
 
         protected override void OnUpdate()
         {
+            if (entity.stateMachine.currentState.LockMovement) return;
+
             var x = entity.transform.forward.x;
             var y = entity.transform.forward.z;
             entity.stateMachine.AssertInput(x, y);
@@ -47,6 +49,12 @@ namespace Game.AI
 
         protected override void OnFixedUpdate()
         {
+            if (entity.stateMachine.currentState.LockMovement)
+            {
+                agent.isStopped = true;
+                return;
+            }
+            agent.isStopped = false;
             agent.destination = target.transform.position;
         }
     }

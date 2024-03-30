@@ -29,7 +29,6 @@ namespace Game.StateMachine
         {
             if (CheckSwitchStates()) return false;
             base.UpdateState();
-            //Ctx.ResetJumpGracePeriod();
             return true;
         }
         public override bool FixedUpdateState()

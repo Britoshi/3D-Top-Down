@@ -41,6 +41,7 @@ namespace Game.Abilities
 
         public abstract string GetName();
         public abstract string GetAnimationNodeName();
+        public virtual string GetFillerAnimationName() => null;
         public abstract bool GetAnimationRootMotion();
         protected abstract CooldownOn ApplyCooldownOn();
 
@@ -102,26 +103,40 @@ namespace Game.Abilities
             Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this));
 
         #region Animation Functions #Only put animation related function.
+        public virtual void ApplyCooldown(bool start)
+        {
+            if(start)
+                if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
+            else
+                if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
+        }
         public virtual void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        { 
+        {
+            ApplyCooldown(true);
             animationProgress = 0;
-            if (ApplyCooldownOn() == CooldownOn.START) cooldown.ApplyCooldown();
         }
         public  virtual void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animationProgress = stateInfo.normalizedTime % 1;
         }
         public virtual void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        { 
-            if (ApplyCooldownOn() == CooldownOn.END) cooldown.ApplyCooldown();
-
+        {
+            ApplyCooldown(false);
             animationProgress = -1;
 
             //This  should onlybe if it is standalone
             Owner.abilityController.SetAbility(null);
-            //print("Ability Animation ended normally", GetName());
-            Owner.stateMachine.ResetState();
-            
+
+            var filler = GetFillerAnimationName();
+            if (string.IsNullOrEmpty(filler))
+            {
+                Owner.stateMachine.ResetState();
+            }
+
+            else
+            {
+                Owner.stateMachine.Interrupt(Owner.stateMachine.Factory.Filler(filler, true));
+            }
         }
         #endregion
         /// <summary>
@@ -150,6 +165,16 @@ namespace Game.Abilities
         {
             currentlyCasting = false;
             //print("ability ended", GetName());
+        }
+
+        /// <summary>
+        /// This is used for cases such as:
+        ///     melee, contact, arrow contact, magic healing contact, etc.
+        /// </summary>
+        /// <param name="contact">Affected Entity</param> 
+        internal virtual void Affect(Entity contact)
+        {
+
         }
     }
     

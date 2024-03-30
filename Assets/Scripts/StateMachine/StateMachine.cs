@@ -41,13 +41,13 @@ namespace Game.StateMachine
         }
         public WeapnHoldType? GetWeaponAnimationType()
         {
-            var weapon = entity.inventory.weapon.equipment;
+            var weapon = entity.inventory.weaponSlot.equipment;
             if (weapon == null) return null;
             return (weapon as Weapon).holdType;
         }
         public string GetBasicAnimationNamePrefix()
         {
-            var slot = entity.inventory.weapon;
+            var slot = entity.inventory.weaponSlot;
             if (slot.IsEmpty) return "";
             return (slot.equipment as Weapon).AnimationPrefix + " ";
         }

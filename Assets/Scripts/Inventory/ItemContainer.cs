@@ -157,9 +157,7 @@ namespace Game
 
     [Serializable]
     public class WeaponSlot : EquipmentSlot
-    {
-        [HideInInspector]
-        public List<WeaponObject> objects;
+    { 
         [HideInInspector]
         public Weapon weapon;
 
@@ -167,20 +165,19 @@ namespace Game
         public override bool HandleAdd(Item item)
         {
             if (!base.HandleAdd(item)) return false;
-            weapon = equipment as Weapon;
-            objects = new(weapon.spawnedModels);  
+            weapon = equipment as Weapon; 
             return true;
         }
+        
         public override bool Remove()
         { 
-            weapon = null;
-            objects.Clear();
+            weapon = null; 
             return base.Remove();
         }
+
         public override bool HandleRemove(Item item)
         { 
-            weapon = null;
-            objects.Clear();
+            weapon = null; 
             return base.HandleRemove(item);
         }
     }
@@ -196,10 +193,6 @@ namespace Game
         {
             if (!base.HandleAdd(item)) return false;
             armor = equipment as Gear;
-            //objects = new();
-           // foreach (var obj in weapon.spawnedModels)
-            //    if (obj.TryGetComponent<WeaponObject>(out var weaponObject))
-           //         objects.Add(weaponObject);
             return true;
         }
         public override bool Remove()
@@ -229,11 +222,6 @@ namespace Game
         public override void Initialize(Entity owner) 
         {
             base.Initialize(owner);
-            if (equipment != null)
-            {
-                equipment = equipment.Clone();
-                equipment.Container = this;
-            }
         }
 
         public override bool HandleAdd(Item item)

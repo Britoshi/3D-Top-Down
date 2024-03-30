@@ -34,7 +34,8 @@ namespace Game
 
         private void OnAnimatorMove()
         {
-            if (entity.stateMachine.currentState.GetIsRootMotion()) entity.animator.ApplyBuiltinRootMotion();
+            if (entity.stateMachine.currentState.GetIsRootMotion()) 
+                entity.animator.ApplyBuiltinRootMotion();
         }
     }
 }

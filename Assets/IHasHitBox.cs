@@ -3,7 +3,10 @@
 namespace Game.Weapons
 {
     internal interface IHasHitBox
-    { 
-        public GameObject HitBox { set; get; }
+    {
+        public bool HitBoxScan { set; get; }
+        public Collider HitBox { set; get; }
+
+        public void Toggle(bool state);
     }
 }

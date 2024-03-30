@@ -247,8 +247,8 @@ namespace Game.UI
             ClearEquipmentSlots();
             GenerateItemSlots(weapons, weaponContainer);
             GenerateItemSlots(armors, armorContainer);
-            SetEquipmentSlot(inventory.weapon, weaponEquipmentSlot);
-            SetEquipmentSlot(inventory.armor, armorEquipmentSlot);
+            SetEquipmentSlot(inventory.weaponSlot, weaponEquipmentSlot);
+            SetEquipmentSlot(inventory.armorSlot, armorEquipmentSlot);
         }
         public void RefreshItemDisplay()
         {

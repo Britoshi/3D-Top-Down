@@ -31,5 +31,6 @@ namespace Game.StateMachine
 
         public virtual EntityAbilityState Ability(NAbility ability) =>
             new(ability, _context, this);
+        public virtual FillerState Filler(string name, bool interruptable) => new(_context, this, name, interruptable);
     }
 }

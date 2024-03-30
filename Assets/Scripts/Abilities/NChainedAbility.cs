@@ -60,7 +60,10 @@ namespace Game.Abilities
                 }
             }
         }
-
+        public override string GetFillerAnimationName()
+        {
+            return GetAnimationNodeName() + ":Filler";
+        }
         public override string GetAnimationNodeName()
         {
             return animationList[index];
@@ -86,39 +89,23 @@ namespace Game.Abilities
                 index = 0;
                 timeoutCountDown = -1;
             }
-            else timeoutCountDown = CHAIN_TIMEOUT;
-
-            
+            else timeoutCountDown = CHAIN_TIMEOUT;  
         }
         #region Animation Functions #Only put animation related function.
-        public override void OnAnimationStart(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            animationProgress = 0;
-            if (ApplyCooldownOn() == CooldownOn.START && index == 0)
-            {
-                cooldown.ApplyCooldown();
-                //print("Applied Cooldown Start");
-            }
-        }
-        public override void OnAnimationUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            animationProgress = stateInfo.normalizedTime % 1;
-        }
-        public override void OnAnimationEnd(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        { 
-            if (ApplyCooldownOn() == CooldownOn.END && index == animationList.Count - 1)
-            {
-                cooldown.ApplyCooldown();
-                //print("Applied Cooldown End");
-            }
 
-            animationProgress = -1;
+        public override void ApplyCooldown(bool start)
+        {
+            if (start)
+            {
+                if (ApplyCooldownOn() == CooldownOn.START && index == 0) 
+                    cooldown.ApplyCooldown();  
 
-            //This  should onlybe if it is standalone
-            Owner.abilityController.SetAbility(null);
-            //print("Ability Animation ended normally", GetName());
-            Owner.stateMachine.ResetState();
+                return;
+            }
+            if (ApplyCooldownOn() == CooldownOn.END && index == animationList.Count - 1) 
+                cooldown.ApplyCooldown();  
         }
+
         #endregion
     }
 }
