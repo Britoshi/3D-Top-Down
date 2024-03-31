@@ -172,7 +172,7 @@ namespace Game.Abilities
         ///     melee, contact, arrow contact, magic healing contact, etc.
         /// </summary>
         /// <param name="contact">Affected Entity</param> 
-        internal virtual void Affect(Entity contact)
+        internal virtual void Affect(Entity contact, object[] args)
         {
 
         }

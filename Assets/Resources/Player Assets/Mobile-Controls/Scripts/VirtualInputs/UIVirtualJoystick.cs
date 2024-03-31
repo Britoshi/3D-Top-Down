@@ -20,6 +20,7 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     [Header("Output")]
     public Event joystickOutputEvent;
+    public UnityEvent joystickLift;
 
     bool holding;
 
@@ -58,9 +59,9 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         
         Vector2 clampedPosition = ClampValuesToMagnitude(position);
 
-        outputPosition = ApplyInversionFilter(position);
+        outputPosition = ApplyInversionFilter(clampedPosition);
 
-        //OutputPointerEventValue(outputPosition * magnitudeMultiplier);
+        OutputPointerEventValue(outputPosition * magnitudeMultiplier);
 
         if(handleRect)
         {
@@ -78,6 +79,8 @@ public class UIVirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandle
              UpdateHandleRectPosition(Vector2.zero);
         }
         holding = false;
+
+        joystickLift.Invoke();
     }
 
     private void OutputPointerEventValue(Vector2 pointerPosition)

@@ -30,21 +30,27 @@ namespace Game.Abilities
         {
             return CooldownOn.START;
         }
-        internal override void Affect(Entity contact)
+        internal override void Affect(Entity contact, object[] args)
         {
+            base.Affect(contact, args);
+            int index = (int)args[0] - 1;
             switch(index)
             {
                 case 0:
-                    Owner.PrimaryAttack(contact, 10);
+                    Owner.PrimaryAttack(contact, 10, 1);
                     break;
                 case 1:
-                    Owner.PrimaryAttack(contact, 10);
+                    Owner.PrimaryAttack(contact, 10, 1);
                     break;
                 case 2:
-                    Owner.PrimaryAttack(contact, 10);
+                    Owner.PrimaryAttack(contact, 10, 12);
                     break;
                 case 3:
-                    Owner.PrimaryAttack(contact, 10);
+                    Owner.PrimaryAttack(contact, 100, 15);
+                    break;
+
+                default:
+                    print("what the fuck");
                     break;
             }
         }

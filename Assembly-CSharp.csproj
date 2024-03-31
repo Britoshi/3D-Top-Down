@@ -133,6 +133,7 @@
     <Compile Include="Assets\GameUIManager.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Grounded\Crouch\PlayerCrouchState.cs" />
     <Compile Include="Assets\Scripts\AI\States\AIChaseEnemy.cs" />
+    <Compile Include="Assets\ParticleObject.cs" />
     <Compile Include="Assets\Resources\Player Assets\Mobile-Controls\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Horizontal Selector\HorizontalSelector.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModifiers.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\ResourceAffect.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\Entity\States\DeadState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
     <Compile Include="Assets\TransformData.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerContextMenu.cs" />

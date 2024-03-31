@@ -37,15 +37,21 @@ namespace Game.Weapons
             this.weapon = weapon;
         }
 
-        public void SetHitBox(bool state)
+        public void SetHitBox(bool state, params object[] args)
         {
             if (this is not IHasHitBox)
             {
                 print("No hitbox, skip");
                 return;
-            } 
+            }
+
             var hitbox = (IHasHitBox)this;
-            hitbox.Toggle(state); 
+            hitbox.Toggle(state, args); 
+        }
+
+        public virtual void SpawnFX()
+        {
+
         }
     }
 }

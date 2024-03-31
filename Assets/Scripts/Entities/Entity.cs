@@ -39,6 +39,7 @@ namespace Game
         public TransformData transforms;
         public Collider hitBox;
 
+        public bool Dead { private set; get; }
 
         public virtual void Awake()
         {
@@ -91,31 +92,59 @@ namespace Game
         }
         #endregion
 
-        public void PrimaryAttack(Entity other, float amount)
+        public void PrimaryAttack(Entity other, float amount, float weight)
         {
             var affect = new HealthAffect(HealthAffectType.PHYSICAL, new ResourceModifier(amount, ResourceAffectType.Additive));
-            var data = HealthModificationData.AutoAttack(this, other, affect);
-            float calculatedDamage = data.modifyValue;
+            var data = HealthModificationData.AutoAttack(this, other, affect);  
 
-            other.status.HP.Subtract(calculatedDamage);
-            other.stateMachine.Interrupt(other.stateMachine.Factory.Stagger());
-            //other.stateMachine.PlayHurtAnimation();
+            other.HurtEntity(this, data.modifyValue);
+
+            if (Dead) return;
+
+            if(weight > 10)
+                other.stateMachine.AssertHeavyStagger();
+            else 
+                other.stateMachine.AssertLightStagger();
+
             print("lol hurt");
         }
 
-        public void EnableWeaponHitBox()
+        internal void HurtEntity(Entity source, float damage)
+        {
+            if (source == null) return;
+
+            status.HP.Subtract(damage);
+
+            if (status.HP <= 0) FlatLine(source);
+        }
+
+        protected void FlatLine(Entity source)
+        {
+            stateMachine.Interrupt(stateMachine.Factory.Dead(), true);
+            Dead = true; 
+        }
+
+        public void EnableWeaponHitBox(int index)
         { 
             var weaponSlot = inventory.weaponSlot;
             if (!weaponSlot.HasItem()) return; 
             if (weaponSlot.weapon.runtimeObjects.Count == 0) return; 
             foreach (var obj in weaponSlot.weapon.runtimeObjects)
-                obj.SetHitBox(true); 
+                obj.SetHitBox(true, index); 
         }
         public void DisableWeaponHitBox()
         { 
             //Precontext that the disable should be called with enable.
             foreach (var obj in inventory.weaponSlot.weapon.runtimeObjects)
-                obj.SetHitBox(true);
+                obj.SetHitBox(false);
+        }
+        public void SpawnWeaponFX()
+        { 
+            var weaponSlot = inventory.weaponSlot;
+            if (!weaponSlot.HasItem()) return;
+            if (weaponSlot.weapon.runtimeObjects.Count == 0) return;
+            foreach (var obj in weaponSlot.weapon.runtimeObjects)
+                obj.SpawnFX();
         }
 
         public int CompareTo(Entity other)

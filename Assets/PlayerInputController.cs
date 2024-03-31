@@ -79,19 +79,28 @@ namespace Game
             stateMachine.IsMoving = true;
         }
 
-        public void LateUpdate()
+        public void MobileAimInput(Vector2 input)
         {
-            if (inputMode == InputMode.MOBILE)
-            {
-                stateMachine.IsMoving = false;
-                stateMachine.inputVector2 = Vector2.zero;
-                stateMachine.inputVector3 = Vector3.zero;
-            }
+            stateMachine.aimingPoint =  input.normalized;
+            stateMachine.IsAiming = true;
         }
 
-        public void MobileControlUpdate()
+        public  void LiftUpAimJoyStick()
+        {
+            stateMachine.aimingPoint = Vector3.zero;
+            stateMachine.IsAiming = false;
+        }
+
+        public void LateUpdate()
         {
 
+        }
+
+        public void LiftUpJoyStick()
+        {  
+            stateMachine.IsMoving = false;
+            stateMachine.inputVector2 = Vector2.zero;
+            stateMachine.inputVector3 = Vector3.zero;
         }
 
 
@@ -115,7 +124,7 @@ namespace Game
         }
         void CheckPCControl()
         {
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown&& !(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1)))
             {
                 EnablePCControl();
             }

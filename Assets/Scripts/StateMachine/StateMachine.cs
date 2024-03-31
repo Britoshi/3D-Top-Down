@@ -1,6 +1,7 @@
 using Game.Abilities;
 using Game.Items;
-using UnityEngine; 
+using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 namespace Game.StateMachine
 {
@@ -68,8 +69,9 @@ namespace Game.StateMachine
         /// Changes state.
         /// </summary>
         /// <param name="state"></param>
-        internal void Interrupt(BaseState state)
+        internal void Interrupt(BaseState state, bool forceEvenDead = false)
         {
+            if (entity.Dead && !forceEvenDead) return;
             _currentState.ExitState();
             _currentState = state;
             _currentState.EnterState();
@@ -100,7 +102,7 @@ namespace Game.StateMachine
 
         public abstract void OnUpdate();
         public void Update()
-        { 
+        {
             _currentState?.UpdateStates();
             OnUpdate();
 
@@ -159,7 +161,6 @@ namespace Game.StateMachine
             {
                 currentState.GetRootState().TriggerState(Factory.Jump());
             }
-            //print("nay. you may not jump");
         }
 
         internal Animator GetAnimator() => animator;
@@ -167,6 +168,15 @@ namespace Game.StateMachine
         public void PlayHurtAnimation()
         {
             animator.Play(HURT_ANIMATION_NAME, 4);
+        }
+
+        public void AssertLightStagger()
+        {
+            Interrupt(new FillerState(this, Factory, "hit01", false, true));
+        }
+        public void AssertHeavyStagger()
+        {
+            Interrupt(Factory.Stagger());
         }
     }
 }

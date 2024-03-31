@@ -17,5 +17,10 @@ public class AbilityProcessor : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         entity.abilityController.OnAnimationEnd(animator, stateInfo, layerIndex);
-    } 
+    }
+
+    public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        
+    }
 }

@@ -56742,11 +56742,39 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0.21666667
+    functionName: SpawnWeaponFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.25
     functionName: EnableWeaponHitBox
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 5e5da6b80783c394da9ac05b2d5a408e,
       type: 3}
+    floatParameter: 0
+    intParameter: 4
+    messageOptions: 0
+  - time: 0.33333334
+    functionName: SpawnWeaponFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.45
+    functionName: SpawnWeaponFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.8
+    functionName: SpawnWeaponFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

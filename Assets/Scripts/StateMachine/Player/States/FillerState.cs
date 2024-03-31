@@ -8,12 +8,20 @@ namespace Game.StateMachine
     {
         public string animationName;
         public bool inturruptable;
-        public FillerState(StateMachine currentContext, StateFactory playerStateFactory, string animationName, bool inturruptable) :
+        public FillerState(StateMachine currentContext, StateFactory playerStateFactory, string animationName, bool inturruptable,  bool rootMotion) :
             base(currentContext, playerStateFactory)
         {
             this.animationName = animationName;
             this.inturruptable = inturruptable;
-            _isRootMotion = false; 
+            _isRootMotion = rootMotion; 
+            if(_isRootMotion)
+            {
+                if (!inturruptable)
+                {
+                    LockMovement = true;
+                    LockJump = true;
+                }
+            }
         }
 
         public override bool CheckSwitchStates()
@@ -29,7 +37,7 @@ namespace Game.StateMachine
 
         public string GetAnimationName()
         {
-            print("Filler got name");
+
             return animationName;
         }
 
@@ -40,7 +48,6 @@ namespace Game.StateMachine
         public override void ExitState()
         {
             base.ExitState();
-            print("Filler gone");
         }
     }
 }

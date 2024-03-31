@@ -32,10 +32,16 @@ namespace Game
 
         }
 
-        //private void OnAnimatorMove()
-        //{
-        //    if (entity.stateMachine.currentState.GetIsRootMotion()) 
-        //        entity.animator.ApplyBuiltinRootMotion();
-        //}
+        private void OnAnimatorMove()
+        {
+            if(entity.abilityController.IsCasting)
+            {
+                if(entity.abilityController.CurrentAbility.GetAnimationRootMotion())
+                    entity.animator.ApplyBuiltinRootMotion();
+
+            }
+            else  if (entity.stateMachine.currentState.GetIsRootMotion())
+                entity.animator.ApplyBuiltinRootMotion();
+        }
     }
 }
