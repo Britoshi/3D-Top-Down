@@ -1,7 +1,7 @@
 using Game.Abilities;
 using Game.Items;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic; 
 using UnityEngine;
 namespace Game
 {
@@ -38,6 +38,8 @@ namespace Game
         public Animator animator;
         public TransformData transforms;
         public Collider hitBox;
+        [SerializeField]
+        public List<Collider> ragdoll;
 
         public bool Dead { private set; get; }
 
@@ -45,6 +47,8 @@ namespace Game
         {
             InitializeComponents(); 
             status.owner = this;
+            if (ragdoll.Count > 0)
+                ragdoll.ForEach(col => col.enabled = false);
         }
 
         public virtual void Start()
@@ -121,7 +125,19 @@ namespace Game
         protected void FlatLine(Entity source)
         {
             stateMachine.Interrupt(stateMachine.Factory.Dead(), true);
-            Dead = true; 
+            Dead = true;
+            hitBox.enabled = false;
+            if (ragdoll.Count > 0)
+            {
+                animator.enabled = false;
+                ragdoll.ForEach(col => { col.enabled = true;
+                    var rb = col.GetComponent<Rigidbody>();
+                    rb.velocity = Vector3.zero;
+                    rb.drag = 20;
+                });
+                rigidbody.velocity = Vector3.zero;
+                //rigidbody.
+            }
         }
 
         public void EnableWeaponHitBox(int index)

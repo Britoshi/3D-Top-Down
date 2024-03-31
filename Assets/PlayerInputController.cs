@@ -81,7 +81,10 @@ namespace Game
 
         public void MobileAimInput(Vector2 input)
         {
-            stateMachine.aimingPoint =  input.normalized;
+            var lookPos = transform.position;
+            lookPos.x += input.x;
+            lookPos.z += input.y;
+            stateMachine.aimingPoint = lookPos;
             stateMachine.IsAiming = true;
         }
 
