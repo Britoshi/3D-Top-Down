@@ -4,15 +4,18 @@ namespace Game.StateMachine
     /// <summary>
     /// Filler animations MUST HAVE FillerAnimationNode Attached!
     /// </summary>
-    public class FillerState : RootState, IHasAnimation
+    public class FillerState : RootState, IHasAnimation, IAnimationLayerOverride
     {
         public string animationName;
+        public int animationLayer;
         public bool inturruptable;
-        public FillerState(StateMachine currentContext, StateFactory playerStateFactory, string animationName, bool inturruptable,  bool rootMotion) :
+        public FillerState(StateMachine currentContext, StateFactory playerStateFactory, string animationName, bool inturruptable,  bool rootMotion, int animationLayer) :
             base(currentContext, playerStateFactory)
         {
             this.animationName = animationName;
             this.inturruptable = inturruptable;
+            this.animationLayer = animationLayer;
+
             _isRootMotion = rootMotion; 
             if(_isRootMotion)
             {
@@ -48,6 +51,11 @@ namespace Game.StateMachine
         public override void ExitState()
         {
             base.ExitState();
+        }
+
+        public int GetLayerIndex()
+        {
+            return animationLayer;
         }
     }
 }

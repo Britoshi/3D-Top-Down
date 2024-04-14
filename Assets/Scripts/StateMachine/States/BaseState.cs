@@ -160,6 +160,7 @@ namespace Game.StateMachine
 
         protected virtual void ChangeAnimation(string name, bool instant = false, int layer = 0)
         {
+            if (this is IAnimationLayerOverride) layer = (this as IAnimationLayerOverride).GetLayerIndex();
             var anim = Ctx.GetAnimator();
             if (anim.HasState(Ctx.GetBasicAnimationNamePrefix() + name))
                 name = Ctx.GetBasicAnimationNamePrefix() + name;

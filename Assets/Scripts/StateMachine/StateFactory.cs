@@ -31,7 +31,7 @@ namespace Game.StateMachine
 
         public virtual EntityAbilityState Ability(NAbility ability) =>
             new(ability, _context, this);
-        public virtual FillerState Filler(string name, bool interruptable, bool rootMotion = false) => new(_context, this, name, interruptable, rootMotion);
+        public virtual FillerState Filler(string name, bool interruptable, bool rootMotion = false, int animationLayer = 0) => new(_context, this, name, interruptable, rootMotion, animationLayer);
 
         public virtual DeadState Dead() => new(_context, this);
     }

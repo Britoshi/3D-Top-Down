@@ -4,4 +4,8 @@ namespace Game.StateMachine
     {
         public string GetAnimationName(); 
     }
+    public interface IAnimationLayerOverride
+    {
+        public int GetLayerIndex();
+    }
 }
