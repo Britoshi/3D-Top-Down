@@ -8,6 +8,9 @@ TagManager:
   - ToolTip:Equipment Slot
   - Tool Tip
   - Tool Tip:Item
+  - 'MAP: LIGHT'
+  - 'MAP: TERRAIN'
+  - 'MAP: GROUP'
   layers:
   - Default
   - TransparentFX

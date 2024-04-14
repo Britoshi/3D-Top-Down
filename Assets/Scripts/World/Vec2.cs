@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Game
 {
@@ -22,6 +23,12 @@ namespace Game
         {
             _x = x;
             _y = y;
+        }
+
+        public Vec2(Vector3 position, bool topDown = true)
+        {
+            _x = (int)Mathf.Floor(position.x);  
+            _y = (int)Mathf.Floor(topDown ? position.z : position.y);
         }
 
         public Vec2(Vec2? clone = null)
@@ -57,5 +64,10 @@ namespace Game
         public static Vec2 operator /(Vec2 self, int value) => new Vec2(self.x / value, self.y / value);
 
         public override string ToString() => "Vec2(" + x + ", " + y + ")";
+
+        internal Vector3 ToVector3TopDown()
+        {
+            return new(x, 0, y);
+        }
     }
 }

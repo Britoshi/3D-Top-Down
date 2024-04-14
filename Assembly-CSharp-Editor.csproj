@@ -87,6 +87,7 @@
     <Compile Include="Assets\RealToon\Editor\RT_Welcome.cs" />
     <Compile Include="Assets\RealToon\Editor\SwapShaderToRealToon.cs" />
     <Compile Include="Assets\Modern UI Pack\Editor\ContextMenu.cs" />
+    <Compile Include="Assets\Scripts\World\Editor\MapProcessorEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
