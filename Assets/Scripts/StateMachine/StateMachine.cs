@@ -172,7 +172,7 @@ namespace Game.StateMachine
 
         public void AssertLightStagger()
         {
-            Interrupt(new FillerState(this, Factory, "hit01", false, true, 0));
+            Interrupt(new AnimState(this, Factory, "hit01", false, true, 0));
         }
         public void AssertHeavyStagger()
         {

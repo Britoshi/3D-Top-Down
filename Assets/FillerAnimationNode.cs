@@ -1,27 +1,38 @@
 using Game;
+using Game.StateMachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FillerAnimationNode : StateMachineBehaviour
 {
+    Entity entity;
     public string stateName;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if(entity == null) entity = animator.GetComponent<Entity>();
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+
+    }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<Entity>().stateMachine.ResetState();
+        Debug.Log("end!!");
+        if(entity.stateMachine.currentState is FillerState)
+        {
+            if ((entity.stateMachine.currentState as FillerState).interrupted)
+            {
+                //pass;
+                return;
+            }
+        }
+        entity.stateMachine.ResetState();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

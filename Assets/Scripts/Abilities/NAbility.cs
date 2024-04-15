@@ -136,7 +136,7 @@ namespace Game.Abilities
             else
             {
                 
-                Owner.stateMachine.Interrupt(Owner.stateMachine.Factory.Filler(filler, true, animationLayer: 2));
+                Owner.stateMachine.Interrupt(Owner.stateMachine.Factory.Filler(true, animationLayer: 2));
             }
         }
         #endregion

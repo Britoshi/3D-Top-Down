@@ -8,6 +8,7 @@ public class AbilityProcessor : StateMachineBehaviour
     {
         if(entity == null) entity = animator.GetComponent<Entity>();
         //Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
+        Debug.Log("Ability Started");
         entity.abilityController.OnAnimationStart(animator, stateInfo, layerIndex);
     } 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
