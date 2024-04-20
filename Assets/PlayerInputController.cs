@@ -45,6 +45,7 @@ namespace Game
                 stateMachine.IsMoving =
                     Input.GetButton("Horizontal") ||
                     Input.GetButton("Vertical");
+                //stateMachine.GetAnimator().SetBool("moving", stateMachine.IsMoving);
 
                 stateMachine.IsAiming = Input.GetButton("Fire2");
                 if (stateMachine.IsAiming)

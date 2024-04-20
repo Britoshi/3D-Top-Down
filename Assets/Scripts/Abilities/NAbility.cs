@@ -1,3 +1,4 @@
+using Game.StateMachine;
 using System;
 using System.Collections.Generic; 
 using UnityEngine; 
@@ -97,10 +98,19 @@ namespace Game.Abilities
                 Cost?.Deduct();
             }
             return check;
-        } 
+        }
 
-        void SetStateMachine() =>
+        void SetStateMachine()
+        {
+            var curr = Owner.stateMachine.currentState;
+            if(curr is AbilityExitState)
+            {
+                var abilityExitState = (curr as AbilityExitState);
+                abilityExitState.interrupted = true;
+            }
+
             Owner.stateMachine.currentState.TriggerState(Owner.stateMachine.Factory.Ability(this));
+        }
 
         #region Animation Functions #Only put animation related function.
         public virtual void ApplyCooldown(bool start)
@@ -131,12 +141,10 @@ namespace Game.Abilities
             if (string.IsNullOrEmpty(filler))
             {
                 Owner.stateMachine.ResetState();
-            }
-
+            } 
             else
             {
-                
-                Owner.stateMachine.Interrupt(Owner.stateMachine.Factory.Filler(true, animationLayer: 2));
+                //Owner.stateMachine.Interrupt(Owner.stateMachine.Factory.AbilityExit());
             }
         }
         #endregion

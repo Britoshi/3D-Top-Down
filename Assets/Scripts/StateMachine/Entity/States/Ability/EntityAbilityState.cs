@@ -10,11 +10,6 @@ namespace Game.StateMachine
         public EntityAbilityState(NAbility ability, StateMachine currentContext, StateFactory entityStateFactory) :
             base(currentContext, entityStateFactory)
         {
-
-            if (Ctx.currentState is FillerState)
-            {
-                (Ctx.currentState as FillerState).interrupted = true;
-            }
             this.ability = ability;
             _isRootMotion = ability.GetAnimationRootMotion();
 

@@ -28,6 +28,9 @@ namespace Game.Abilities
         internal bool IsCasting => currentAbility != null;
 
         public bool IsUsingAbility => currentAbility != null;
+
+        public bool interrupted;
+
         private void Awake()
         {
             abilities = new();

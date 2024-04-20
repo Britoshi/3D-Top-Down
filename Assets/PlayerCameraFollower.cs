@@ -39,8 +39,8 @@ public class PlayerCameraFollower : MonoBehaviour
             float mouseYRatio = mousePositionPixels.y / screenHeightPixels;
 
             // Output the ratios
-            Debug.Log("Mouse X Ratio: " + mouseXRatio);
-            Debug.Log("Mouse Y Ratio: " + mouseYRatio);
+            //Debug.Log("Mouse X Ratio: " + mouseXRatio);
+            //Debug.Log("Mouse Y Ratio: " + mouseYRatio);
 
             var target = (stateMachine.aimingPoint + player.position) / 2;
             var vel = (baseSpeed * Time.deltaTime);

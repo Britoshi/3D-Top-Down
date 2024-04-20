@@ -31,6 +31,7 @@ namespace Game.StateMachine
 
         public virtual EntityAbilityState Ability(NAbility ability) =>
             new(ability, _context, this);
+        public virtual AbilityExitState AbilityExit() => new(_context, this);
         public virtual FillerState Filler(bool interruptable, bool rootMotion = false, int animationLayer = 0) => new(_context, this, interruptable, rootMotion, animationLayer);
 
         public virtual DeadState Dead() => new(_context, this);

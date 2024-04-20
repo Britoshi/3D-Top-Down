@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 namespace Game.StateMachine
 {
     /// <summary>
@@ -50,6 +52,46 @@ namespace Game.StateMachine
         {
             return animationLayer;
         }
+    }
+    public class AbilityExitState : RootState
+    {
+        public FillerAnimationNode currNode;
+        public bool interrupted;
+        public AbilityExitState(StateMachine currentContext, StateFactory playerStateFactory) : base(currentContext, playerStateFactory)
+        { 
+            _isRootMotion = true;
+            
+        }
+
+        public override bool CheckSwitchStates()
+        { 
+            if (Ctx.IsMoving)
+            { 
+                return SwitchState(Factory.Default());
+            }
+            return false;
+        }
+
+        public override bool UpdateState()
+        { 
+            if (!base.UpdateState()) return false;
+            //if (CheckSwitchStates()) return false;
+            return true;
+        }
+
+        public override bool FixedUpdateState()
+        {
+            return true;
+        }
+
+        public override void InitializeSubState()
+        {
+
+        }
+        public override void ExitState()
+        {
+            base.ExitState();
+        } 
     }
     public class AnimState : RootState, IHasAnimation, IAnimationLayerOverride
     {

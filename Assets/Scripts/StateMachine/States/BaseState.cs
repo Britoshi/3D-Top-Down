@@ -26,8 +26,8 @@ namespace Game.StateMachine
         protected bool _isRootMotion;
         public bool GetIsRootMotion() => _isRootMotion;
 
-        public bool LockJump;
-        public bool LockMovement;
+        public bool LockJump { set; get; }
+        public bool LockMovement { set; get; }
 
         public BaseState GetRootState()
         {
@@ -67,7 +67,7 @@ namespace Game.StateMachine
 
         public virtual void EnterState()
         {
-            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName());
+            if (this is IHasAnimation) ChangeAnimation((this as IHasAnimation).GetAnimationName(), true);
         }
         public abstract bool FixedUpdateState();
         /// <summary>
