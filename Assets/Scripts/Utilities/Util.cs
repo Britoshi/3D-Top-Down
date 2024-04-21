@@ -39,6 +39,14 @@ namespace Game
             foreach(Transform child in transform)
                 UnityEngine.Object.Destroy(child.gameObject); 
         }
+
+        public static Vector3Int ToChunkCoordinate(this Vector3 position)
+        {
+            int x = Mathf.FloorToInt(position.x / Chunk.UNIT_SIZE);
+            int y = Mathf.FloorToInt(position.y / Floor.HEIGHT);
+            int z = Mathf.FloorToInt(position.z / Chunk.UNIT_SIZE);
+            return new(x, y, z);
+        }
         public static void DestroyChildren(this RectTransform transform)
         {
             if (transform.childCount == 0) return;

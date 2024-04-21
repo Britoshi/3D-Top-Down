@@ -422,7 +422,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sword Combo Custom 2
-  m_Speed: 1
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7073860656968755472}
@@ -744,7 +744,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sword Combo Custom 4
-  m_Speed: 1
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 252598252852350944}
@@ -800,7 +800,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sword Combo Custom 1
-  m_Speed: 1
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2198787358979650163}
@@ -1072,37 +1072,37 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blend
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: x
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: y
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: movement state
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: moving
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1228,25 +1228,25 @@ AnimatorStateMachine:
     m_Position: {x: 410, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2116942338203686421}
-    m_Position: {x: 80, y: -250, z: 0}
+    m_Position: {x: 150, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4168436468895578131}
     m_Position: {x: 410, y: -110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4673070151651055615}
-    m_Position: {x: 120, y: -360, z: 0}
+    m_Position: {x: 140, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8561712702327508508}
     m_Position: {x: 410, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5959160911021734791}
-    m_Position: {x: 290, y: -420, z: 0}
+    m_Position: {x: 120, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1923583876547036306}
     m_Position: {x: 410, y: -230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -839641059106511870}
-    m_Position: {x: 500, y: -410, z: 0}
+    m_Position: {x: 120, y: -240, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -193979850144868863}
@@ -1760,7 +1760,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sword Combo Custom 3
-  m_Speed: 1
+  m_Speed: 1.6
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8239224133719051585}

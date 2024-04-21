@@ -76,6 +76,7 @@
     <Compile Include="Assets\HumanoidStateMachine.cs" />
     <Compile Include="Assets\AutoCellSize.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\EntityAbilityController.cs" />
+    <Compile Include="Assets\Scripts\World\ChunkLoader.cs" />
     <Compile Include="Assets\Scripts\Abilities\Sets(Obselete)\ShootUpAbility.cs" />
     <Compile Include="Assets\RealToon\RealToon Tools\CustomShadowResolution.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Demo\LaunchURL.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Assets\Scripts\World\Map.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IPlayerState.cs" />
     <Compile Include="Assets\SceneController.cs" />
+    <Compile Include="Assets\Scripts\World\Section.cs" />
     <Compile Include="Assets\Scripts\World\Terrain.cs" />
     <Compile Include="Assets\PlayerControl.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Modal Window\ModalWindowManager.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\Grounded\EntityWalkSubState.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedFunctions.cs" />
     <Compile Include="Assets\Scripts\Statistics\Stats\Attribute.cs" />
+    <Compile Include="Assets\Scripts\World\Group.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Grounded\HumanoidIdleSubState.cs" />
     <Compile Include="Assets\Scripts\Abilities\NChainedAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Airborne\HumanoidAirborneSubState.cs" />
@@ -181,7 +184,9 @@
     <Compile Include="Assets\RealToon\RealToon Tools\FrameByFrameRendering\FrameByFrameRendering_Default.cs" />
     <Compile Include="Assets\EntityAnimationFunctionController.cs" />
     <Compile Include="Assets\ToolTipDetector.cs" />
+    <Compile Include="Assets\Scripts\World\ChunkRenderer.cs" />
     <Compile Include="Assets\Scripts\AI\AIStateMachine.cs" />
+    <Compile Include="Assets\Scripts\World\EntityGrid.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemMaster.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModule.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\AirborneState.cs" />
@@ -196,6 +201,7 @@
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Items\Item.cs" />
     <Compile Include="Assets\UIEquipmentSelector.cs" />
+    <Compile Include="Assets\Scripts\World\BoxChunkLoader.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Dropdown\CustomDropdown.cs" />
     <Compile Include="Assets\Scripts\Entities\GroundedController.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\States\FillerState.cs" />
@@ -233,6 +239,7 @@
     <Compile Include="Assets\Modern UI Pack\Scripts\Horizontal Selector\HorizontalSelector.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\StatusModifiers.cs" />
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\ResourceAffect.cs" />
+    <Compile Include="Assets\Scripts\World\CapsuleChunkLoader.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Entity\States\DeadState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
     <Compile Include="Assets\TransformData.cs" />
@@ -249,6 +256,7 @@
     <Compile Include="Assets\Scripts\Statistics\Structures\ResourceAffects\HealthAffect.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Player\SubStates\Aiming\AimingMovingState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\SubStates\PlayerAscendingSubState.cs" />
+    <Compile Include="Assets\Scripts\World\ChunkLoaderInstance.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\IAdvancedTriggers.cs" />
     <Compile Include="Assets\Scripts\StateMachine\Interface\IMovementState.cs" />
     <Compile Include="Assets\Scripts\Abilities\Entity\TestOneHandAbility.cs" />
@@ -295,6 +303,7 @@
     <Compile Include="Assets\Scripts\Abilities\AbilityProcessor.cs" />
     <Compile Include="Assets\Scripts\StateMachine\States\Airborne\PlayerAirborneState.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\UI Manager\UIManagerTooltip.cs" />
+    <Compile Include="Assets\Scripts\World\Domain.cs" />
     <Compile Include="Assets\Modern UI Pack\Scripts\Tooltip\TooltipManager.cs" />
   </ItemGroup>
   <ItemGroup>

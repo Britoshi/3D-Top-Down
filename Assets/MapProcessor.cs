@@ -49,7 +49,7 @@ public class MapProcessor : BritoBehavior
             renderDistance = collider.bounds.size.x > collider.bounds.size.y ? collider.bounds.size.x : collider.bounds.size.y;
         else Debug.LogError("Couldn't find any measurement of the render distance. What the fuck");
 
-        renderDistance /= Chunk.SIZE;
+        renderDistance /= Chunk.UNIT_SIZE;
         renderDistance++;
 
         var clone = Instantiate(target.gameObject, target.position,target.rotation, terrainParent);
@@ -59,16 +59,16 @@ public class MapProcessor : BritoBehavior
 
     void ProcessObject(Transform target)
     {
-        int x = (int)Mathf.Floor(target.position.x / Chunk.SIZE);
+        int x = (int)Mathf.Floor(target.position.x / Chunk.UNIT_SIZE);
         int y = (int)Mathf.Floor(target.position.y / Floor.HEIGHT);
-        int z = (int)Mathf.Floor(target.position.z / Chunk.SIZE);
+        int z = (int)Mathf.Floor(target.position.z / Chunk.UNIT_SIZE);
         var position = new Vec2(x, z);
 
         //Fetch Chunk
         if (!chunkCache.TryGetValue(position, out var chunk))
         {
-            var chunkHolder = new GameObject(x + "x" + z);
-            chunkHolder.transform.position = (position * Chunk.SIZE).ToVector3TopDown();
+            var chunkHolder = new GameObject(x + "x" + z + ":0");
+            chunkHolder.transform.position = (position * Chunk.UNIT_SIZE).ToVector3TopDown();
             chunkHolder.transform.parent = chunkParent.transform;
             chunk = new ChunkCache(chunkHolder);
             chunkCache.Add(position, chunk);
@@ -77,7 +77,13 @@ public class MapProcessor : BritoBehavior
         //Fetch Floor
         if (!chunk.floors.TryGetValue(y, out GameObject floor))
         {
-            floor = new GameObject(y.ToString());
+            floor = new GameObject(y.ToString() + ":0");
+            var collider = floor.AddComponent<BoxCollider>();
+            Vector3 size = Vector3.one * Chunk.UNIT_SIZE;
+            size.y = Floor.HEIGHT;
+            collider.size = size;
+            floor.layer = ChunkLoader.CHUNK_LAYER;
+
             floor.transform.position = new (position.x, y, position.y);
             floor.transform.parent = chunk.obj.transform;
             chunk.floors.Add(y, floor);
@@ -124,7 +130,7 @@ public class MapProcessor : BritoBehavior
     public void ProcessMap(GameObject target)
     {
 
-        processedMap = new GameObject("PROCESSED: " + target.name);
+        processedMap = new GameObject(target.name + ":0");
         processedMap.tag = "MAP";
 
         chunkParent = new GameObject(Chunk.HOLDER_TRANSFORM_NAME).transform;

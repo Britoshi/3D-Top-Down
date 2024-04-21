@@ -1,58 +1,24 @@
 using Game;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Map : BritoObject, IComparable<Map>, IEquatable<Map>
+public class Map
 {
+    public const string TAG = "MAP";
+
     public string name;
+    public SortedDictionary<Vec2, Domain> domains;
 
-    public GameObject gameObject;
-    public Transform transform;
-
-    public Chunk this[Vec2 position] => Chunks[position];
-
-    public SortedDictionary<Vec2, Chunk> Chunks { set; get; }
-    public SortedDictionary<Vec2, Terrain> Terrains { set; get; }
-
-    public Map(GameObject target)
+    public void Remove(int x, int y)
     {
-        name = target.name;
-        gameObject = target;
-        transform = target.transform;
-
-        InitializeChunks();
-        InitializeTerrains();
+        domains.Remove(new Vec2(x, y));
+        if (domains.Count == 0) World.Remove(name);
     }
 
-    ///This must be used on a processed map
-    void InitializeChunks()
+    public Domain GetMakeDomain(int x, int y)
     {
-        Chunks = new();
-        var chunksTransform = transform.Find(Chunk.HOLDER_TRANSFORM_NAME);
-
-        foreach (Transform child in chunksTransform)
-        {
-            var position = Chunk.Convert(child.name);
-            Chunks.Add(position, new Chunk(child, position));  
-        }
+        var index = new Vec2(x, y);
+        if (domains.TryGetValue(index, out var domain)) return domain;
+        domain = new(this, (byte)x, (byte)y);
+        return domain;
     }
-
-    void InitializeTerrains()
-    {
-        Terrains = new();
-        var terrainTransform = transform.Find(Terrain.HOLDER_TRANSFORM_NAME);
-
-        foreach (Transform child in terrainTransform)
-        {
-            var position = new Vec2(child.position);
-            Terrains.Add(position,  new Terrain(child, position));
-        }
-    }
-
-    public int CompareTo(Map other) =>
-        name.CompareTo(other.name);
-
-    public bool Equals(Map other) => name.Equals(other.name);
-
 }
