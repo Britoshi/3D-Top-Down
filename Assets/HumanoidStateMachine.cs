@@ -107,8 +107,9 @@ namespace Game.StateMachine
         internal virtual void HandleAimMovement()
         {
             Vector3 forwardDirection = transform.forward;
+           
             Vector3 relativeMovementDirection = forwardDirection - inputVector3;
-            //print(inputVector3);
+
 
             var pY = transform.rotation.eulerAngles.y % 360;
             float angle = Vector3.SignedAngle(inputVector3, transform.forward, Vector3.up);
@@ -117,9 +118,18 @@ namespace Game.StateMachine
             Vector2 dir = new(-Mathf.Sin(rad), Mathf.Cos(rad));
             //print(dir);
 
-            GetAnimator().SetFloat("x", dir.x);
-            GetAnimator().SetFloat("y", dir.y);
+            Debug.Log(dir);
 
+            if (inputVector3 == Vector3.zero)
+            {
+                GetAnimator().SetFloat("x", 0);
+                GetAnimator().SetFloat("y", 0); 
+            }
+            else
+            {
+                GetAnimator().SetFloat("x", dir.x);
+                GetAnimator().SetFloat("y", dir.y);
+            }
             var speed = entity.status.MovementSpeed.GetValue() * .355f;
             rigidbody.velocity = inputVector3 * speed + rigidbody.velocity.y * transform.up;
         }

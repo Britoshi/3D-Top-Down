@@ -38,7 +38,9 @@ namespace Game.StateMachine
         {
             inputVector2 = new Vector2(x, y).normalized;
             inputVector3 = new(inputVector2.x, 0, inputVector2.y);
-            lastInput3 = new(inputVector3.x, inputVector3.y, inputVector3.z); 
+
+            lastInput3 = new(inputVector3.x, inputVector3.y, inputVector3.z);
+            Debug.Log(lastInput3.ToString());
         }
         public WeapnHoldType? GetWeaponAnimationType()
         {

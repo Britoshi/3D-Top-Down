@@ -41,10 +41,12 @@ namespace Game
                 if (GameSystem.Paused) return;
 
                 stateMachine.IsRunning = stateMachine.sprintHold;
-                stateMachine.AssertInput(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                 stateMachine.IsMoving =
                     Input.GetButton("Horizontal") ||
                     Input.GetButton("Vertical");
+
+                stateMachine.AssertInput(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
                 //stateMachine.GetAnimator().SetBool("moving", stateMachine.IsMoving);
 
                 stateMachine.IsAiming = Input.GetButton("Fire2");
